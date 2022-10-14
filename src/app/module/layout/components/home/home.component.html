@@ -1,0 +1,47 @@
+<div class="flex-align-center">
+    <nz-avatar [nzSize]="40"  nzSrc="assets/images/icon/avatar.png" class="mr-10"></nz-avatar>
+    <div>
+        <div><span class="fs-16 fw-600 mr-10">欢迎您，admin</span><span class="cl-999">系统管理员</span></div>
+        <div class="cl-999">上次登陆时间：,如果不是您本人登陆，请及时 <a href="#">修改密码</a></div>
+    </div>
+</div>
+<div class="flex mt-20">
+    <div class="flex-1">
+        <nz-card class="mb-10 card" nzTitle="快捷功能" [nzExtra]="extraTemplate">
+            <div class="flex flex-wrap-center">
+                <a  *ngFor="let item of entryList" routerLinkActive="router-link-active" class="flex-column-center mg-15">
+                    <img class="middle-image" [src]="item.icon"/>
+                    <span class="mt-10">{{item.title}}</span>
+                </a>
+            </div>
+          </nz-card>
+          <ng-template #extraTemplate>
+            <a>More</a>
+          </ng-template>
+          <nz-card class="card" nzTitle="下载中心" [nzExtra]="extraTemplate">
+            <div class="flex flex-wrap-center">
+              <a  *ngFor="let item of entryList" routerLinkActive="router-link-active" class="flex-column-center mg-15">
+                  <img class="middle-image" [src]="item.icon"/>
+                  <span class="mt-10">{{item.title}}</span>
+              </a>
+          </div>
+          </nz-card>
+          <ng-template #extraTemplate>
+            <a>More</a>
+          </ng-template>
+    </div>
+    <div class="ml-10">
+        <nz-card style="width:350px;height: 500px; overflow-y: auto;" nzTitle="版本信息" [nzExtra]="extraTemplate">
+            <nz-timeline>
+                <nz-timeline-item nzLabel="2018-03-15 ">v1.1.0正式发布</nz-timeline-item>
+                <nz-timeline-item  nzLabel="2018-02-01 " nzColor="green"> v1.0.0正式发布</nz-timeline-item>
+              </nz-timeline>
+              <ng-template #dotTemplate>
+                <span nz-icon nzType="clock-circle-o" style="font-size: 16px;"></span>
+              </ng-template>
+          </nz-card>
+          <ng-template #extraTemplate>
+            <a>More</a>
+          </ng-template>
+      </div>
+</div>

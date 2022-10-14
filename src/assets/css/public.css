@@ -1,0 +1,70 @@
+@import './color.css';
+@import './common.css';
+.flex-row-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.flex-row-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.flex-row-around {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.flex-column-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.flex-align-center {
+    display: flex;
+    align-items: center;
+}
+.flex {
+    display: flex;
+}
+.flex-1 {
+    flex: 1;
+}
+.flex-wrap-center {
+    flex-wrap: wrap;
+    align-content: center;
+}
+.mr-10 {
+    margin-right: 10px;
+}
+.ml-10 {
+    margin-left: 10px;
+}
+.ml-15 {
+    margin-left: 15px;
+}
+.mg-15 {
+    margin: 15px;
+}
+.mt-10 {
+    margin-top: 10px;
+}
+.mb-10 {
+    margin-bottom: 10px !important;
+}
+.mt-20 {
+    margin-top: 20px;
+}
+.fs-16 {
+    font-size: 16px;
+}
+.fw-600 {
+    font-weight: 600;
+}
+.fw-400 {
+    font-weight: 400;
+}
+.cl-999 {
+    color: #999999;
+}

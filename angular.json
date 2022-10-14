@@ -28,7 +28,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.less"
+              "src/styles.less",
+              "node_modules/ng-zorro-antd/ng-zorro-antd.min.css"
             ],
             "scripts": []
           },
@@ -72,7 +73,9 @@
               "browserTarget": "integrated-management:build:production"
             },
             "development": {
-              "browserTarget": "integrated-management:build:development"
+              "browserTarget": "integrated-management:build:development",
+              "proxyConfig": "proxy.conf.json",
+              "port": 4300
             }
           },
           "defaultConfiguration": "development"
@@ -103,5 +106,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
