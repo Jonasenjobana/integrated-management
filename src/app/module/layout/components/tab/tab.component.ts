@@ -54,7 +54,7 @@ export class TabComponent implements OnInit {
    * @param tab 
    */
   clickTab(tab: Tab) {
-    // this.dynamicServe.clickTab(tab);
+    this.dynamicServe.clickTab(tab);
   }
   /**
    * 刷新展示组件

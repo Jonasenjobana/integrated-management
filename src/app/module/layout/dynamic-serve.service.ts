@@ -38,7 +38,7 @@ export class DynamicServeService {
     return this._currentTabList.findIndex(el => el.key == key)
   }
   clickTab(tab: Tab): void {
-    
+    this.currentTab = tab
   }
   /**
    * 关闭标签
@@ -55,12 +55,10 @@ export class DynamicServeService {
   public addTab(key: string): void {
     const reuse = this.getComponentByName(key)
     const index = this.getIndex(key)
-    console.log(this._currentTabList)
     if (index === -1) {
       reuse.uuid = uuid()
       this._currentTabList.push(reuse)
       this._tab$.next({ type: 'add', tab: reuse, index: this.getIndex(key)})
-      this.currentTab = reuse
     } else {
       if (this._currentTab.key === key) {
         // 如果重新点击侧边栏重新加载组件
@@ -70,9 +68,9 @@ export class DynamicServeService {
       } else {
         // 否则只是改变selectIndex的值
         this._tab$.next({type: 'change', tab: reuse, index})
-        this._currentTab = reuse
       }
     }
+    this.currentTab = reuse
   }
   /**
    * 刷新组件

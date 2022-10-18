@@ -1,0 +1,37 @@
+.menu {
+    min-width: 220px;
+    min-height: 100%;
+
+    /deep/ nz-tree-node {
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        nz-tree-node-switcher {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nz-tree-node-title {
+            display: flex;
+            height: 100%;
+            align-items: center;
+        }
+
+        .ant-tree-node-selected {
+            background-color: #ecf6fd;
+            border-right: 2px solid #108ee9;
+        }
+
+        & :hover {
+            color: #18acfe;
+        }
+    }
+}
+.content {
+    background-color: red;
+    width: 100%;
+    height: 500px;
+}

@@ -1,4 +1,5 @@
 <nz-tabset 
+      style="margin-left: 10px;margin-top: 5px;"
       [(nzSelectedIndex)]="selectedIndex"
       nzType="editable-card"
       nzHideAdd="true"
@@ -6,7 +7,7 @@
       [nzTabBarExtraContent]="extraTemplate"
     >
       <nz-tab  *ngFor="let tab of tabs;let i = index;trackBy: trackByItems" (nzSelect)="clickTab(tab)" [nzClosable]="!tab.disclosable" [nzTitle]="tab.title">
-        <p>{{tab.uuid}}</p>
+        <!-- 动态组件 -->
         <component-template [tab]="tab"></component-template>
       </nz-tab>
 </nz-tabset>

@@ -8,6 +8,7 @@ import { HeadbarComponent } from './components/headbar/headbar.component';
 import { ComponentTemplateComponent } from './components/component-template/component-template.component';
 import { HomeComponent } from './components/home/home.component';
 import { DynamicDirDirective } from './dynamic-dir.directive';
+import { ManualModule } from '../manual/manual.module';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { DynamicDirDirective } from './dynamic-dir.directive';
   ],
   imports: [
     CommonModule,
+    ManualModule,
     ...ngZorroModuleList,
   ],
   exports: [LayoutComponent]
