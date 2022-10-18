@@ -1,3 +1,5 @@
+import { result } from './../../../share/model/result';
+import { ManualHttpService } from './../../manual-http.service';
 import { manual, paramsData, tag } from './../../manual.model';
 import { company } from './../../../share/model/common.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -12,7 +14,7 @@ import { tagTitleMap } from '../../constant';
   styleUrls: ['./manual-list.component.less']
 })
 export class ManualListComponent implements OnInit {
-  private _initPage: paramsData
+  private _initDate: paramsData
   tags: tag[] = []
   menu: NzTreeNodeOptions[] = []
   loadData: paramsData
@@ -20,15 +22,15 @@ export class ManualListComponent implements OnInit {
   isMenuLoading: boolean = true
   isCompanyLoading: boolean = true
   manualList: manual[] = [{manualName: '123', id:"123"},{manualName: '123', id:"123"},{manualName: '123', id:"123"},{manualName: '123', id:"123"},{manualName: '123', id:"123"}]
-  constructor(private dictService:DictionaryDetailService, private companyService:CompanyHttpService) { 
-    this._initPage = {
+  constructor(private dictService:DictionaryDetailService, private companyService:CompanyHttpService, private manualHttpService:ManualHttpService) { 
+    this._initDate = {
       currentPage: 1,
       pageRecord: 10,
       companyId: "",
       productCode: "",
       name: "",
     }
-    this.loadData = _.cloneDeep(this._initPage)
+    this.loadData = _.cloneDeep(this._initDate)
   }
   @ViewChild('nzTreeComponent')
   nzTreeComponent!: NzTreeComponent
@@ -49,10 +51,12 @@ export class ManualListComponent implements OnInit {
     })
   }
   search() {
-    console.log(this.loadData);
+    this.manualHttpService.getList(this.loadData).then(res => {
+      console.log(res);
+    })
   }
   clean() {
-    this.loadData = _.cloneDeep(this._initPage)
+    this.loadData = _.cloneDeep(this._initDate)
     this.tags = []
   }
   selectMenu($event: NzFormatEmitEvent) {

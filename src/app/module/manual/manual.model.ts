@@ -1,8 +1,3 @@
-import { company } from './../share/model/common.model';
-export interface manualData {
-    companyName: string;
-    id: string;
-}
 export interface paramsData {
     currentPage: number;
     pageRecord: number;

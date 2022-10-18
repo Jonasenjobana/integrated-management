@@ -5,7 +5,6 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTreeModule } from 'ng-zorro-antd/tree';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 const ngZorroModuleList = [
@@ -16,7 +15,6 @@ const ngZorroModuleList = [
     NzCardModule,
     NzAvatarModule,
     NzDropDownModule,
-    NzIconModule,
     NzTreeModule,
     NzTimelineModule
 ]
