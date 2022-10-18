@@ -75,7 +75,7 @@
             "development": {
               "browserTarget": "integrated-management:build:development",
               "proxyConfig": "proxy.conf.json",
-              "port": 4300
+              "port": 4200
             }
           },
           "defaultConfiguration": "development"

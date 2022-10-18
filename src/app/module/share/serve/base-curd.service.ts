@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { HttpClientService } from './http-client.service';
 
 @Injectable({
@@ -6,7 +6,9 @@ import { HttpClientService } from './http-client.service';
 })
 export class BaseCurdService<S, T> {
 
-  constructor(private baseHttp:HttpClientService) { }
+  constructor(protected baseHttp:HttpClientService, @Inject('') baseUrl:string) {
+    this.baseUrl = baseUrl
+   }
   baseUrl: string = ""
   getInfo(id: string) {
     return this.baseHttp.get<T>(`${this.baseUrl}/getInfo/${id}`)

@@ -1,7 +1,7 @@
 .menu {
     min-width: 220px;
-    min-height: 100%;
-
+    min-height: calc(100vh - 60px - 40px - 16px - 5px);
+    background-color: #fff;
     /deep/ nz-tree-node {
         height: 40px;
         display: flex;
@@ -31,7 +31,31 @@
     }
 }
 .content {
-    background-color: red;
+    margin-left: 10px;
+    margin-right: 10px;
     width: 100%;
-    height: 500px;
+    background-color: #fff;
+    height: auto;
+    nz-select {
+        margin: 0 8px 0px 0;
+        width: 180px;
+    }
+    /deep/ .ant-table-cell {
+        height: 56px;
+    }
+    .manual-wrap {
+        display: grid;
+        flex-wrap: wrap;
+        width: auto;
+        grid-template-columns: repeat(auto-fill, 370px);
+        grid-gap: 10px;
+        justify-content: space-around;
+        .manual-box {
+            margin: 20px;
+            width: 370px;
+            height: 290px;
+            background-color: #ecf6fd;
+        }
+    }
+    
 }
