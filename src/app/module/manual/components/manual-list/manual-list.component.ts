@@ -21,7 +21,12 @@ export class ManualListComponent implements OnInit {
   companyList: company[] = []
   isMenuLoading: boolean = true
   isCompanyLoading: boolean = true
-  manualList: manual[] = [{manualName: '123', id:"123"},{manualName: '123', id:"123"},{manualName: '123', id:"123"},{manualName: '123', id:"123"},{manualName: '123', id:"123"}]
+  manualList: manual[] = []
+  isManualListLoading: boolean = true
+  @ViewChild('nzTreeComponent')
+  nzTreeComponent!: NzTreeComponent
+
+
   constructor(private dictService:DictionaryDetailService, private companyService:CompanyHttpService, private manualHttpService:ManualHttpService) { 
     this._initDate = {
       currentPage: 1,
@@ -32,38 +37,82 @@ export class ManualListComponent implements OnInit {
     }
     this.loadData = _.cloneDeep(this._initDate)
   }
-  @ViewChild('nzTreeComponent')
-  nzTreeComponent!: NzTreeComponent
-  selectBrand(companyId: string) {
-    const selected = this.companyList.find(el => el.id = companyId)
-    if (selected) {
-      this.updateTags({key: selected.id, title: selected.companyName}, 'brand')
-    }
-  }
+
+
   ngOnInit(): void {
+    // 从数据字典获取分类列表
     this.dictService.getDictByType('menu').then(res => {
       this.menu = res
       this.isMenuLoading = false
     })
+    // 公司列表
     this.companyService.getCompanyList().then(res => {
       this.companyList = res
+      console.log(res);
+      
       this.isCompanyLoading = false
     })
+    // 加载默认显示手册信息
+    this.initManualList(this._initDate)
   }
-  search() {
-    this.manualHttpService.getList(this.loadData).then(res => {
-      console.log(res);
+
+
+  /**
+   * 
+   * @param params 请求参数
+   */
+  initManualList(params: paramsData) {
+    this.isManualListLoading = true
+    this.manualHttpService.getList(params).then(res => {
+      this.manualList = res.result.reduce((arr: manual[], el) => {
+        arr.push({
+          id: el.id,
+          img: el.img,
+          manualName: el.manualName,
+          manualSerie: el.manualSerie,
+        })
+        return arr
+      }, [])
+    }).finally(() => {
+      this.isManualListLoading = false
     })
+  }
+
+
+  search() {
+    this.initManualList(this.loadData)
   }
   clean() {
     this.loadData = _.cloneDeep(this._initDate)
     this.tags = []
   }
+
+
+  /**
+   * 选择产品分类
+   * @param $event 节点信息
+   */
   selectMenu($event: NzFormatEmitEvent) {
     const node = $event.node!
     this.loadData.productCode = node.key
     this.updateTags({key: node.key, title: node.title}, 'menu')
+    this.initManualList(_.assign(_.cloneDeep(this._initDate), {productCode: node.key}))
   }
+
+
+    /**
+   * 品牌变更
+   * @param companyId 公司索引
+   */
+     selectBrand(companyId: string) {
+      const selected = this.companyList.find(el => el.id === companyId)
+      if (selected) {
+        this.updateTags({key: selected.id, title: selected.companyName}, 'brand')
+      }
+      this.initManualList(_.assign(_.cloneDeep(this._initDate), {companyId}))
+    }
+
+
   /**
    * 
    * @param param0 基本标签信息
@@ -78,10 +127,14 @@ export class ManualListComponent implements OnInit {
       key,
       title: `${tagTitleMap[type]}: ${title}`,
       type,
-    })
+    })   
+    console.log(this.tags);
+    
   }
+
+
   /**
-   * {key,title,type}
+   * tag: {key,title,type}
    * 不同类型有不同操作逻辑
    * @param tag 关闭标签
    */
@@ -89,12 +142,19 @@ export class ManualListComponent implements OnInit {
     switch(tag.type) {
       case 'menu':
         this.nzTreeComponent.getTreeNodeByKey(tag.key)!.isSelected = false
-        console.log(this.menu);
-        
         break
       case 'brand':
         this.loadData.companyId = ''
         break
     }
+  }
+
+
+  /**
+   * 跳转到详情
+   * @param id 产品索引
+   */
+  jumpToDetail(id: string) {
+    console.log('点击跳转', id);
   }
 }

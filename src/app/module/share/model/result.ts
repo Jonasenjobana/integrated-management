@@ -18,3 +18,14 @@ export interface dict {
     pitemCode: string | null;
     serialNumber: number
 }
+export interface listResult<T> {
+    currentPage: number;
+    endRow: number;
+    pageCount: number;
+    pageOne: number;
+    pageRecord: number;
+    pageTwo: number;
+    recordCount: number; 
+    result: T;
+    startRow: number;
+}

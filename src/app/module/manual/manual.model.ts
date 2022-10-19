@@ -17,6 +17,7 @@ export interface tag {
 export interface manual {
     id: string;
     manualName: string;
+    manualSerie: string;
     companyId?: string;
     companyName?: string;
     img?: string;

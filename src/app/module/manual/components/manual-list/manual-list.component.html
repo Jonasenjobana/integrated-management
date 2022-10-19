@@ -51,13 +51,17 @@
       </nz-table>
       <nz-divider></nz-divider>
     </div>
+    <nz-spin [nzTip]="'加载中...'" [nzSpinning]="isManualListLoading">
     <div class="manual-wrap">
-        <div *ngFor="let item of manualList" class="manual-box">
-            <img [src]="item.img">
-            <div>
-                <span>{{item.manualName}}</span>
-            </div>
-        </div>
+        <div *ngFor="let item of manualList" class="manual-box" (click)="jumpToDetail(item.id)">
+          <img [src]="item.img">
+          <div>
+              <h3>{{item.manualSerie}}&nbsp;&nbsp;{{item.manualName}}</h3>
+          </div>
+      </div>
     </div>
+    <nz-empty *ngIf="manualList.length === 0 && !isManualListLoading" nzNotFoundImage="simple"></nz-empty>
+  </nz-spin>
   </div>
+
 </div>

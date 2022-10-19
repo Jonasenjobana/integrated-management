@@ -10,6 +10,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { PlusOutline } from '@ant-design/icons-angular/icons';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 @NgModule({
   declarations: [
     ManualListComponent
@@ -20,6 +21,7 @@ import { PlusOutline } from '@ant-design/icons-angular/icons';
     NzTreeModule,
     NzDividerModule,
     NzInputModule,
+    NzEmptyModule,
     NzPaginationModule,
     NzIconModule.forChild([PlusOutline]),
   ],

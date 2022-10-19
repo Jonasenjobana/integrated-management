@@ -14,7 +14,9 @@ export class HttpClientService {
       this.http.get<result<T>>(url).subscribe({
         next: (res: result<T>) => {
           if (res.rlt === 0) {
-            resolve(res.datas)
+            setTimeout(() => {
+              resolve(res.datas)
+            }, 1000);
           } else {
             reject(res.info || '响应接口错误')
           }
@@ -31,7 +33,9 @@ export class HttpClientService {
       this.http.post<result<T>>(url, data).subscribe(
         (res: result<T>) => {
           if (res.rlt === 0) {
-            resolve(res.datas)
+            setTimeout(() => {
+              resolve(res.datas)
+            }, 1000);
           } else {
             reject(res.info || '响应接口错误')
           }
