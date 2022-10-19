@@ -20,12 +20,23 @@ export interface dict {
 }
 export interface listResult<T> {
     currentPage: number;
-    endRow: number;
-    pageCount: number;
-    pageOne: number;
+    endRow?: number;
+    pageCount?: number;
+    pageOne?: number;
     pageRecord: number;
-    pageTwo: number;
-    recordCount: number; 
+    pageTwo?: number;
+    recordCount?: number; 
     result: T;
-    startRow: number;
+    startRow?: number;
+}
+// 分页信息
+export interface pagination {
+    currentPage: number;
+    endRow?: number;
+    pageCount?: number;
+    pageOne?: number;
+    pageRecord: number;
+    pageTwo?: number;
+    recordCount?: number; 
+    startRow?: number;
 }

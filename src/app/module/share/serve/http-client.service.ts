@@ -1,6 +1,7 @@
-import { result, params } from './../model/result';
+import { result, params } from '../model/result.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { debounceTime } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class HttpClientService {
           if (res.rlt === 0) {
             setTimeout(() => {
               resolve(res.datas)
-            }, 1000);
+            }, 500);
           } else {
             reject(res.info || '响应接口错误')
           }
@@ -35,7 +36,7 @@ export class HttpClientService {
           if (res.rlt === 0) {
             setTimeout(() => {
               resolve(res.datas)
-            }, 1000);
+            }, 500);
           } else {
             reject(res.info || '响应接口错误')
           }

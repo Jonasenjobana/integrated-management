@@ -1,2 +1,91 @@
-<p>product-list works!</p>
-<input type="text">
+<div class="product-list">
+  <div class="flex-row-end mr-10 mb-10">
+    <button nz-button nzType="primary" nzShape="round">新增</button>
+  </div>
+  <nz-table [nzData]="[{}]" nzBordered nzShowPagination="false" nzSize="small">
+    <tbody>
+      <tr>
+        <td>产品分类</td>
+        <td>
+          <nz-select
+            nzPlaceHolder="选择产品分类"
+            style="width: 33%"
+          >
+            <nz-option-group *ngFor="let parent of productSelectList" [nzLabel]="parent.label">
+              <nz-option *ngFor="let child of parent.children" [nzValue]="child.productCode" [nzLabel]="child.label"></nz-option>
+            </nz-option-group>
+          </nz-select>
+        </td>
+        <td>产品名称</td>
+        <td>
+          <nz-input-group nzCompact nzSearch [nzAddOnAfter]="suffixIconSearch"   style="width: 50%;">
+            <input type="text" nzSearch nz-input placeholder="搜索产品名称" />
+          </nz-input-group>
+          <ng-template #suffixIconSearch>
+            <button nz-button nzType="primary" nzSearch>
+              <span nz-icon nzType="search"></span>
+            </button>
+          </ng-template>
+        </td>
+      </tr>
+      <tr>
+        <td>产品序列号</td>
+        <td>
+            <nz-input-group nzCompact nzSearch [nzAddOnAfter]="suffixIconSearch" style="width: 50%;">
+                <input type="text" nzSearch nz-input placeholder="搜索产品序列号" />
+              </nz-input-group>
+              <ng-template #suffixIconSearch>
+                <button nz-button nzType="primary" nzSearch>
+                  <span nz-icon nzType="search"></span>
+                </button>
+              </ng-template>
+        </td>
+        <td>产品品牌</td>
+        <td>
+            <nz-select
+            style="width: 33%;"
+            nzPlaceHolder="产品品牌列表"
+          >
+            <nz-option *ngFor="let item of companySelect" [nzLabel]="item.companyName" [nzValue]="item.id"></nz-option>
+          </nz-select>
+        </td>
+      </tr>
+      <tr>
+        <td>生产日期</td>
+        <td colSpan="3">
+            <nz-radio-group>
+                <label nz-radio nzValue="A">本日</label>
+                <label nz-radio nzValue="B">本周</label>
+                <label nz-radio nzValue="C">本月</label>
+                <label nz-radio nzValue="D">自定义</label>
+              </nz-radio-group>
+              <nz-range-picker [nzSize]="'default'"></nz-range-picker>
+        </td>
+      </tr>
+      <tr>
+        <td>已选条件</td>
+        <td>
+            <nz-tag nzMode="closeable">Tag 2</nz-tag>
+            <nz-tag nzMode="closeable">Prevent Default</nz-tag>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+  <nz-table #nzTable [nzData]="[{}]" class="mt-10">
+    <thead>
+      <tr>
+        <th [nzAlign]="'center'" [(nzChecked)]="checkAll"></th>
+        <th [nzAlign]="'center'">序号</th>
+        <th [nzAlign]="'center'">产品序列号</th>
+        <th [nzAlign]="'center'">产品名称</th>
+        <th [nzAlign]="'center'">产品分类</th>
+        <th [nzAlign]="'center'">产品品牌</th>
+        <th [nzAlign]="'center'">生产日期</th>
+        <!-- <th>销售客户</th>
+        <th>状态</th> -->
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </nz-table>
+</div>

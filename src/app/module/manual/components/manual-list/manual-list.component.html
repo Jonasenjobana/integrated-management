@@ -12,39 +12,76 @@
   </nz-spin>
   <div class="content">
     <div class="flex-align-center ml-10">
-        <h1 style="margin: 0px">手册管理</h1>
-        <div class="flex-row-end flex-1 mr-20">
-            <button nz-button nzType="primary" nzShape="round"><span nz-icon nzType="plus"></span>新增</button>
-        </div>
+      <h1 style="margin: 0px">手册管理</h1>
+      <div class="flex-row-end flex-1 mr-20">
+        <button nz-button nzType="primary" nzShape="round">
+          <span nz-icon nzType="plus"></span>新增
+        </button>
+      </div>
     </div>
     <div>
-      <nz-table nzBordered [nzData]="[{}]" nzShowPagination="false">
+      <nz-table nzBordered [nzData]="[{}]" nzShowPagination="false"  nzSize="small">
         <tbody>
           <tr>
             <td>产品品牌</td>
             <td>
-                <nz-select [(ngModel)]="loadData.companyId" (ngModelChange)="selectBrand($event)" nzPlaceHolder="产品品牌列表">
-                    <nz-option *ngFor="let item of companyList" [nzValue]="item.id" [nzLabel]="item.companyName"></nz-option>
-                </nz-select>
+              <nz-select
+                [(ngModel)]="loadData.companyId"
+                (ngModelChange)="selectBrand($event)"
+                nzPlaceHolder="产品品牌列表"
+              >
+                <nz-option
+                  *ngFor="let item of companyList"
+                  [nzValue]="item.id"
+                  [nzLabel]="item.companyName"
+                ></nz-option>
+              </nz-select>
             </td>
             <td>产品名称</td>
             <td>
-                <nz-input-group nzCompact nzSearch [nzAddOnAfter]="suffixIconSearch">
-                    <input type="text" [(ngModel)]="loadData.name" nzSearch nz-input  placeholder="搜索产品名称">
-                </nz-input-group>
-                <ng-template #suffixIconSearch>
-                    <button nz-button nzType="primary" nzSearch><span nz-icon nzType="search"></span></button>
-                </ng-template>
+              <nz-input-group
+                nzCompact
+                nzSearch
+                [nzAddOnAfter]="suffixIconSearch"
+                style="width: 50%;"
+              >
+                <input
+                  type="text"
+                  [(ngModel)]="loadData.name"
+                  nzSearch
+                  nz-input
+                  placeholder="搜索产品名称"
+                />
+              </nz-input-group>
+              <ng-template #suffixIconSearch>
+                <button nz-button nzType="primary" nzSearch>
+                  <span nz-icon nzType="search"></span>
+                </button>
+              </ng-template>
             </td>
           </tr>
           <tr>
             <td>已选条件</td>
             <td colSpan="2">
-                <nz-tag nzMode="closeable" *ngFor="let item of tags" (nzOnClose)="closeTag(item)">{{item.title}}</nz-tag>
+              <nz-tag
+                nzMode="closeable"
+                *ngFor="let item of tags"
+                (nzOnClose)="closeTag(item)"
+                >{{ item.title }}</nz-tag
+              >
             </td>
             <td [nzAlign]="'right'">
-              <button nz-button nzType="primary" (click)="search()" style="margin-right: 5px"><span nz-icon nzType="search" nzTheme="outline"></span>查询</button>
-              <button nz-button nzType="primary" (click)="clean()"><span nz-icon nzType="close" nzTheme="outline"></span>清除</button>
+              <button
+                nz-button
+                nzType="primary"
+                (click)="search()"
+                style="margin-right: 5px"
+              >
+                <span nz-icon nzType="search" nzTheme="outline"></span>查询
+              </button>
+              <button nz-button nzType="primary" (click)="clean()">
+                <span nz-icon nzType="close" nzTheme="outline"></span>清除
+              </button>
             </td>
           </tr>
         </tbody>
@@ -52,16 +89,28 @@
       <nz-divider></nz-divider>
     </div>
     <nz-spin [nzTip]="'加载中...'" [nzSpinning]="isManualListLoading">
-    <div class="manual-wrap">
-        <div *ngFor="let item of manualList" class="manual-box" (click)="jumpToDetail(item.id)">
-          <img [src]="item.img">
+      <div class="manual-wrap">
+        <div
+          *ngFor="let item of manualList"
+          class="manual-box"
+          (click)="jumpToDetail(item.id)"
+        >
+          <img [src]="item.img" />
           <div>
-              <h3>{{item.manualSerie}}&nbsp;&nbsp;{{item.manualName}}</h3>
+            <h3>{{ item.manualSerie }}&nbsp;&nbsp;{{ item.manualName }}</h3>
           </div>
+        </div>
       </div>
-    </div>
-    <nz-empty *ngIf="manualList.length === 0 && !isManualListLoading" nzNotFoundImage="simple"></nz-empty>
-  </nz-spin>
+      <nz-empty
+        *ngIf="manualList.length === 0 && !isManualListLoading"
+        nzNotFoundImage="simple"
+      ></nz-empty>
+    </nz-spin>
+    <nz-pagination
+      class="flex-row-center"
+      [nzPageIndex]="pagination.currentPage"
+      [nzTotal]="pagination.pageCount"
+      nzShowQuickJumper
+    ></nz-pagination>
   </div>
-
 </div>
