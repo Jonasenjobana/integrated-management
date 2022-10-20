@@ -21,10 +21,10 @@
         </td>
         <td>产品名称</td>
         <td>
-          <nz-input-group nzCompact nzSearch [nzAddOnAfter]="suffixIconSearch"   style="width: 50%;">
+          <nz-input-group nzCompact nzSearch [nzAddOnAfter]="nameSearch"   style="width: 50%;">
             <input type="text" nzSearch nz-input placeholder="搜索产品名称" />
           </nz-input-group>
-          <ng-template #suffixIconSearch>
+          <ng-template #nameSearch>
             <button nz-button nzType="primary" nzSearch>
               <span nz-icon nzType="search"></span>
             </button>
@@ -34,10 +34,10 @@
       <tr>
         <td>产品序列号</td>
         <td>
-            <nz-input-group nzCompact nzSearch [nzAddOnAfter]="suffixIconSearch" style="width: 50%;">
+            <nz-input-group nzCompact nzSearch [nzAddOnAfter]="seriesSearch" style="width: 50%;">
                 <input type="text" nzSearch nz-input placeholder="搜索产品序列号" [(ngModel)]="searchEntity.serialNumber"/>
               </nz-input-group>
-              <ng-template #suffixIconSearch>
+              <ng-template #seriesSearch>
                 <button nz-button nzType="primary" nzSearch (click)="searchSerial()">
                   <span nz-icon nzType="search"></span>
                 </button>
@@ -48,7 +48,7 @@
             <nz-select
             style="width: 33%;"
             nzPlaceHolder="产品品牌列表"
-          >
+            >
             <nz-option *ngFor="let item of companySelect" [nzLabel]="item.companyName" [nzValue]="item.id"></nz-option>
           </nz-select>
         </td>
