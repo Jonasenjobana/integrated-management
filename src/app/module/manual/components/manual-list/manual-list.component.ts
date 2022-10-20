@@ -1,7 +1,6 @@
-import { pagination } from '../../../share/model/result.model';
 import { ManualHttpService } from './../../manual-http.service';
-import { manual } from './../../manual.model';
-import { company, paramsData, tag } from './../../../share/model/common.model';
+import { Manual } from './../../manual.model';
+import { Company, ParamsData, Search, Tag } from './../../../share/model/common.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   NzTreeNodeOptions,
@@ -10,25 +9,19 @@ import {
 } from 'ng-zorro-antd/tree';
 import { CompanyHttpService } from 'src/app/module/share/serve/company-http.service';
 import { DictionaryDetailService } from 'src/app/module/share/serve/dictionary-detail.service';
-import _ from 'lodash';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { TagTitleMap } from 'src/app/module/share/config/constant.config';
+import { TagTitle } from 'src/app/module/share/config/constant.config';
 @Component({
   selector: 'app-manual-list',
   templateUrl: './manual-list.component.html',
   styleUrls: ['./manual-list.component.less'],
 })
 export class ManualListComponent implements OnInit {
-  private _initDate: paramsData;
-
-  tags: tag[] = [];
+  searchEntity: Search
   menu: NzTreeNodeOptions[] = [];
-  manualList: manual[] = [];
-  companyList: company[] = [];
-
-  loadData: paramsData;
-  pagination: pagination;
-
+  manualList: Manual[] = [];
+  companyList: Company[] = [];
+  tags: Tag[] = []
   isMenuLoading: boolean;
   isCompanyLoading: boolean;
   isManualListLoading: boolean;
@@ -40,67 +33,44 @@ export class ManualListComponent implements OnInit {
     private dictService: DictionaryDetailService,
     private companyService: CompanyHttpService,
     private manualHttpService: ManualHttpService,
-    private message: NzMessageService
   ) {
-    this.pagination = {
-      currentPage: 1,
-      pageRecord: 10,
-    };
-    this._initDate = {
-      ...this.pagination,
-      companyId: '',
-      productCode: '',
-      name: '',
-    };
     this.isMenuLoading = true;
     this.isCompanyLoading = true;
     this.isManualListLoading = true;
-    this.loadData = _.cloneDeep(this._initDate);
+    this.searchEntity = {
+      currentPage: 1,
+      pageRecord: 10,
+    }
   }
-
   ngOnInit(): void {
     this.dictService.getManualTreeNodes().then((res) => {
-      console.log('res', res);
+      this.menu = res
+      this.isMenuLoading = false
     });
-
-    // 从数据字典获取分类列表
-    this.dictService.getDictByType('menu').then((res) => {
-      this.menu = res as NzTreeNodeOptions[];
-      this.isMenuLoading = false;
-    });
-    // 公司列表
     this.companyService.getCompanyList().then((res) => {
       this.companyList = res;
       this.isCompanyLoading = false;
     });
-    // 加载默认显示手册信息
-    this.initManualList(this._initDate);
+    this.getManualList(this.searchEntity);
   }
 
   /**
    *
-   * @param params 请求参数
+   * @param params 
    */
-  private initManualList(params: paramsData) {
+  private getManualList(params: ParamsData) {
     this.isManualListLoading = true;
     this.manualHttpService
       .getList(params)
       .then(({ pageRecord, pageCount, currentPage, recordCount, result }) => {
-        this.pagination = {
-          pageRecord: pageRecord,
-          pageCount: pageCount,
-          currentPage: currentPage,
-          recordCount: recordCount,
-        };
-        this.manualList = result.reduce((arr: manual[], el) => {
-          arr.push({
+        this.manualList = result.map(el => {
+          return {
             id: el.id,
             img: el.img,
             manualName: el.manualName,
             manualSerie: el.manualSerie,
-          });
-          return arr;
-        }, []);
+          }
+        });
       })
       .finally(() => {
         this.isManualListLoading = false;
@@ -108,27 +78,41 @@ export class ManualListComponent implements OnInit {
   }
 
   search() {
-    this.initManualList(this.loadData);
+    this.tags.forEach(tag => tag.show = true)
+    const name =this.searchEntity.name!
+    if (name !== '') {
+      this.updateTags({title:name, key: name}, 'Search')
+    }
+    this.getManualList(this.searchEntity);
   }
   clean() {
-    this.loadData = _.cloneDeep(this._initDate);
-    this.tags = [];
+    this.tags = []
+    this.searchEntity.companyId = ''
+    this.searchEntity.name = ''
+    this.searchEntity.productCode = ''
+    const node = this.nzTreeComponent.getSelectedNodeList()[0]
+    if (node !== undefined) {
+       node.isSelected = false
+    }
+    this.searchEntity.pageRecord = 10
+    this.searchEntity.currentPage = 1
+    this.getManualList(this.searchEntity)
   }
 
   /**
    * 选择产品分类
    * @param $event 节点信息
    */
-  selectMenu($event: NzFormatEmitEvent) {
-    console.log($event);
+  selectMenu($event: NzFormatEmitEvent) {    
     const node = $event.node!;
-    this.loadData.productCode = node.key;
-    this.updateTags({ key: node.key, title: node.title }, 'menu');
-    this.initManualList(
-      _.assign(_.cloneDeep(this._initDate), { productCode: node.key })
-    );
+    this.hideTags()
+    this.updateTags({ key: node.key, title: node.title }, 'Menu');
+    const pagination = {
+      currentPage: 1,
+      pageRecord: this.searchEntity.pageRecord
+    }
+    this.getManualList({productCode: node.key, ...pagination})
   }
-
   /**
    * 品牌变更
    * @param companyId 公司索引
@@ -136,12 +120,17 @@ export class ManualListComponent implements OnInit {
   selectBrand(companyId: string) {
     const selected = this.companyList.find((el) => el.id === companyId);
     if (selected) {
+      this.hideTags()
       this.updateTags(
         { key: selected.id, title: selected.companyName },
-        'brand'
+        'Brand'
       );
     }
-    this.initManualList(_.assign(_.cloneDeep(this._initDate), { companyId }));
+    const pagination = {
+      currentPage: 1,
+      pageRecord: this.searchEntity.pageRecord
+    }
+    this.getManualList({companyId, ...pagination})
   }
 
   /**
@@ -151,7 +140,7 @@ export class ManualListComponent implements OnInit {
    */
   updateTags(
     { key, title }: { key: string; title: string },
-    type: 'menu' | 'brand'
+    type: 'Menu'|'Brand'|'Search'
   ) {
     const index = this.tags.findIndex((el) => el.type === type);
     if (index !== -1) {
@@ -159,27 +148,47 @@ export class ManualListComponent implements OnInit {
     }
     this.tags.push({
       key,
-      title: `${TagTitleMap[type]}: ${title}`,
+      title: `${TagTitle[type]}: ${title}`,
+      show: true,
       type,
     });
   }
-
+  hideTags() {
+    this.tags.forEach(el => el.show = false)
+  }
+  searchName() {
+    this.hideTags()
+    this.updateTags({title: this.searchEntity.name!, key: this.searchEntity.name!}, 'Search')
+    const pagination = {
+      currentPage: 1,
+      pageRecord: this.searchEntity.pageRecord
+    }
+    this.getManualList({...pagination, name: this.searchEntity.name})
+  }
   /**
    * tag: {key,title,type}
    * 不同类型有不同操作逻辑
    * @param tag 关闭标签
    */
-  closeTag(tag: tag) {
+  closeTag(tag: Tag) {
     switch (tag.type) {
-      case 'menu':
+      case 'Menu':
+        this.searchEntity.productCode = ''
         this.nzTreeComponent.getTreeNodeByKey(tag.key)!.isSelected = false;
         break;
-      case 'brand':
-        this.loadData.companyId = '';
+      case 'Brand':
+        this.searchEntity.companyId = ''
+        this.tagDelete(tag.key)
         break;
+      case 'Search':
+        this.searchEntity.name = ''
+        this.tagDelete(tag.key)
     }
+    this.search()
   }
-
+  tagDelete(key: string) {
+    this.tags.splice(this.tags.findIndex(item => item.key === key), 1)
+  }
   // TODO: 新增页面
   /**
    * 跳转到详情

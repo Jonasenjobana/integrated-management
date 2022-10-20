@@ -1,16 +1,16 @@
 // 统一返回结果
-export interface result<T> {
+export interface Result<T> {
     rlt: number;
     info: string;
     datas: T;
 }
 // post请求参数
-export interface params<T> {
+export interface Params<T> {
     x: string;
     y: T
 }
 // 字典数据结构
-export interface dict {
+export interface Dict {
     dictCode: string;
     id: string;
     itemCode: string;
@@ -18,7 +18,7 @@ export interface dict {
     pitemCode: string | null;
     serialNumber: number
 }
-export interface listResult<T> {
+export interface ListResult<T> {
     currentPage: number;
     endRow?: number;
     pageCount?: number;
@@ -30,7 +30,7 @@ export interface listResult<T> {
     startRow?: number;
 }
 // 分页信息
-export interface pagination {
+export interface Pagination {
     currentPage: number;
     endRow?: number;
     pageCount?: number;

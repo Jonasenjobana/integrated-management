@@ -47,7 +47,7 @@ import { NzTimelineModule } from 'ng-zorro-antd/timeline';
     NzAvatarModule,
     NzDropDownModule,
     NzTreeModule,
-    NzTimelineModule
+    NzTimelineModule,
   ]
 })
 export class ShareModule { }

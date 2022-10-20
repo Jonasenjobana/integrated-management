@@ -1,9 +1,6 @@
-import { uuid } from './../../../share/utils/common.utils';
 import { Tab } from './tab.model';
-import { Component, OnInit, ViewChildren } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DynamicServeService } from '../../dynamic-serve.service';
-import { INIT_TABS } from 'src/app/module/DYNAMIC-COMPONENT';
-
 @Component({
   selector: 'app-tab',
   templateUrl: './tab.component.html',

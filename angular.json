@@ -31,7 +31,11 @@
               "src/styles.less",
               "node_modules/ng-zorro-antd/ng-zorro-antd.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/utf8-jsp/ueditor.config.js",
+              "src/assets/utf8-jsp/ueditor.all.js",
+              "src/assets/utf8-jsp/lang/zh-cn/zh-cn.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -101,7 +105,8 @@
             "styles": [
               "src/styles.less"
             ],
-            "scripts": []
+            "scripts": [
+            ]
           }
         }
       }

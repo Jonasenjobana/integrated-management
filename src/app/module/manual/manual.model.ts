@@ -1,4 +1,4 @@
-export interface manual {
+export interface Manual {
   id: string;
   manualName: string;
   manualSerie: string;
@@ -7,19 +7,4 @@ export interface manual {
   img?: string;
   pproductCode?: string;
   productCode?: string;
-}
-
-export interface ManualSearch {
-  currentPage: number;
-  pageRecord: number;
-  companyId?: string;
-  name?: string;
-  productCode?: string;
-}
-
-export interface SearchTag {
-  label: string;
-  value: string;
-  text: string;
-  show?: boolean;
 }

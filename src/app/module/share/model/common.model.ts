@@ -1,18 +1,13 @@
-export interface company {
+export interface Company {
     companyName: string;
     id: string;
 }
-export interface productSelect {
-    label: string;
-    productCode: string;
-    children?: productSelect[]
-}
-export interface paramsData {
+export interface ParamsData {
     currentPage: number;
     pageRecord: number;
     companyId?: string;
     productCode?: string;
-    serialNumber?: number;
+    serialNumber?: string;
     name?: string;
     endTime?: string;
     startTime?: string;
@@ -20,8 +15,22 @@ export interface paramsData {
 /**
  * type对应分类类别为产品分类 menu ,产品品牌 brand
  */
- export interface tag {
-    key: string;
+ export interface Tag {
     title: string;
-    type: 'menu'|'brand';
+    key: string;
+    type: string;
+    show?: boolean;
+}
+/**
+ * 通用条件搜索类
+ */
+export interface Search {
+    companyId?: string
+    name?: string
+    currentPage: number
+    pageRecord: number
+    productCode?: string
+    serialNumber?: string
+    startTime?: string
+    endTime?: string
 }

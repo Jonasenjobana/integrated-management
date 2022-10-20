@@ -1,10 +1,4 @@
-export interface columnListConfig {
-    align?: 'left'|'right'|'center';
-    ellipsis?: boolean;
-    columnName: string;
-}
-
-export interface product {
+export interface Product {
     serialNumber?: number;
     id: string;
     valueIds: string;
@@ -15,4 +9,3 @@ export interface product {
     productNmae?: string;
     companyName: string
 }
-

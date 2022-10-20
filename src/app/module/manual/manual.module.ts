@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { ManualListComponent } from './components/manual-list/manual-list.component';
 import { NzTreeModule } from 'ng-zorro-antd/tree';
 import { ShareModule } from '../share/share.module';
-import { ManualHttpService } from './manual-http.service';
-import { BaseCurdService } from '../share/serve/base-curd.service';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -23,8 +21,6 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
     NzEmptyModule,
     NzIconModule.forChild([PlusOutline]),
   ],
-  providers: [
-    {provide: BaseCurdService, useClass: ManualHttpService}
-  ]
+  providers: []
 })
 export class ManualModule { }
