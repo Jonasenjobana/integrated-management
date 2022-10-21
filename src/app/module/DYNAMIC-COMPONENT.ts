@@ -1,7 +1,8 @@
-import { Tab } from './layout/components/tab/tab.model';
+import { Tab } from './layout/components/tab/Tab.model';
 import { HomeComponent } from "./layout/components/home/home.component";
 import { ManualListComponent } from './manual/components/manual-list/manual-list.component';
 import { ProductListComponent } from './product/components/product-list/product-list.component';
+import { ManualDetailComponent } from './manual/components/manual-detail/manual-detail.component';
 const DYNAMIC_COMPONENTS_LIST: Tab[] = [
     {
         title: '首页',
@@ -17,6 +18,11 @@ const DYNAMIC_COMPONENTS_LIST: Tab[] = [
         title: '产品列表',
         key: 'product-list',
         component: ProductListComponent,
+    },
+    {
+        title: '手册详细',
+        key: 'manual-detail',
+        component: ManualDetailComponent,
     }
 ]
 const INIT_TABS:Tab[] = [
@@ -31,6 +37,6 @@ const INIT_TABS:Tab[] = [
         key: 'product-list',
         component: ProductListComponent,
         disclosable: true
-    }
+    },
 ]
 export {DYNAMIC_COMPONENTS_LIST,INIT_TABS}

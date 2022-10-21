@@ -6,6 +6,8 @@ export interface Product {
     manualId: string;
     modelId: string;
     pproductName?: string;
-    productNmae?: string;
-    companyName: string
+    productName?: string;
+    companyName: string;
+    productDate: string;
 }
+export type SelectType = 'ProductType' | 'ProductBrand' | 'Date' | 'ProductName'

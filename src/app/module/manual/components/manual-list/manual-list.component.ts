@@ -1,6 +1,8 @@
+import { NzSelectComponent } from 'ng-zorro-antd/select';
+import { DynamicServeService } from './../../../layout/dynamic-serve.service';
 import { ManualHttpService } from './../../manual-http.service';
 import { Manual } from './../../manual.model';
-import { Company, ParamsData, Search, Tag } from './../../../share/model/common.model';
+import { ParamsData, Search, Tag, TagType, CompanyName } from './../../../share/model/common.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   NzTreeNodeOptions,
@@ -20,7 +22,7 @@ export class ManualListComponent implements OnInit {
   searchEntity: Search
   menu: NzTreeNodeOptions[] = [];
   manualList: Manual[] = [];
-  companyList: Company[] = [];
+  companyList: CompanyName[] = [];
   tags: Tag[] = []
   isMenuLoading: boolean;
   isCompanyLoading: boolean;
@@ -28,11 +30,13 @@ export class ManualListComponent implements OnInit {
 
   @ViewChild('nzTreeComponent')
   nzTreeComponent!: NzTreeComponent;
-
+  @ViewChild('brandSelectRef')
+  brandSelectRef!: NzSelectComponent
   constructor(
     private dictService: DictionaryDetailService,
     private companyService: CompanyHttpService,
     private manualHttpService: ManualHttpService,
+    private dynamicServeService:DynamicServeService,
   ) {
     this.isMenuLoading = true;
     this.isCompanyLoading = true;
@@ -81,7 +85,7 @@ export class ManualListComponent implements OnInit {
     this.tags.forEach(tag => tag.show = true)
     const name =this.searchEntity.name!
     if (name !== '') {
-      this.updateTags({title:name, key: name}, 'Search')
+      this.updateTags({title:name, key: name}, 'Name')
     }
     this.getManualList(this.searchEntity);
   }
@@ -118,11 +122,11 @@ export class ManualListComponent implements OnInit {
    * @param companyId 公司索引
    */
   selectBrand(companyId: string) {
-    const selected = this.companyList.find((el) => el.id === companyId);
+    const selected = this.brandSelectRef.listOfTopItem[0]
     if (selected) {
       this.hideTags()
       this.updateTags(
-        { key: selected.id, title: selected.companyName },
+        { key: selected.nzValue, title: <string>selected.nzLabel },
         'Brand'
       );
     }
@@ -140,7 +144,7 @@ export class ManualListComponent implements OnInit {
    */
   updateTags(
     { key, title }: { key: string; title: string },
-    type: 'Menu'|'Brand'|'Search'
+    type: TagType
   ) {
     const index = this.tags.findIndex((el) => el.type === type);
     if (index !== -1) {
@@ -158,7 +162,7 @@ export class ManualListComponent implements OnInit {
   }
   searchName() {
     this.hideTags()
-    this.updateTags({title: this.searchEntity.name!, key: this.searchEntity.name!}, 'Search')
+    this.updateTags({title: this.searchEntity.name!, key: this.searchEntity.name!}, 'Name')
     const pagination = {
       currentPage: 1,
       pageRecord: this.searchEntity.pageRecord
@@ -180,7 +184,7 @@ export class ManualListComponent implements OnInit {
         this.searchEntity.companyId = ''
         this.tagDelete(tag.key)
         break;
-      case 'Search':
+      case 'Name':
         this.searchEntity.name = ''
         this.tagDelete(tag.key)
     }
@@ -195,7 +199,7 @@ export class ManualListComponent implements OnInit {
    * @param id 产品索引
    */
   jumpToDetail(id: string) {
-    console.log('点击跳转', id);
+    this.dynamicServeService.addTab('manual-detail', {id}, false)
   }
 
   // TODO:差防抖操作去申请接口以及错误消息提示

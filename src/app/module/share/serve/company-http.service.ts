@@ -1,4 +1,4 @@
-import { Company } from './../model/common.model';
+import { CompanyName } from './../model/common.model';
 import { Injectable } from '@angular/core';
 import { HttpClientService } from './http-client.service';
 
@@ -6,10 +6,10 @@ import { HttpClientService } from './http-client.service';
   providedIn: 'root'
 })
 export class CompanyHttpService {
-  companyList: Company[] = []
+  companyList: CompanyName[] = []
   constructor(private baseHttp:HttpClientService) { }
-  private getList(): Promise<Company[]> {
-    return this.baseHttp.post<object, Company[]>('/api/company/getList', {})
+  private getList(): Promise<CompanyName[]> {
+    return this.baseHttp.post<object, CompanyName[]>('/api/company/getList', {})
   }
   async getCompanyList() {
     if (this.companyList.length === 0) {

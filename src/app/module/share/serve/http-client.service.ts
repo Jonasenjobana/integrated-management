@@ -17,7 +17,7 @@ export class HttpClientService {
           if (res.rlt === 0) {
             setTimeout(() => {
               resolve(res.datas)
-            }, 500);
+            }, 5000);
           } else {
             reject(res.info || '响应接口错误')
           }
@@ -36,7 +36,7 @@ export class HttpClientService {
           if (res.rlt === 0) {
             setTimeout(() => {
               resolve(res.datas)
-            }, 500);
+            }, 5000);
           } else {
             reject(res.info || '响应接口错误')
           }

@@ -13,7 +13,6 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
     CommonModule,
     ShareModule,
     NzInputModule,
-    NzInputModule,
     NzDatePickerModule,
   ]
 })

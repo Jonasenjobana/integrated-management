@@ -1,7 +1,14 @@
-export interface Company {
+export interface CompanyName {
     companyName: string;
     id: string;
 }
+export interface ProductName {
+    id: string,
+    name: string,
+}
+/**
+ * 通用请求参数
+ */
 export interface ParamsData {
     currentPage: number;
     pageRecord: number;
@@ -18,7 +25,7 @@ export interface ParamsData {
  export interface Tag {
     title: string;
     key: string;
-    type: string;
+    type: TagType;
     show?: boolean;
 }
 /**
@@ -34,3 +41,7 @@ export interface Search {
     startTime?: string
     endTime?: string
 }
+/**
+ * 条件标签类型
+ */
+export type TagType = 'Menu' | 'Brand' | 'Name' | 'Series' | 'Date'

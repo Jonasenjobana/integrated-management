@@ -8,9 +8,13 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { PlusOutline } from '@ant-design/icons-angular/icons';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { ManualCreateComponent } from './components/manual-create/manual-create.component';
+import { ManualDetailComponent } from './components/manual-detail/manual-detail.component';
 @NgModule({
   declarations: [
-    ManualListComponent
+    ManualListComponent,
+    ManualCreateComponent,
+    ManualDetailComponent
   ],
   imports: [
     CommonModule,

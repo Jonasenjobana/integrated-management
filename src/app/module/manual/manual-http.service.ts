@@ -1,3 +1,4 @@
+import { Product } from './../product/components/product.model';
 
 import { ListResult } from '../share/model/result.model';
 import { Manual } from './manual.model';
@@ -13,5 +14,8 @@ export class ManualHttpService extends BaseCurdService<ParamsData, ListResult<Ma
 
   constructor(protected override baseHttp:HttpClientService) { 
     super(baseHttp, '/api/manual')
+  }
+  getName() {
+    return this.baseHttp.get<Product[]>(`${this.baseUrl}/getName`)
   }
 }

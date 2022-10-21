@@ -29,6 +29,7 @@
                 [(ngModel)]="searchEntity.companyId"
                 (ngModelChange)="selectBrand($event)"
                 nzPlaceHolder="产品品牌列表"
+                #brandSelectRef
               >
                 <nz-option
                   *ngFor="let item of companyList"

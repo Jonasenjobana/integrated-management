@@ -14,6 +14,6 @@ export class SideBarComponent implements OnInit {
   ngOnInit(): void {}
   menuList: Menu[];
   showContent(componentName: string): void {
-    this.dynamicServe.addTab(componentName);
+    this.dynamicServe.addTab(componentName, {}, true);
   }
 }

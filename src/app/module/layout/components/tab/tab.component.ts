@@ -1,4 +1,4 @@
-import { Tab } from './tab.model';
+import { Tab, TabType } from './Tab.model';
 import { Component, OnInit } from '@angular/core';
 import { DynamicServeService } from '../../dynamic-serve.service';
 @Component({
@@ -21,18 +21,12 @@ export class TabComponent implements OnInit {
    * 订阅服务一些回调事件
    * @param param
    */
-   updateTabTask({type, tab, index}: {type: string, tab: Tab, index: number}) {
+   updateTabTask({type, tab, index}: {type: TabType, tab: Tab, index: number}) {
     switch (type)  {
-      case 'add':
-        this.selectedIndex = index
-        break
       case 'remove':
         this.selectedIndex = this.tabs.length - 1
         break
-      case 'refresh': 
-        this.selectedIndex = index
-        break
-      case 'change':
+      default:
         this.selectedIndex = index
     }
   } 

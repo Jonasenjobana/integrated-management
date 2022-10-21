@@ -1,5 +1,5 @@
-import { Tab } from '../tab/tab.model'
-import { Component, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Tab } from '../tab/Tab.model'
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DynamicDirDirective } from '../../dynamic-dir.directive';
 @Component({
   selector: 'component-template',
@@ -19,7 +19,8 @@ export class ComponentTemplateComponent implements OnInit {
   }
   load(item: Tab):void {
     if (item.component !== undefined) {
-      this.dynamicRef.viewContainerRef.createComponent(item.component)
+      const componentFactory = this.dynamicRef.viewContainerRef.createComponent(item.component)
+      componentFactory.instance.dynamicParams = this.tab.data 
     } else {
       new Error('tab渲染的组件不能为空')
     }

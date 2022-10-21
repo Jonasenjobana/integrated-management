@@ -1,6 +1,6 @@
 import { uuid } from './../share/utils/common.utils';
 import { Injectable } from '@angular/core';
-import { Tab } from './components/tab/tab.model';
+import { DynamicParams, Tab, TabType } from './components/tab/Tab.model'
 import { Subject } from 'rxjs';
 import { DYNAMIC_COMPONENTS_LIST, INIT_TABS } from '../DYNAMIC-COMPONENT';
 
@@ -9,7 +9,7 @@ import { DYNAMIC_COMPONENTS_LIST, INIT_TABS } from '../DYNAMIC-COMPONENT';
 })
 export class DynamicServeService {
 
-  private _tab$: Subject<{type: string, tab: Tab, index: number}> = new Subject();
+  private _tab$: Subject<{type: TabType, tab: Tab, index: number}> = new Subject();
   private _currentTab: Tab
   private _currentTabList: Tab[]
   get change() {
@@ -28,7 +28,6 @@ export class DynamicServeService {
     this._currentTabList = INIT_TABS
     this._currentTab = this._currentTabList[0]
   }
-  tabs: Tab[] = DYNAMIC_COMPONENTS_LIST
   /**
    * 组件名获取索引
    * @param key 
@@ -50,25 +49,27 @@ export class DynamicServeService {
   }
   /**
    * 点击侧边栏菜单，添加tab
+   * 点击其他按钮新增、跳转详情
    * @param key 
    */
-  public addTab(key: string): void {
+  public addTab(key: string, data: DynamicParams, isMenuJump: boolean): void {
     const reuse = this.getComponentByName(key)
     const index = this.getIndex(key)
+    // 未在tab数组内
     if (index === -1) {
       reuse.uuid = uuid()
+      reuse.data = data
       this._currentTabList.push(reuse)
       this._tab$.next({ type: 'add', tab: reuse, index: this.getIndex(key)})
+      this.currentTab = reuse
+      return
+    }
+    // 针对于菜单多次点击刷新或者其他跳转入口
+    if (this._currentTab.key === key || !isMenuJump) {
+      this.refresh(reuse, index, data)
     } else {
-      if (this._currentTab.key === key) {
-        // 如果重新点击侧边栏重新加载组件
-        reuse.uuid = uuid()
-        const refreshNew = Object.assign(this._currentTabList[index], reuse)
-        this.refresh(refreshNew, index)
-      } else {
-        // 否则只是改变selectIndex的值
-        this._tab$.next({type: 'change', tab: reuse, index})
-      }
+      // 改变tab索引
+      this._tab$.next({type: 'change', tab: reuse, index})
     }
     this.currentTab = reuse
   }
@@ -77,10 +78,13 @@ export class DynamicServeService {
    * @param reuseTab 
    * @param index 
    */
-  private refresh(reuseTab: Tab, index: number) {
-    this._currentTabList.splice(index, 1, reuseTab)
-    this._tab$.next({ type: 'refresh', tab: reuseTab, index: index})
-    this._currentTab = reuseTab
+  private refresh(reuse: Tab, index: number, data: DynamicParams) {
+    reuse.uuid = uuid()
+    reuse.data = data
+    const refreshNew = Object.assign(this._currentTabList[index], reuse)
+    this._currentTabList.splice(index, 1, refreshNew)
+    this._tab$.next({ type: 'refresh', tab: refreshNew, index: index})
+    this._currentTab = reuse
   }
   /**
    * 通过key获取Tab实例
