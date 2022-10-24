@@ -1,4 +1,4 @@
-import { NzSelectComponent } from 'ng-zorro-antd/select';
+import { CommonTagService } from './../../../share/serve/common-tag.service';
 import { DynamicServeService } from './../../../layout/dynamic-serve.service';
 import { ManualHttpService } from './../../manual-http.service';
 import { Manual } from './../../manual.model';
@@ -11,8 +11,7 @@ import {
 } from 'ng-zorro-antd/tree';
 import { CompanyHttpService } from 'src/app/module/share/serve/company-http.service';
 import { DictionaryDetailService } from 'src/app/module/share/serve/dictionary-detail.service';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { TagTitle } from 'src/app/module/share/config/constant.config';
+
 @Component({
   selector: 'app-manual-list',
   templateUrl: './manual-list.component.html',
@@ -20,27 +19,26 @@ import { TagTitle } from 'src/app/module/share/config/constant.config';
 })
 export class ManualListComponent implements OnInit {
   searchEntity: Search
-  menu: NzTreeNodeOptions[] = [];
-  manualList: Manual[] = [];
-  companyList: CompanyName[] = [];
+  menu: NzTreeNodeOptions[] = []
+  manualList: Manual[] = []
+  companyList: CompanyName[] = []
   tags: Tag[] = []
-  isMenuLoading: boolean;
-  isCompanyLoading: boolean;
-  isManualListLoading: boolean;
+  isMenuLoading: boolean
+  isCompanyLoading: boolean
+  isManualListLoading: boolean
 
   @ViewChild('nzTreeComponent')
   nzTreeComponent!: NzTreeComponent;
-  @ViewChild('brandSelectRef')
-  brandSelectRef!: NzSelectComponent
   constructor(
     private dictService: DictionaryDetailService,
     private companyService: CompanyHttpService,
     private manualHttpService: ManualHttpService,
     private dynamicServeService:DynamicServeService,
+    private commonTagService:CommonTagService
   ) {
-    this.isMenuLoading = true;
-    this.isCompanyLoading = true;
-    this.isManualListLoading = true;
+    this.isMenuLoading = true
+    this.isCompanyLoading = true
+    this.isManualListLoading = true
     this.searchEntity = {
       currentPage: 1,
       pageRecord: 10,
@@ -82,13 +80,17 @@ export class ManualListComponent implements OnInit {
   }
 
   search() {
-    this.tags.forEach(tag => tag.show = true)
-    const name =this.searchEntity.name!
-    if (name !== '') {
-      this.updateTags({title:name, key: name}, 'Name')
+    this.commonTagService.showAllTags(this.tags)
+    const name =this.searchEntity.name
+    if (name !== undefined && name !== '') {
+      this.commonTagService.updateTags({title:name, key: name}, 'Name', this.tags)
     }
-    this.getManualList(this.searchEntity);
+    this.getManualList(this.searchEntity)
   }
+
+  /**
+   * 初始化
+   */
   clean() {
     this.tags = []
     this.searchEntity.companyId = ''
@@ -104,71 +106,39 @@ export class ManualListComponent implements OnInit {
   }
 
   /**
-   * 选择产品分类
-   * @param $event 节点信息
+   * 
+   * @param type 类型
+   * @param key tag值
+   * @param title tag显示名
+   * @param params 请求参数
    */
-  selectMenu($event: NzFormatEmitEvent) {    
-    const node = $event.node!;
-    this.hideTags()
-    this.updateTags({ key: node.key, title: node.title }, 'Menu');
+  commonSelect(type: TagType, key: string, title: string, params: ParamsData) {
+    this.commonTagService.hideTags(this.tags)
+    this.commonTagService.updateTags({ key, title }, type, this.tags)
     const pagination = {
       currentPage: 1,
       pageRecord: this.searchEntity.pageRecord
     }
-    this.getManualList({productCode: node.key, ...pagination})
-  }
-  /**
-   * 品牌变更
-   * @param companyId 公司索引
-   */
-  selectBrand(companyId: string) {
-    const selected = this.brandSelectRef.listOfTopItem[0]
-    if (selected) {
-      this.hideTags()
-      this.updateTags(
-        { key: selected.nzValue, title: <string>selected.nzLabel },
-        'Brand'
-      );
-    }
-    const pagination = {
-      currentPage: 1,
-      pageRecord: this.searchEntity.pageRecord
-    }
-    this.getManualList({companyId, ...pagination})
+    this.getManualList({...params, ...pagination})
   }
 
-  /**
-   *
-   * @param param0 基本标签信息
-   * @param type 标签类型:分类,品牌
-   */
-  updateTags(
-    { key, title }: { key: string; title: string },
-    type: TagType
-  ) {
-    const index = this.tags.findIndex((el) => el.type === type);
-    if (index !== -1) {
-      this.tags.splice(index, 1);
-    }
-    this.tags.push({
-      key,
-      title: `${TagTitle[type]}: ${title}`,
-      show: true,
-      type,
-    });
+
+
+  selectMenu($event: NzFormatEmitEvent) {    
+    const node = $event.node!
+    this.commonSelect('Menu', node.key, node.title, {productCode: node.key})
   }
-  hideTags() {
-    this.tags.forEach(el => el.show = false)
+  selectBrand(companyId: string) {
+    this.commonSelect('Brand', companyId, this.companyList.find(el => el.id === companyId)!.companyName, {companyId})
   }
   searchName() {
-    this.hideTags()
-    this.updateTags({title: this.searchEntity.name!, key: this.searchEntity.name!}, 'Name')
-    const pagination = {
-      currentPage: 1,
-      pageRecord: this.searchEntity.pageRecord
+    if (this.searchEntity.name !== undefined && this.searchEntity.name !== '') {
+      this.commonSelect('Name', this.searchEntity.name!, this.searchEntity.name!, {name: this.searchEntity.name})
     }
-    this.getManualList({...pagination, name: this.searchEntity.name})
   }
+
+
+
   /**
    * tag: {key,title,type}
    * 不同类型有不同操作逻辑
@@ -182,24 +152,23 @@ export class ManualListComponent implements OnInit {
         break;
       case 'Brand':
         this.searchEntity.companyId = ''
-        this.tagDelete(tag.key)
         break;
       case 'Name':
         this.searchEntity.name = ''
-        this.tagDelete(tag.key)
     }
+    this.commonTagService.tagDelete(tag.key, tag.type, this.tags)
     this.search()
   }
-  tagDelete(key: string) {
-    this.tags.splice(this.tags.findIndex(item => item.key === key), 1)
-  }
+
+
+
   // TODO: 新增页面
   /**
    * 跳转到详情
    * @param id 产品索引
    */
   jumpToDetail(id: string) {
-    this.dynamicServeService.addTab('manual-detail', {id}, false)
+    this.dynamicServeService.addTab('manual-detail', {id, type: 'Manual'}, false)
   }
 
   // TODO:差防抖操作去申请接口以及错误消息提示

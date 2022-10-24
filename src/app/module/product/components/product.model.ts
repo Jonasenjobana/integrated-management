@@ -9,5 +9,6 @@ export interface Product {
     productName?: string;
     companyName: string;
     productDate: string;
+    isSelected: boolean;
 }
 export type SelectType = 'ProductType' | 'ProductBrand' | 'Date' | 'ProductName'

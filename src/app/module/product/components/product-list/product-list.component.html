@@ -26,7 +26,7 @@
             nzShowSearch 
             nzAllowClear 
             style="width: 50%"
-            [(ngModel)]="searchEntity.name"
+            [(ngModel)]="searchEntity.nameId"
             (ngModelChange)="selectChange($event, 'ProductName')"
             #nameSelectRef
           >
@@ -76,7 +76,7 @@
         <td>已选条件</td>
         <td colSpan="3">
           <ng-container *ngFor="let item of tags">
-            <nz-tag *ngIf="item.show" nzMode="closeable">{{item.title}}</nz-tag>
+            <nz-tag *ngIf="item.show" nzMode="closeable" (nzOnClose)="closeTag(item)">{{item.title}}</nz-tag>
           </ng-container>
             <div style="float: right;">
               <button nz-button nzType="primary" class="mr-10" (click)="searchAll()">
@@ -93,7 +93,7 @@
   <nz-table #nzTable [nzData]="[{}]" [nzLoading]="isProductListLoading" class="mt-10">
     <thead>
       <tr>
-        <th  [(nzChecked)]="checkAll"></th>
+        <th  [(nzChecked)]="checkAll"  (nzCheckedChange)="onAllChecked($event)"></th>
         <th [nzAlign]="'center'">序号</th>
         <th [nzAlign]="'center'">产品序列号</th>
         <th [nzAlign]="'center'">产品名称</th>
@@ -105,7 +105,7 @@
   
     <tbody>
       <tr *ngFor="let item of productList;let idx = index">
-        <td [nzAlign]="'center'" [nzChecked]="false"></td>
+        <td [nzAlign]="'center'" [nzChecked]="item.isSelected"></td>
         <td [nzAlign]="'center'">{{idx + 1}}</td>
         <td [nzAlign]="'center'">
           <a href="#">

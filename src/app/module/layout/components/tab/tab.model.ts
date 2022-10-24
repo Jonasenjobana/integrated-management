@@ -12,6 +12,7 @@ export interface Tab {
  * 动态组件外部传参
  */
 export interface DynamicParams {
-    id?: string,
+    id?: string
+    type?: 'Manual'|'Product'
 }
 export type TabType = 'add'|'change'|'refresh'|'remove'

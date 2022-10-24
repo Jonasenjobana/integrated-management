@@ -10,8 +10,8 @@ export interface ProductName {
  * 通用请求参数
  */
 export interface ParamsData {
-    currentPage: number;
-    pageRecord: number;
+    currentPage?: number;
+    pageRecord?: number;
     companyId?: string;
     productCode?: string;
     serialNumber?: string;
@@ -33,6 +33,7 @@ export interface ParamsData {
  */
 export interface Search {
     companyId?: string
+    nameId?: string
     name?: string
     currentPage: number
     pageRecord: number

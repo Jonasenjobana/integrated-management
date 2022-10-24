@@ -32,10 +32,10 @@ const INIT_TABS:Tab[] = [
     //     component: HomeComponent,
     //     disclosable: true
     // },
-    {
-        title: '产品列表',
-        key: 'product-list',
-        component: ProductListComponent,
+   {
+        title: '手册管理',
+        key: 'manual-list',
+        component: ManualListComponent,
         disclosable: true
     },
 ]

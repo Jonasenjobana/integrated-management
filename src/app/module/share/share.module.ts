@@ -19,6 +19,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzTreeModule } from 'ng-zorro-antd/tree';
+import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 @NgModule({
   declarations: [],
@@ -26,6 +27,7 @@ import { NzTimelineModule } from 'ng-zorro-antd/timeline';
     CommonModule,
   ],
   exports: [
+    NgxUsefulSwiperModule,
     NzCardModule,
     NzSpinModule,
     NzTableModule,
