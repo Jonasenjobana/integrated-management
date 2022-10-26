@@ -1,7 +1,7 @@
 const MenuList: Menu[] = [
     {
       title: '产品手册',
-      icon: '',
+      icon: 'unordered-list',
       key: 'manual',
       childMenu: [
         {
@@ -14,7 +14,7 @@ const MenuList: Menu[] = [
     },
     {
       title: '产品中心',
-      icon: '',
+      icon: 'appstore',
       key: 'product',
       childMenu: [
         {

@@ -62,6 +62,12 @@ export interface ResultDetail {
     productName: string;
     pproductName: string;
 }
+// 技术参数
+export interface CatalogTech {
+    id: string;
+    techName: string;
+    techValue?: string;
+}
 // 图片文件
 export interface Content {
     filePath: string;
@@ -71,7 +77,7 @@ export interface Content {
 }
 // 产品内部类型
 export interface TypeModel {
-    configList?: Config[];
+    configList: Config[];
     id: string;
     manualId: string;
     modelName: string;
@@ -85,7 +91,7 @@ export interface Config {
     id: string;
     hostId: string;
     serialNumber?: number;
-    configvalueList?: ConfigValue[]
+    configvalueList: ConfigValue[]
     // 自定义集合
     hostGroup?: string[];
 } 

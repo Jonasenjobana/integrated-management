@@ -1,4 +1,5 @@
 <nz-tabset 
+      class="layout-tab"
       style="margin-left: 10px;margin-top: 5px;"
       [(nzSelectedIndex)]="selectedIndex"
       nzType="editable-card"
@@ -17,9 +18,9 @@
     </a>
     <nz-dropdown-menu #menu="nzDropdownMenu">
       <ul nz-menu>
-        <li nz-menu-item (click)="refresh()"><span nz-icon nzType="close" nzTheme="outline" class="mr-10"></span>刷新当前</li>
+        <li nz-menu-item (click)="refresh()"><span nz-icon nzType="reload" nzTheme="outline" class="mr-10"></span>刷新当前</li>
         <li nz-menu-item (click)="closeOthers()"><span nz-icon nzType="close" nzTheme="outline" class="mr-10"></span>关闭其他</li>
-        <li nz-menu-item (click)="closeAll()"><span nz-icon nzType="close" nzTheme="outline" class="mr-10"></span>关闭所有</li>
+        <li nz-menu-item (click)="closeAll()"><span nz-icon nzType="poweroff" nzTheme="outline" class="mr-10"></span>关闭所有</li>
       </ul>
     </nz-dropdown-menu>
 </ng-template>

@@ -10,14 +10,20 @@ import { PlusOutline } from '@ant-design/icons-angular/icons';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { ManualCreateComponent } from './components/manual-create/manual-create.component';
 import { ManualDetailComponent } from './components/manual-detail/manual-detail.component';
+import { ManualEditComponent } from './components/manual-edit/manual-edit.component';
+import { ManualModalComponent } from './components/manual-modal/manual-modal.component';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 @NgModule({
   declarations: [
     ManualListComponent,
     ManualCreateComponent,
-    ManualDetailComponent
+    ManualDetailComponent,
+    ManualEditComponent,
+    ManualModalComponent
   ],
   imports: [
     CommonModule,
+    NzModalModule,
     ShareModule,
     NzTreeModule,
     NzDividerModule,

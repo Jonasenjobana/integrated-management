@@ -2,7 +2,9 @@
   <div class="manual-detail">
     <div nz-row nzJustify="end">
       <div nz-col>
-        <button nz-button nzType="primary" nzShape="round">编辑</button>
+        <button nz-button nzType="primary" nzShape="round"  (click)="jumpToEdit()">
+          <span nz-icon nzType="edit" nzTheme="outline"></span>
+          编辑</button>
       </div>
     </div>
     <div class="content" *ngIf="detailEntity">
@@ -42,7 +44,7 @@
           <ul class="detail-head">
             <li>
               <span>手册编号: </span>
-              {{ detailEntity.productCode }}
+              {{ detailEntity.pproductCode }}{{ detailEntity.productCode}}
             </li>
             <li>
               <span>产品分类: </span>
@@ -72,11 +74,16 @@
             <li *ngFor="let selfConfig of selfConfiguration">
               <span>{{selfConfig.name}}</span>
               <nz-button-group *ngFor="let configValue of selfConfig.configvalueList">
-                <button nz-button nzType="default" [class.btn-click]="!isDisabled(configValue, selfConfig)" [class.disabled]="isDisabled(configValue, selfConfig)">{{configValue.value}}</button>
+                <button nz-button nzType="default" 
+                  [class]="isDisabled(selfConfig, configValue)"
+                >{{configValue.value}}</button>
               </nz-button-group>
             </li>
           </ul>
         </div>
+      </div>
+      <div class="mt-10">
+        <common-introduction [introduction]="detailEntity.introduction ?detailEntity.introduction: '' "></common-introduction>
       </div>
     </div>
   </div>

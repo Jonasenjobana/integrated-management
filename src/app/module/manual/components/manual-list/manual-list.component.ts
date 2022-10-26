@@ -94,15 +94,14 @@ export class ManualListComponent implements OnInit {
    */
   clean() {
     this.tags = []
-    this.searchEntity.companyId = ''
-    this.searchEntity.name = ''
-    this.searchEntity.productCode = ''
+    this.searchEntity = {
+      pageRecord: 10,
+      currentPage: 1
+    }
     const node = this.nzTreeComponent.getSelectedNodeList()[0]
     if (node !== undefined) {
        node.isSelected = false
     }
-    this.searchEntity.pageRecord = 10
-    this.searchEntity.currentPage = 1
     this.getManualList(this.searchEntity)
   }
 
@@ -169,8 +168,10 @@ export class ManualListComponent implements OnInit {
    * @param id 产品索引
    */
   jumpToDetail(id: string) {
-    this.dynamicServeService.addTab('manual-detail', {id, type: 'Manual'}, false)
+    this.dynamicServeService.addTab('manual-detail', {id, type: 'Manual'})
   }
-
+  jumpToCreate() {
+    this.dynamicServeService.addTab('manual-create', {type: 'Manual'})
+  }
   // TODO:差防抖操作去申请接口以及错误消息提示
 }

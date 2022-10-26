@@ -192,14 +192,11 @@ export class ProductListComponent implements OnInit {
   }
   clean() {
     this.tags = []
-    this.searchEntity.companyId = ''
-    this.searchEntity.name = ''
-    this.searchEntity.productCode = ''
-    this.searchEntity.serialNumber = ''
     this.dateRadioType = ''
-    this.searchEntity.startTime = ''
-    this.searchEntity.endTime = ''
-    this.searchEntity.pageRecord = 10
-    this.searchEntity.currentPage = 1
+    this.searchEntity = {
+      pageRecord: 10,
+      currentPage: 1
+    }
+    this.getProductList(this.searchEntity)
   }
 }

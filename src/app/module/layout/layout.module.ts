@@ -1,3 +1,4 @@
+import { NzIconModule } from 'ng-zorro-antd/icon';
 import { ShareModule } from './../share/share.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -10,7 +11,7 @@ import { HomeComponent } from './components/home/home.component';
 import { DynamicDirDirective } from './dynamic-dir.directive';
 import { ManualModule } from '../manual/manual.module';
 import { ProductModule } from '../product/product.module';
-
+import { UnorderedListOutline,AppstoreOutline, ReloadOutline, PoweroffOutline } from '@ant-design/icons-angular/icons';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ProductModule } from '../product/product.module';
     ManualModule,
     ProductModule,
     ShareModule,
+    NzIconModule.forChild([UnorderedListOutline, AppstoreOutline, ReloadOutline, PoweroffOutline]),
   ],
   exports: [LayoutComponent]
 })

@@ -19,19 +19,28 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzTreeModule } from 'ng-zorro-antd/tree';
-// import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 import { SwiperModule } from 'swiper/angular';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { PathPipe } from './pipe/path.pipe';
+import { CommonIntroductionComponent } from './components/common-introduction/common-introduction.component';
+import { SafeHtmlPipe } from './pipe/safe-html.pipe';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
-    PathPipe
+    PathPipe,
+    CommonIntroductionComponent,
+    SafeHtmlPipe
   ],
   imports: [
     CommonModule,
+    NzTabsModule,
+    NzTableModule,
   ],
   exports: [
-    // NgxUsefulSwiperModule,
+    ReactiveFormsModule,
+    NzFormModule,
+    CommonIntroductionComponent,
     SwiperModule,
     NzCardModule,
     NzSpinModule,
@@ -55,6 +64,7 @@ import { PathPipe } from './pipe/path.pipe';
     NzDropDownModule,
     NzTreeModule,
     PathPipe,
+    SafeHtmlPipe,
     NzTimelineModule,
   ],
 })

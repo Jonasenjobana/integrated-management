@@ -1,0 +1,29 @@
+<div class="common-introduction">
+  <nz-tabset>
+    <nz-tab nzTitle="产品介绍">
+        <div [innerHtml]="introduction | safeHtml"></div>
+    </nz-tab>
+    <nz-tab nzTitle="技术参数">
+        <nz-table #basicTable nzShowPagination="false" [nzData]="catalogTech">
+            <thead>
+              <tr class="tr-head">
+                <th>序号</th>
+                <th>参数名称</th>
+                <th>参数内容</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of basicTable.data;let i = index" [class]="{
+                'tr-even': i % 2 !== 0,
+                'tr-odd': i % 2 === 0
+              }">
+                <td>{{i + 1}}</td>
+                <td>{{item.techName}}</td>
+                <td>{{item.techValue}}</td>
+              </tr>
+            </tbody>
+          </nz-table>
+    </nz-tab>
+    <nz-tab nzTitle="产品说明书">Content of Tab Pane 3</nz-tab>
+</nz-tabset>
+</div>

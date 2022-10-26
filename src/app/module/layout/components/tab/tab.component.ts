@@ -56,9 +56,11 @@ export class TabComponent implements OnInit {
     this.dynamicServe.refreshCurrent()
   }
   closeAll(){
-
+    this.tabs.splice(1, this.tabs.length)  
   }
   closeOthers() {
-    
+    const tab = this.tabs[this.selectedIndex]
+    this.closeAll()
+    this.tabs.push(tab)
   }
 }
