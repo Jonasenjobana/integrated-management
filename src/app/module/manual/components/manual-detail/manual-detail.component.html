@@ -1,34 +1,83 @@
-<div class="manual-detail">
+<nz-spin [nzTip]="'加载中...'" [nzSpinning]="isLoadingDetail">
+  <div class="manual-detail">
     <div nz-row nzJustify="end">
-        <div nz-col>
-            <button nz-button nzType="primary" nzShape="round">编辑</button>
-        </div>
+      <div nz-col>
+        <button nz-button nzType="primary" nzShape="round">编辑</button>
+      </div>
     </div>
-    <div class="content">
-        <div nz-row>
-            <div nz-col nzSpan="6">
-              <div class="swiper-container gallery-top">
-                <div class="swiper-wrapper">
-                  <div class="swiper-slide flex-align-center" *ngFor="let data of img">
-                    <img [src]="data" alt="" width="100%">
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-container gallery-thumbs" style="padding: 0 45px;">
-                <div class="swiper-wrapper">
-                  <div class="swiper-slide" *ngFor="let data of img" style="width: auto;">
-                    <img [src]="data" alt="" height="100%">
-                  </div>
-                  <!-- 如果需要导航按钮 -->
-                </div>
-                <div class="swiper-button-prev swiper-button-black"></div>
-                <div class="swiper-button-next swiper-button-black"></div>
-              </div>
-            </div>
+    <div class="content" *ngIf="detailEntity">
+      <div class="flex">
+        <div>
+          <div>
+            <swiper
+              [spaceBetween]="10"
+              [thumbs]="{ swiper: thumbsSwiper }"
+              class="galleryTop mb-10"
+            >
+              <ng-template
+                swiperSlide
+                *ngFor="let item of detailEntity.contentList"
+                ><img [src]="item | srcPath"
+              /></ng-template>
+            </swiper>
+            <swiper
+              (swiper)="thumbsSwiper = $event"
+              [spaceBetween]="10"
+              [slidesPerView]="3"
+              [navigation]="true"
+              [centeredSlides]="true"
+              [watchSlidesProgress]="true"
+              class="galleryThumbs"
+            >
+              <ng-template
+                swiperSlide
+                *ngFor="let item of detailEntity.contentList"
+                ><img [src]="item | srcPath" />
+              </ng-template>
+            </swiper>
+          </div>
         </div>
-        <div nz-col>
-            <div nz-row></div>
-            <div nz-row></div>
+        <div class="ml-50 flex-1">
+          <h2>{{ detailEntity.manualSerie }}{{ detailEntity.manualName }}</h2>
+          <ul class="detail-head">
+            <li>
+              <span>手册编号: </span>
+              {{ detailEntity.productCode }}
+            </li>
+            <li>
+              <span>产品分类: </span>
+              {{ detailEntity.pproductName }}>{{ detailEntity.productName }}
+            </li>
+            <li>
+              <span>产品品牌: </span>
+              {{ detailEntity.companyName }}
+            </li>
+          </ul>
+          <nz-divider></nz-divider>
+          <ul class="detail-config">
+            <li>
+              <span>产品型号</span>
+              <nz-button-group *ngFor="let item of detailEntity.modelList">
+                <button nz-button nzType="default" [class.btn-click]="item.id === currentSelectedId" (click)="currentSelectedId = item.id">{{item.modelName}}</button>
+              </nz-button-group>
+            </li>
+            <!-- 通用参数 -->
+            <li *ngFor="let item of detailEntity.configList">
+              <span>{{ item.name }}</span>
+              <nz-button-group *ngFor="let item of item.configvalueList">
+                <button nz-button nzType="default" class="btn-click">{{item.value}}</button>
+              </nz-button-group>
+            </li>
+            <!-- 特定参数 -->
+            <li *ngFor="let selfConfig of selfConfiguration">
+              <span>{{selfConfig.name}}</span>
+              <nz-button-group *ngFor="let configValue of selfConfig.configvalueList">
+                <button nz-button nzType="default" [class.btn-click]="!isDisabled(configValue, selfConfig)" [class.disabled]="isDisabled(configValue, selfConfig)">{{configValue.value}}</button>
+              </nz-button-group>
+            </li>
+          </ul>
         </div>
+      </div>
     </div>
-</div>
+  </div>
+</nz-spin>

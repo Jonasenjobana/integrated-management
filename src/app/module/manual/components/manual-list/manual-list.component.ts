@@ -1,3 +1,4 @@
+import { ListResult, ResultDetail } from './../../../share/model/result.model';
 import { CommonTagService } from './../../../share/serve/common-tag.service';
 import { DynamicServeService } from './../../../layout/dynamic-serve.service';
 import { ManualHttpService } from './../../manual-http.service';
@@ -64,7 +65,7 @@ export class ManualListComponent implements OnInit {
     this.isManualListLoading = true;
     this.manualHttpService
       .getList(params)
-      .then(({ pageRecord, pageCount, currentPage, recordCount, result }) => {
+      .then(({ pageRecord, pageCount, currentPage, recordCount, result }: ListResult<Manual[]>) => {
         this.manualList = result.map(el => {
           return {
             id: el.id,
