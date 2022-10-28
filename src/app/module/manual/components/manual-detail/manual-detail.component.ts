@@ -1,11 +1,11 @@
+import { Manual } from './../../manual.model';
 import { DynamicServeService } from './../../../layout/dynamic-serve.service';
-import { Config, ResultDetail, TypeModel, ConfigValue } from './../../../share/model/result.model';
+import { Config, TypeModel, ConfigValue } from './../../../share/model/result.model';
 import { ManualHttpService } from './../../manual-http.service';
 import { DynamicParams } from './../../../layout/components/tab/Tab.model';
 import { Component, Input, OnInit } from '@angular/core';
 
 import SwiperCore, { Navigation, Swiper, Thumbs } from "swiper";
-import { Content } from 'src/app/module/share/model/result.model';
 SwiperCore.use([ Navigation, Thumbs]);
 
 
@@ -18,13 +18,13 @@ export class ManualDetailComponent implements OnInit {
   @Input()
   dynamicParams!:DynamicParams
   thumbsSwiper?: Swiper
-  detailEntity!: ResultDetail
+  detailEntity!: Manual
   selfConfiguration: Config[] = []
   isLoadingDetail: boolean = true
   currentSelectedId: string = ''
   constructor(private manualHttpService:ManualHttpService, private dynamicServeService:DynamicServeService) { }
   ngOnInit(): void {
-    this.manualHttpService.getInfo(this.dynamicParams.id!).then((res: ResultDetail) => {
+    this.manualHttpService.getInfo(this.dynamicParams.id!).then((res: Manual) => {
       console.log(res)
       this.detailEntity = res
       this.initSelfConfiguration()
@@ -34,7 +34,7 @@ export class ManualDetailComponent implements OnInit {
   }
 
   isDisabled( config: Config, configValue: ConfigValue) {   
-    return config.hostGroup?.findIndex(id => id === this.currentSelectedId) === -1 || configValue.hostGroup?.findIndex(id => id === this.currentSelectedId) === -1 ? "disabled" : "btn-click"
+    return config._hostGroup?.findIndex(id => id === this.currentSelectedId) === -1 || configValue._hostGroup?.findIndex(id => id === this.currentSelectedId) === -1 ? "disabled" : "btn-click"
   }
   // 去重参数名和参数值
   initSelfConfiguration() {
@@ -51,11 +51,11 @@ export class ManualDetailComponent implements OnInit {
     model.configList.forEach(config => {
       const SelfIndex = this.selfConfiguration.findIndex(self => self.name === config.name)
       if (SelfIndex === -1) {
-        config.hostGroup = [config.hostId]
+        config._hostGroup = [config.hostId]
         this.selfConfiguration.push(config)
       } else {
         const selfConfig = this.selfConfiguration[SelfIndex]
-        selfConfig.hostGroup!.push(config.hostId)
+        selfConfig._hostGroup!.push(config.hostId)
         this.deDuplicateConfigValue(selfConfig.configvalueList, config.configvalueList)
       }
     })    
@@ -66,28 +66,28 @@ export class ManualDetailComponent implements OnInit {
    * @param configValues 产品类型值
    */
   deDuplicateConfigValue(selfConfigValues: ConfigValue[], configValues: ConfigValue[]) {
-    this.initSelfConfigValuesHostGroup(selfConfigValues)
+    this.initSelfConfigValues_hostGroup(selfConfigValues)
     configValues.forEach(configValue => {
       const ValueIndex = selfConfigValues.findIndex(selfValue => selfValue.value === configValue.value)
       if (ValueIndex === -1) {
-        configValue.hostGroup = [configValue.hostId]
+        configValue._hostGroup = [configValue.hostId]
         selfConfigValues.push(configValue)
       } else {
         const selfConfigValue = selfConfigValues[ValueIndex]
-        selfConfigValue.hostGroup!.push(configValue.hostId)
+        selfConfigValue._hostGroup!.push(configValue.hostId)
       }
     })
   }
   /**
-   * 对hostGroup处理
+   * 对_hostGroup处理
    * @param selfConfigValues 特定参数初始化
    */
-  initSelfConfigValuesHostGroup(selfConfigValues: ConfigValue[]) {
+  initSelfConfigValues_hostGroup(selfConfigValues: ConfigValue[]) {
     selfConfigValues.forEach(self => {
-      if ( self.hostGroup &&  self.hostGroup.length ) {
-        self.hostGroup.push(self.hostId)
+      if ( self._hostGroup &&  self._hostGroup.length ) {
+        self._hostGroup.push(self.hostId)
       } else {
-        self.hostGroup = [self.hostId]
+        self._hostGroup = [self.hostId]
       }
     })
   }

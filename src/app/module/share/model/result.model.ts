@@ -4,11 +4,6 @@ export interface Result<T> {
     info: string;
     datas: T;
 }
-// post请求参数
-export interface Params<T> {
-    x: string;
-    y: T
-}
 // 字典数据结构
 export interface Dict {
     dictCode: string;
@@ -18,7 +13,7 @@ export interface Dict {
     pitemCode: string | null;
     serialNumber: number
 }
-export interface ListResult<T> {
+export interface Page<T> {
     currentPage: number;
     endRow?: number;
     pageCount?: number;
@@ -40,28 +35,6 @@ export interface Pagination {
     recordCount?: number; 
     startRow?: number;
 }
-// 手册产品详情
-export interface ResultDetail {
-    companyId: string;
-    companyName: string;
-    configIds?: string;
-    configList?: Config[];
-    contentIds?: string;
-    contentList: Content[];
-    id: string;
-    img?: string;
-    introduction?: string;
-    manualName: string;
-    manualNumber?: number;
-    manualSerie?: string;
-    modelIds?: string;
-    modelList: TypeModel[];
-    parameterList?: [];
-    pproductCode: string;
-    productCode: string;
-    productName: string;
-    pproductName: string;
-}
 // 技术参数
 export interface CatalogTech {
     id: string;
@@ -76,15 +49,20 @@ export interface Content {
     storeName?: string;
 }
 // 产品内部类型
-export interface TypeModel {
+export class TypeModel {
     configList: Config[];
     id: string;
-    manualId: string;
+    manualId?: string;
     modelName: string;
-    serialNumber: number;
+    serialNumber?: number;
+    constructor() {
+        this.configList = [];
+        this.id = '';
+        this.modelName = '';
+    }
 }
 // 配置类型
-export interface Config {
+export class Config {
     name: string;
     multi: boolean;
     isMulti: boolean;
@@ -92,16 +70,33 @@ export interface Config {
     hostId: string;
     serialNumber?: number;
     configvalueList: ConfigValue[]
+    constructor() {
+        this.name = '',
+        this.multi = false,
+        this.isMulti = false,
+        this.id = '',
+        this.hostId = '',
+        this.configvalueList = [],
+        this._hostGroup = []
+    }
     // 自定义集合
-    hostGroup?: string[];
+    _hostGroup?: string[];
 } 
 // 配置参数详情
-export interface ConfigValue {
+export class ConfigValue {
     configId: string;
     hostId: string;
     id: string;
     serialNumber: number;
     value: string;
+    constructor() {
+        this.configId = '',
+        this.serialNumber = 0,
+        this.value = '',
+        this.id = '',
+        this.hostId = '',
+        this._hostGroup = []
+    }
     // 自定义集合
-    hostGroup?: string[]
+    _hostGroup?: string[]
 }

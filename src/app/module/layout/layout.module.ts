@@ -11,7 +11,7 @@ import { HomeComponent } from './components/home/home.component';
 import { DynamicDirDirective } from './dynamic-dir.directive';
 import { ManualModule } from '../manual/manual.module';
 import { ProductModule } from '../product/product.module';
-import { UnorderedListOutline,AppstoreOutline, ReloadOutline, PoweroffOutline } from '@ant-design/icons-angular/icons';
+import { UnorderedListOutline,AppstoreOutline, ReloadOutline, PoweroffOutline, PlusOutline } from '@ant-design/icons-angular/icons';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,7 @@ import { UnorderedListOutline,AppstoreOutline, ReloadOutline, PoweroffOutline } 
     ManualModule,
     ProductModule,
     ShareModule,
-    NzIconModule.forChild([UnorderedListOutline, AppstoreOutline, ReloadOutline, PoweroffOutline]),
+    NzIconModule.forRoot([UnorderedListOutline, AppstoreOutline, ReloadOutline, PoweroffOutline, PlusOutline]),
   ],
   exports: [LayoutComponent]
 })

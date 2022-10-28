@@ -19480,7 +19480,7 @@
                 if (lastScrollY === null) {
                     lastScrollY = this.scrollY;
                 } else if (this.scrollY == 0 && lastScrollY != 0) {
-                    me.window.scrollTo(0, 0);
+                    window.scrollTo(0, 0);
                     lastScrollY = null;
                 }
             };

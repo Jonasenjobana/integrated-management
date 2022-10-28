@@ -51,6 +51,9 @@ export class ProductListComponent implements OnInit {
       this.companySelect = res
     });
   }
+  pageChange() {
+    this.getProductList(this.searchEntity)
+  }
   getProductList(paramsData: ParamsData) {
     this.isProductListLoading = true
     this.productHttpService.getList(paramsData).then(res => {

@@ -1,4 +1,4 @@
-import { Result, Params } from '../model/result.model';
+import { Result } from '../model/result.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { debounceTime } from 'rxjs';

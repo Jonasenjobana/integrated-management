@@ -1,6 +1,8 @@
 <div class="product-list">
   <div class="flex-row-end mr-10 mb-10">
-    <button nz-button nzType="primary" nzShape="round">新增</button>
+    <button nz-button nzType="primary" nzShape="round">
+      <span nz-icon nzType="plus" nzTheme="outline"></span>
+      新增</button>
   </div>
   <nz-table [nzData]="[{}]" nzBordered nzShowPagination="false" nzSize="small">
     <tbody>
@@ -90,7 +92,7 @@
       </tr>
     </tbody>
   </nz-table>
-  <nz-table #nzTable [nzData]="[{}]" [nzLoading]="isProductListLoading" class="mt-10">
+  <nz-table #nzTable [nzData]="[{}]" nzShowSizeChanger [(nzPageSize)]="searchEntity.pageRecord" [(nzPageIndex)]="searchEntity.currentPage" (nzPageIndexChange)="pageChange()" (nzPageSizeChange)="pageChange()"  [nzLoading]="isProductListLoading" class="mt-10">
     <thead>
       <tr>
         <th  [(nzChecked)]="checkAll"  (nzCheckedChange)="onAllChecked($event)"></th>

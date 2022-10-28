@@ -1,3 +1,4 @@
+import { PlusOutline } from '@ant-design/icons-angular/icons';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
@@ -22,25 +23,24 @@ import { NzTreeModule } from 'ng-zorro-antd/tree';
 import { SwiperModule } from 'swiper/angular';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { PathPipe } from './pipe/path.pipe';
-import { CommonIntroductionComponent } from './components/common-introduction/common-introduction.component';
 import { SafeHtmlPipe } from './pipe/safe-html.pipe';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     PathPipe,
-    CommonIntroductionComponent,
-    SafeHtmlPipe
+    SafeHtmlPipe,
   ],
   imports: [
+    NzIconModule.forRoot([PlusOutline]),
     CommonModule,
     NzTabsModule,
     NzTableModule,
+    NzButtonModule,
   ],
   exports: [
     ReactiveFormsModule,
     NzFormModule,
-    CommonIntroductionComponent,
     SwiperModule,
     NzCardModule,
     NzSpinModule,

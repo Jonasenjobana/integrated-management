@@ -1,75 +1,182 @@
-import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
-
+import { Config } from './../../../share/model/result.model';
+import { Manual } from './../../manual.model';
+import { CompanyHttpService } from 'src/app/module/share/serve/company-http.service';
+import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
+import { DictionaryDetailService } from 'src/app/module/share/serve/dictionary-detail.service';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { DynamicParams } from 'src/app/module/layout/components/tab/Tab.model';
+import { CompanyName } from 'src/app/module/share/model/common.model';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { TypeModel } from 'src/app/module/share/model/result.model';
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+  FormBuilder,
+  FormArray,
+} from '@angular/forms';
+declare var UE: any;
 @Component({
   selector: 'app-manual-create',
   templateUrl: './manual-create.component.html',
-  styleUrls: ['./manual-create.component.less']
+  styleUrls: ['./manual-create.component.less'],
 })
-export class ManualCreateComponent implements OnInit {
-  validateForm!: UntypedFormGroup;
-  captchaTooltipIcon: NzFormTooltipIcon = {
-    type: 'info-circle',
-    theme: 'twotone'
-  };
-
-  submitForm(): void {
-    if (this.validateForm.valid) {
-      console.log('submit', this.validateForm.value);
-    } else {
-      Object.values(this.validateForm.controls).forEach(control => {
-        if (control.invalid) {
-          control.markAsDirty();
-          control.updateValueAndValidity({ onlySelf: true });
-        }
-      });
+export class ManualCreateComponent implements OnInit, AfterViewInit {
+  @Input()
+  dynamicParams!: DynamicParams;
+  ueEidtor: any;
+  isVisible = false;
+  productTypeSelect: NzTreeNodeOptions[] = [];
+  companySelect: CompanyName[] = [];
+  saveEntity: FormGroup;
+  productTypeList: TypeModel[] = [];
+  selectedType: FormGroup;
+  isNewModel: boolean = false;
+  modelIndex: number = -1;
+  constructor(
+    private dictionaryDetailService: DictionaryDetailService,
+    private companyHttpService: CompanyHttpService,
+    private fb: FormBuilder,
+  ) {
+    this.saveEntity = this.fb.group({
+      id: [''],
+      manualName: ['', Validators.required],
+      manualSerie: ['', Validators.required],
+      productName: ['', Validators.required],
+      companyId: ['', Validators.required],
+      productCode: ['', Validators.required],
+      modelList: this.fb.array([]),
+    });
+    this.selectedType = this.newModelType();
+  }
+  newModelType(): FormGroup {
+    return this.fb.group({
+      modelName: ['', Validators.required],
+      configList: this.fb.array([]),
+    });
+  }
+  ngOnInit(): void {
+    this.dictionaryDetailService.getManualTreeNodes().then((res) => {
+      this.productTypeSelect = res;
+    });
+    this.companyHttpService.getCompanyList().then((res) => {
+      this.companySelect = res;
+    });
+    if (this.dynamicParams !== undefined) {
+      console.log('bianji');
     }
   }
 
-  updateConfirmValidator(): void {
-    /** wait for refresh value */
-    Promise.resolve().then(() => this.validateForm.controls['checkPassword'].updateValueAndValidity());
+  ngAfterViewInit(): void {
+    this.ueEidtor = UE.getEditor('editor');
   }
 
-  confirmationValidator = (control: UntypedFormControl): { [s: string]: boolean } => {
-    if (!control.value) {
-      return { required: true };
-    } else if (control.value !== this.validateForm.controls['password'].value) {
-      return { confirm: true, error: true };
-    }
-    return {};
-  };
+  get modelList() {
+    return this.saveEntity.get('modelList') as FormArray;
+  }
 
+  selectProductType($event: any) {}
+  save() {
+    console.log(this.saveEntity);
+  }
   getCaptcha(e: MouseEvent): void {
     e.preventDefault();
   }
 
-  constructor(private fb: UntypedFormBuilder) {}
-  isVisible = false;
   productCodeModal() {
     this.isVisible = true;
   }
   handleOk(): void {
-    console.log('Button ok clicked!');
+    if (this.isNewModel) {
+      this.modelList.push(this.selectedType);
+    } else {
+      console.log('---old---');
+      this.modelList.removeAt(this.modelIndex)
+      this.modelList.insert(this.modelIndex, this.selectedType)
+    }
+    // console.log('save', this.saveEntity);
+    // const modelListControls: FormArray = <FormArray>(
+    //   this.saveEntity.get('modelList')
+    // );
+    // if (modelListControls) {
+    //   modelListControls.push(this.selectedType.get('modelName'));
+    //   this.saveEntity.setControl('modelList', modelListControls);
+    // }
+    // this.saveEntity.updateValueAndValidity();
+    console.log('modelList', this.modelList);
+    console.log('save', this.saveEntity);
     this.isVisible = false;
+  }
+
+  showModal(index: number): void {
+    console.log('this.modelList', this.modelList);
+    this.isVisible = true;
+    if (index !== -1) {
+      this.selectedType = <FormGroup>this.modelList.at(index);
+    } else {
+      this.selectedType = this.newModelType();
+    }
+    this.isNewModel = index === -1;
   }
 
   handleCancel(): void {
     console.log('Button cancel clicked!');
     this.isVisible = false;
   }
-  ngOnInit(): void {
-    this.validateForm = this.fb.group({
-      email: [null, [Validators.email, Validators.required]],
-      password: [null, [Validators.required]],
-      checkPassword: [null, [Validators.required, this.confirmationValidator]],
-      nickname: [null, [Validators.required]],
-      phoneNumberPrefix: ['+86'],
-      phoneNumber: [null, [Validators.required]],
-      website: [null, [Validators.required]],
-      captcha: [null, [Validators.required]],
-      agree: [false]
-    });
-  }
+
+  fileList: NzUploadFile[] = [
+    {
+      uid: '-1',
+      name: 'image.png',
+      status: 'done',
+      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+    },
+    {
+      uid: '-2',
+      name: 'image.png',
+      status: 'done',
+      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+    },
+    {
+      uid: '-3',
+      name: 'image.png',
+      status: 'done',
+      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+    },
+    {
+      uid: '-4',
+      name: 'image.png',
+      status: 'done',
+      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+    },
+    {
+      uid: '-xxx',
+      percent: 50,
+      name: 'image.png',
+      status: 'uploading',
+      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+    },
+    {
+      uid: '-5',
+      name: 'image.png',
+      status: 'error',
+    },
+  ];
+  previewImage: string | undefined = '';
+  previewVisible = false;
+
+  handlePreview = async (file: NzUploadFile): Promise<void> => {
+    if (!file.url && !file['preview']) {
+      file['preview'] = await getBase64(file.originFileObj!);
+    }
+    this.previewImage = file.url || file['preview'];
+    this.previewVisible = true;
+  };
 }
+const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });

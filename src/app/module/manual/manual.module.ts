@@ -5,23 +5,25 @@ import { NzTreeModule } from 'ng-zorro-antd/tree';
 import { ShareModule } from '../share/share.module';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { PlusOutline } from '@ant-design/icons-angular/icons';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { ManualCreateComponent } from './components/manual-create/manual-create.component';
 import { ManualDetailComponent } from './components/manual-detail/manual-detail.component';
-import { ManualEditComponent } from './components/manual-edit/manual-edit.component';
 import { ManualModalComponent } from './components/manual-modal/manual-modal.component';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { ProductConfigComponent } from './components/product-config/product-config.component';
+import { CommonIntroductionComponent } from './components/common-introduction/common-introduction.component';
 @NgModule({
   declarations: [
     ManualListComponent,
     ManualCreateComponent,
     ManualDetailComponent,
-    ManualEditComponent,
-    ManualModalComponent
+    ManualModalComponent,
+    ProductConfigComponent,
+    CommonIntroductionComponent,
   ],
   imports: [
+    NzUploadModule,
     CommonModule,
     NzModalModule,
     ShareModule,
@@ -29,7 +31,6 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
     NzDividerModule,
     NzInputModule,
     NzEmptyModule,
-    NzIconModule.forChild([PlusOutline]),
   ],
   providers: []
 })

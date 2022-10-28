@@ -1,5 +1,5 @@
+import { CatalogTech } from './../../../share/model/result.model';
 import { Component, Input, OnInit } from '@angular/core';
-import { CatalogTech } from '../../model/result.model';
 
 @Component({
   selector: 'common-introduction',

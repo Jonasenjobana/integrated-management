@@ -1,6 +1,4 @@
-import { ManualEditComponent } from './manual/components/manual-edit/manual-edit.component';
 import { ManualCreateComponent } from './manual/components/manual-create/manual-create.component';
-import { CommonIntroductionComponent } from './share/components/common-introduction/common-introduction.component';
 import { Tab } from './layout/components/tab/Tab.model';
 import { HomeComponent } from "./layout/components/home/home.component";
 import { ManualListComponent } from './manual/components/manual-list/manual-list.component';
@@ -35,8 +33,8 @@ const DYNAMIC_COMPONENTS_LIST: Tab[] = [
     {
         title: '编辑手册',
         key: 'manual-edit',
-        component: ManualEditComponent
-    }
+        component: ManualCreateComponent
+    },
 ]
 const INIT_TABS:Tab[] = [
     // {

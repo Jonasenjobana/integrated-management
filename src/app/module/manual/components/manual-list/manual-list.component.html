@@ -15,6 +15,7 @@
       <h1 style="margin: 0px">手册管理</h1>
       <div class="flex-row-end flex-1 mr-20">
         <button nz-button nzType="primary" nzShape="round" (click)="jumpToCreate()">
+          <span nz-icon nzType="plus" nzTheme="outline"></span>
           新增
         </button>
       </div>
@@ -95,7 +96,7 @@
         <div
           *ngFor="let item of manualList"
           class="manual-box"
-          (click)="jumpToDetail(item.id)"
+          (click)="jumpToDetail(item.id!)"
         >
           <img [src]="item.img" />
           <div>
@@ -108,10 +109,6 @@
         nzNotFoundImage="simple"
       ></nz-empty>
     </nz-spin>
-    <nz-pagination
-      class="flex-row-center"
-      [nzPageIndex]="searchEntity.currentPage"
-      nzShowQuickJumper
-    ></nz-pagination>
+    <nz-pagination  class="flex-row-end" [nzPageIndex]="searchEntity.currentPage" [nzTotal]="pageCount" nzShowSizeChanger [(nzPageSize)]="searchEntity.pageRecord" (nzPageSizeChange)="pageChange()" (nzPageIndexChange)="pageChange()"></nz-pagination>
   </div>
 </div>

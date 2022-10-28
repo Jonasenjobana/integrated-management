@@ -1,4 +1,4 @@
-import { ListResult, ResultDetail } from './../../../share/model/result.model';
+import { Page } from './../../../share/model/result.model';
 import { CommonTagService } from './../../../share/serve/common-tag.service';
 import { DynamicServeService } from './../../../layout/dynamic-serve.service';
 import { ManualHttpService } from './../../manual-http.service';
@@ -27,7 +27,7 @@ export class ManualListComponent implements OnInit {
   isMenuLoading: boolean
   isCompanyLoading: boolean
   isManualListLoading: boolean
-
+  pageCount?: number
   @ViewChild('nzTreeComponent')
   nzTreeComponent!: NzTreeComponent;
   constructor(
@@ -56,7 +56,9 @@ export class ManualListComponent implements OnInit {
     });
     this.getManualList(this.searchEntity);
   }
-
+  pageChange() {
+    this.getManualList(this.searchEntity)
+  }
   /**
    *
    * @param params 
@@ -65,14 +67,10 @@ export class ManualListComponent implements OnInit {
     this.isManualListLoading = true;
     this.manualHttpService
       .getList(params)
-      .then(({ pageRecord, pageCount, currentPage, recordCount, result }: ListResult<Manual[]>) => {
+      .then(({ pageRecord, pageCount, currentPage, recordCount, result }: Page<Manual[]>) => {
+        this.pageCount = pageCount
         this.manualList = result.map(el => {
-          return {
-            id: el.id,
-            img: el.img,
-            manualName: el.manualName,
-            manualSerie: el.manualSerie,
-          }
+          return el
         });
       })
       .finally(() => {
@@ -86,6 +84,8 @@ export class ManualListComponent implements OnInit {
     if (name !== undefined && name !== '') {
       this.commonTagService.updateTags({title:name, key: name}, 'Name', this.tags)
     }
+    console.log(this.searchEntity, this.pageCount);
+    
     this.getManualList(this.searchEntity)
   }
 
