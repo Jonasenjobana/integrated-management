@@ -52,7 +52,7 @@ export class ManualCreateComponent implements OnInit, AfterViewInit {
   newModelType(): FormGroup {
     return this.fb.group({
       modelName: ['', Validators.required],
-      configList: this.fb.array([]),
+      // configList: this.fb.array([]),
     });
   }
   ngOnInit(): void {
@@ -90,29 +90,23 @@ export class ManualCreateComponent implements OnInit, AfterViewInit {
     if (this.isNewModel) {
       this.modelList.push(this.selectedType);
     } else {
-      console.log('---old---');
       this.modelList.removeAt(this.modelIndex)
       this.modelList.insert(this.modelIndex, this.selectedType)
     }
-    // console.log('save', this.saveEntity);
-    // const modelListControls: FormArray = <FormArray>(
-    //   this.saveEntity.get('modelList')
-    // );
-    // if (modelListControls) {
-    //   modelListControls.push(this.selectedType.get('modelName'));
-    //   this.saveEntity.setControl('modelList', modelListControls);
-    // }
-    // this.saveEntity.updateValueAndValidity();
-    console.log('modelList', this.modelList);
-    console.log('save', this.saveEntity);
     this.isVisible = false;
+    console.log('saveentity:',this.saveEntity);
   }
 
   showModal(index: number): void {
-    console.log('this.modelList', this.modelList);
     this.isVisible = true;
     if (index !== -1) {
-      this.selectedType = <FormGroup>this.modelList.at(index);
+      this.selectedType = this.newModelType();
+      const old = this.modelList.at(index);
+      this.selectedType.setValue({
+        'modelName': old.get('modelName')?.value,
+        // 'configList': old.get('configList')
+    }) 
+      
     } else {
       this.selectedType = this.newModelType();
     }
@@ -120,7 +114,6 @@ export class ManualCreateComponent implements OnInit, AfterViewInit {
   }
 
   handleCancel(): void {
-    console.log('Button cancel clicked!');
     this.isVisible = false;
   }
 
@@ -172,6 +165,12 @@ export class ManualCreateComponent implements OnInit, AfterViewInit {
     this.previewImage = file.url || file['preview'];
     this.previewVisible = true;
   };
+  handleDelete() {
+    this.isVisible = false
+    this.modelList.removeAt(this.modelIndex)
+    console.log('delete');
+    
+  }
 }
 const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
   new Promise((resolve, reject) => {
