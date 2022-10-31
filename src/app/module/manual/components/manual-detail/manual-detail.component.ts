@@ -25,7 +25,6 @@ export class ManualDetailComponent implements OnInit {
   constructor(private manualHttpService:ManualHttpService, private dynamicServeService:DynamicServeService) { }
   ngOnInit(): void {
     this.manualHttpService.getInfo(this.dynamicParams.id!).then((res: Manual) => {
-      console.log(res)
       this.detailEntity = res
       this.initSelfConfiguration()
     }).finally(() => {
@@ -93,10 +92,6 @@ export class ManualDetailComponent implements OnInit {
   }
 
   jumpToEdit() {
-    switch(this.dynamicParams.type) {
-      case 'Manual':
-        this.dynamicServeService.addTab('manual-edit',{id: this.dynamicParams.id})
-        break
-    }
+    this.dynamicServeService.addTab('manual-edit',{id: this.dynamicParams.id, type: 'Manual'})
   }
 }

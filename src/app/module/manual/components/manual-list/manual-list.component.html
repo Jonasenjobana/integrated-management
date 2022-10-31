@@ -109,6 +109,6 @@
         nzNotFoundImage="simple"
       ></nz-empty>
     </nz-spin>
-    <nz-pagination  class="flex-row-end" [nzPageIndex]="searchEntity.currentPage" [nzTotal]="pageCount" nzShowSizeChanger [(nzPageSize)]="searchEntity.pageRecord" (nzPageSizeChange)="pageChange()" (nzPageIndexChange)="pageChange()"></nz-pagination>
+    <nz-pagination  class="flex-row-end" [(nzPageIndex)]="searchEntity.currentPage" [nzTotal]="searchEntity.recordCount" nzShowSizeChanger [(nzPageSize)]="searchEntity.pageRecord" (nzPageSizeChange)="pageChange()" (nzPageIndexChange)="pageChange()"></nz-pagination>
   </div>
 </div>

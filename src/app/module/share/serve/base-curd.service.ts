@@ -20,7 +20,7 @@ export class BaseCurdService<S, T> {
   }
 
   save(data: S) {
-    return this.baseHttp.post<S, T>(`${this.baseUrl}/save`, data)
+    return this.baseHttp.post<S, string>(`${this.baseUrl}/save`, data)
   }
 
   delete(id: string) {

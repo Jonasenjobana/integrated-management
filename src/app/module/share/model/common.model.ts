@@ -35,6 +35,8 @@ export interface Search {
     companyId?: string
     nameId?: string
     name?: string
+    recordCount?: number
+    pageCount?: number
     currentPage: number
     pageRecord: number
     productCode?: string

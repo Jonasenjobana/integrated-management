@@ -11,7 +11,8 @@ import { HomeComponent } from './components/home/home.component';
 import { DynamicDirDirective } from './dynamic-dir.directive';
 import { ManualModule } from '../manual/manual.module';
 import { ProductModule } from '../product/product.module';
-import { UnorderedListOutline,AppstoreOutline, ReloadOutline, PoweroffOutline, PlusOutline } from '@ant-design/icons-angular/icons';
+import { UnorderedListOutline,AppstoreOutline, ReloadOutline, PoweroffOutline, PlusOutline, DownloadOutline } from '@ant-design/icons-angular/icons';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -22,13 +23,14 @@ import { UnorderedListOutline,AppstoreOutline, ReloadOutline, PoweroffOutline, P
     TabComponent,
     HeadbarComponent,
     DynamicDirDirective,
+    FooterComponent,
   ],
   imports: [
     CommonModule,
     ManualModule,
     ProductModule,
     ShareModule,
-    NzIconModule.forRoot([UnorderedListOutline, AppstoreOutline, ReloadOutline, PoweroffOutline, PlusOutline]),
+    NzIconModule.forRoot([UnorderedListOutline, AppstoreOutline, ReloadOutline, PoweroffOutline, PlusOutline, DownloadOutline]),
   ],
   exports: [LayoutComponent]
 })

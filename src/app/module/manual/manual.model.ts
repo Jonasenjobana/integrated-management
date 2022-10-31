@@ -1,26 +1,5 @@
 import { Config, Content, TypeModel } from '../share/model/result.model';
 
-// export interface Manual {
-//   id?: string;
-//   manualName: string;
-//   manualSerie: string;
-//   productName: string;
-//   pproductName: string;
-//   companyId?: string;
-//   companyName?: string;
-//   img?: string;
-//   pproductCode?: string;
-//   productCode?: string;
-//   configIds?: string;
-//   configList?: Config[];
-//   contentIds?: string;
-//   contentList?: Content[];
-//   introduction?: string;
-//   manualNumber?: number;
-//   modelIds?: string;
-//   modelList?: TypeModel[];
-//   parameterList?: [];
-// }
 export class Manual {
   id: string
   manualName: string
@@ -40,6 +19,7 @@ export class Manual {
   manualNumber?: number
   modelIds: string
   modelList: TypeModel[]
+  _mixinProductCode?: string
   parameterList: []
   constructor() {
     this.id = ''

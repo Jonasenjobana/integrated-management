@@ -24,6 +24,7 @@ import { SwiperModule } from 'swiper/angular';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { PathPipe } from './pipe/path.pipe';
 import { SafeHtmlPipe } from './pipe/safe-html.pipe';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
@@ -61,6 +62,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     NzTabsModule,
     NzCardModule,
     NzAvatarModule,
+    NzCheckboxModule,
     NzDropDownModule,
     NzTreeModule,
     PathPipe,

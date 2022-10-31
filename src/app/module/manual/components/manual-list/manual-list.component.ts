@@ -27,7 +27,6 @@ export class ManualListComponent implements OnInit {
   isMenuLoading: boolean
   isCompanyLoading: boolean
   isManualListLoading: boolean
-  pageCount?: number
   @ViewChild('nzTreeComponent')
   nzTreeComponent!: NzTreeComponent;
   constructor(
@@ -60,7 +59,7 @@ export class ManualListComponent implements OnInit {
     this.getManualList(this.searchEntity)
   }
   /**
-   *
+   * 获取手册列表
    * @param params 
    */
   private getManualList(params: ParamsData) {
@@ -68,7 +67,8 @@ export class ManualListComponent implements OnInit {
     this.manualHttpService
       .getList(params)
       .then(({ pageRecord, pageCount, currentPage, recordCount, result }: Page<Manual[]>) => {
-        this.pageCount = pageCount
+        this.searchEntity.pageCount = pageCount
+        this.searchEntity.recordCount = recordCount
         this.manualList = result.map(el => {
           return el
         });
@@ -84,8 +84,6 @@ export class ManualListComponent implements OnInit {
     if (name !== undefined && name !== '') {
       this.commonTagService.updateTags({title:name, key: name}, 'Name', this.tags)
     }
-    console.log(this.searchEntity, this.pageCount);
-    
     this.getManualList(this.searchEntity)
   }
 

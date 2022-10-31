@@ -64,9 +64,19 @@ export class ProductListComponent implements OnInit {
       this.isProductListLoading = false
     })
   }
+  /**
+   * 全选
+   * @param allChecked 
+   */
   onAllChecked(allChecked: boolean) {
     this.productList.forEach(el => el.isSelected = allChecked)
   }
+  /**
+   * 改变条件通用函数
+   * @param value 
+   * @param type 
+   * @returns 
+   */
   selectChange(value: string, type: SelectType) {
     let tagType: TagType
     let title = ''
@@ -86,7 +96,6 @@ export class ProductListComponent implements OnInit {
       case 'ProductName':
         const name = this.productNameSelect.find(el => el.id === value)!.name
         this.searchEntity.name = name
-        console.log(this.searchEntity.name)
         title = name
         tagType = 'Name'
         params = {
@@ -112,7 +121,10 @@ export class ProductListComponent implements OnInit {
     this.commonTagService.updateTags({ key: value, title }, tagType, this.tags)
     this.getProductList({...params, ...pagination})
   }
-
+  /**
+   * 自定义时间范围
+   * @param dates 
+   */
   customerDateChange(dates: (Date | null)[]) {
     if (dates.length === 2) {
       const dateStringArray = this.formatDate(dates)
@@ -161,6 +173,9 @@ export class ProductListComponent implements OnInit {
   formatDate(dates: (Date | null)[]) {
     return dates.map(el => dayjs(el).format('YYYY-MM-DD'))
   }
+  /**
+   * 搜索序列号
+   */
   searchSerial() {
     if (this.searchEntity.serialNumber) {
       this.commonTagService.hideTags(this.tags)
@@ -168,6 +183,10 @@ export class ProductListComponent implements OnInit {
       this.getProductList({serialNumber: this.searchEntity.serialNumber, currentPage: 1, pageRecord: this.searchEntity.pageRecord})
     }
   }
+  /**
+   * 关闭标签初始化条件
+   * @param tag 标签
+   */
   closeTag(tag: Tag) {
     switch(tag.type) {
       case 'Brand':
@@ -201,5 +220,12 @@ export class ProductListComponent implements OnInit {
       currentPage: 1
     }
     this.getProductList(this.searchEntity)
+  }
+
+  jumpToManualEdit() {
+    console.log('---manual---')
+  }
+  jumpToProductEdit() {
+    console.log('---product---')
   }
 }

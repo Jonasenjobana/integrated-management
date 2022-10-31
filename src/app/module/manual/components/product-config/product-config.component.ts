@@ -1,42 +1,30 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
+import { Config, ConfigValue } from './../../../share/model/result.model';
+import { Component, Input, OnInit, Output } from '@angular/core';
 @Component({
   selector: 'product-config',
   templateUrl: './product-config.component.html',
   styleUrls: ['./product-config.component.less']
 })
 export class ProductConfigComponent implements OnInit {
-  // formGroup: FormGroup
-  constructor(private fb: FormBuilder) { 
-    // this.formGroup = this.fb.group({
-    //   configList: this.fb.array([])
-    // })
-    // this.configList.push( this.newConfig())
-    // console.log(this.configList);
+  @Input('configList')
+  configList: Config[]
+  constructor() { 
+    this.configList =  [new Config()]
   }
-  // get configList() {
-  //   return this.formGroup.get('configList') as FormArray
-  // }
-  // getConfigvalueList(index: number) {
-  //   return this.configList.at(index) as FormArray
-  // }
-
-  // newConfig() {
-  //   return this.fb.group({
-  //     name: ['', Validators.required],
-  //     configvalueList: this.fb.array([]),
-  //     isMulti: [false]
-  //   })
-  // }
-  // newConfigvalue() {
-  //   return this.fb.group({
-  //     value: [''],
-  //   })
-  // }
   ngOnInit(): void {
   }
+  addConfig() {
+    this.configList.push(new Config())
+  }
 
-  // addConfig() {
-  //   this.configList.controls.push(this.newConfig())
-  // }
+  addConfigValue(configIndex: number) {
+    this.configList[configIndex].configvalueList.push(new ConfigValue())
+    
+  }
+  deleteConfig(configIndex: number) {
+    this.configList.splice(configIndex, 1)
+  }
+  deleteConfigValue(configIndex: number, valueIndex: number) {
+    this.configList[configIndex].configvalueList.splice(valueIndex, 1)
+  }
 }
