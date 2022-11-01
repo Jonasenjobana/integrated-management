@@ -41,6 +41,7 @@
         </div>
         <div class="ml-50 flex-1">
           <h2>{{ detailEntity.manualSerie }}{{ detailEntity.manualName }}</h2>
+          <!-- 如果是产品详情不一样 -->
           <ul class="detail-head">
             <li>
               <span>手册编号: </span>
@@ -75,7 +76,7 @@
               <span>{{selfConfig.name}}</span>
               <nz-button-group *ngFor="let configValue of selfConfig.configvalueList">
                 <button nz-button nzType="default" 
-                  [class]="isDisabled(selfConfig, configValue)"
+                  [class]="isDisabled(configValue)"
                 >{{configValue.value}}</button>
               </nz-button-group>
             </li>
@@ -83,7 +84,7 @@
         </div>
       </div>
       <div class="mt-10">
-        <common-introduction [introduction]="detailEntity.introduction ?detailEntity.introduction: '' "></common-introduction>
+        <common-introduction [introduction]="detailEntity.introduction ? detailEntity.introduction: '' "></common-introduction>
       </div>
     </div>
   </div>

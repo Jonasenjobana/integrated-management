@@ -18,8 +18,8 @@ export class ProductConfigComponent implements OnInit {
   }
 
   addConfigValue(configIndex: number) {
-    this.configList[configIndex].configvalueList.push(new ConfigValue())
-    
+    const valueList = this.configList[configIndex].configvalueList
+    this.configList[configIndex].configvalueList.push(new ConfigValue(valueList.length)) 
   }
   deleteConfig(configIndex: number) {
     this.configList.splice(configIndex, 1)

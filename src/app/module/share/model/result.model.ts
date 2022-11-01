@@ -47,6 +47,11 @@ export interface Content {
     fileType?: string;
     fullName?: string;
     storeName?: string;
+    contentType?: string;
+    fileSize?: string;
+    hostId?: string;
+    id?: string;
+    serialNumber: number;
 }
 // 产品内部类型
 export class TypeModel {
@@ -68,7 +73,7 @@ export class Config {
     isMulti: boolean;
     id: string;
     hostId: string;
-    serialNumber?: number;
+    serialNumber: number;
     configvalueList: ConfigValue[]
     constructor() {
         this.name = '',
@@ -77,7 +82,9 @@ export class Config {
         this.id = '',
         this.hostId = '',
         this.configvalueList = [],
-        this._hostGroup = []
+        this._hostGroup = [],
+        // 默认值
+        this.serialNumber = 0
     }
     // 自定义集合
     _hostGroup?: string[];
@@ -89,9 +96,9 @@ export class ConfigValue {
     id: string;
     serialNumber: number;
     value: string;
-    constructor() {
+    constructor(serialNumber: number) {
         this.configId = '',
-        this.serialNumber = 0,
+        this.serialNumber = serialNumber,
         this.value = '',
         this.id = '',
         this.hostId = '',
@@ -99,4 +106,14 @@ export class ConfigValue {
     }
     // 自定义集合
     _hostGroup?: string[]
+}
+// 技术参数
+export class TechParameter {
+    id?: string
+    name: string
+    value: string
+    constructor() {
+        this.name = ''
+        this.value = ''
+    }
 }

@@ -1,159 +1,179 @@
 <div class="manual-create">
   <nz-spin [nzTip]="'加载中...'" [nzSpinning]="isLoadingInfo">
-  
-  <h2>新增手册</h2>
-  <div class="form-create mt-10">
-    <form nz-form>
-      <nz-form-item>
-        <nz-form-label nzRequired> 产品分类 </nz-form-label>
-        <nz-form-control>
-          <nz-select
-            style="max-width: 450px"
-            nzPlaceHolder="请选择"
-            [(ngModel)]="saveEntity._mixinProductCode"
-            (ngModelChange)="changeProductType($event)"
-            name="productCode"
-          >
-            <nz-option-group
-              *ngFor="let parent of productTypeSelect"
-              [nzLabel]="parent.title"
+    <h2>新增手册</h2>
+    <div class="form-create mt-10">
+      <form nz-form>
+        <nz-form-item>
+          <nz-form-label nzRequired> 产品分类 </nz-form-label>
+          <nz-form-control>
+            <nz-select
+              style="max-width: 450px"
+              nzPlaceHolder="请选择"
+              [(ngModel)]="saveEntity._mixinProductCode"
+              (ngModelChange)="changeProductType($event)"
+              required
+              name="productCode"
+            >
+              <nz-option-group
+                *ngFor="let parent of productTypeSelect"
+                [nzLabel]="parent.title"
+              >
+                <nz-option
+                  *ngFor="let child of parent.children"
+                  [nzValue]="parent.key + '-' + child.key"
+                  [nzLabel]="child.title"
+                ></nz-option>
+              </nz-option-group>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzRequired> 产品品牌 </nz-form-label>
+          <nz-form-control>
+            <nz-select
+              style="width: 450px"
+              nzPlaceHolder="请选择"
+              required
+              [(ngModel)]="saveEntity.companyId"
+              name="companyId"
             >
               <nz-option
-                *ngFor="let child of parent.children"
-                [nzValue]="parent.key + '-' + child.key"
-                [nzLabel]="child.title"
+                *ngFor="let item of companySelect"
+                [nzLabel]="item.companyName"
+                [nzValue]="item.id"
               ></nz-option>
-            </nz-option-group>
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label nzRequired> 产品品牌 </nz-form-label>
-        <nz-form-control >
-          <nz-select
-            style="width: 450px"
-            nzPlaceHolder="请选择"
-            [(ngModel)]="saveEntity.companyId"
-            name="companyId"
-          >
-            <nz-option
-              *ngFor="let item of companySelect"
-              [nzLabel]="item.companyName"
-              [nzValue]="item.id"
-            ></nz-option>
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label nzRequired> 产品名称 </nz-form-label>
-        <nz-form-control>
-          <input
-            type="text"
-            nz-input
-            placeholder="产品系列号"
-            style="width: 150px"
-            [(ngModel)]="saveEntity.manualSerie"
-            name="manualSerie"
-          /><strong style="color: #666">&nbsp; — &nbsp;</strong>
-          <input
-            type="text"
-            nz-input
-            placeholder="产品名称"
-            style="width: 270px"
-            name="manualName"
-            [(ngModel)]="saveEntity.manualName"
-          />
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label nzRequired> 产品型号 </nz-form-label>
-        <nz-form-control>
-          <div>
-            <ng-container
-              *ngFor="let item of saveEntity.modelList; let i = index"
-            >
-              <nz-input-group
-                [nzSuffix]="edit"
-                style="width: 120px; margin-right: 10px"
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzRequired> 产品名称 </nz-form-label>
+          <nz-form-control>
+            <input
+              type="text"
+              nz-input
+              placeholder="产品系列号"
+              style="width: 150px"
+              required
+              [(ngModel)]="saveEntity.manualSerie"
+              name="manualSerie"
+            /><strong style="color: #666">&nbsp; — &nbsp;</strong>
+            <input
+              type="text"
+              nz-input
+              placeholder="产品名称"
+              style="width: 270px"
+              name="manualName"
+              required
+              [(ngModel)]="saveEntity.manualName"
+            />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label style="margin-left: 10px">产品型号 </nz-form-label>
+          <nz-form-control>
+            <div>
+              <ng-container
+                *ngFor="let item of saveEntity.modelList; let i = index"
               >
-                <input
-                  type="text"
-                  nz-input
-                  [(ngModel)]="item.modelName"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </nz-input-group>
-              <ng-template #edit>
-                <span
-                  nz-icon
-                  nzType="edit"
-                  class="hover"
-                  (click)="showModal(i)"
-                ></span>
-              </ng-template>
-            </ng-container>
+                <nz-input-group
+                  [nzSuffix]="edit"
+                  style="width: 120px; margin-right: 10px"
+                >
+                  <input
+                    type="text"
+                    nz-input
+                    [(ngModel)]="item.modelName"
+                    [ngModelOptions]="{ standalone: true }"
+                    required
+                  />
+                </nz-input-group>
+                <ng-template #edit>
+                  <span
+                    nz-icon
+                    nzType="edit"
+                    class="hover"
+                    (click)="showModal(i)"
+                  ></span>
+                </ng-template>
+              </ng-container>
+              <button
+                nz-button
+                nzType="dashed"
+                style="
+                  width: 100px;
+                  border: 2px dashed #ddd;
+                  border-radius: 10px;
+                "
+                (click)="showModal(-1)"
+              >
+                <span nz-icon nzType="plus" nzTheme="outline"></span>
+              </button>
+            </div>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control>
+            <product-config
+              [configList]="saveEntity.configList"
+            ></product-config>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label style="margin-left: 10px;">产品图片</nz-form-label>
+          <nz-form-control>
+            <ng-container></ng-container>
+            <nz-upload
+              nzAction="/api/content/upload"
+              [(nzFileList)]="contentList"
+              nzListType="picture-card"
+              [nzShowButton]="contentList.length < 8"
+              [nzShowUploadList]="{ showRemoveIcon: true }"
+              (nzChange)="uploadChange($event)"
+            >
+              <div>
+                <span nz-icon nzType="plus"></span>
+                <div style="margin-top: 8px">上传图片</div>
+              </div>
+            </nz-upload>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control>
+            <nz-tabset>
+              <nz-tab nzTitle="产品介绍">
+                <textarea
+                  [id]="dynamicId"
+                  type="text/plain"
+                  style="width: 100%; height: 300px"
+                ></textarea>
+              </nz-tab>
+              <nz-tab nzTitle="技术参数">
+                <tech-parameters></tech-parameters>
+              </nz-tab>
+              <nz-tab nzTitle="产品说明书"><product-statement></product-statement></nz-tab>
+            </nz-tabset>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control class="flex-column-end">
             <button
               nz-button
-              nzType="dashed"
-              style="width: 100px; border: 2px dashed #ddd; border-radius: 10px"
-              (click)="showModal(-1)"
+              nzType="primary"
+              class="mr-10"
+              (click)="isConfirmVisible = true"
             >
-              <span nz-icon nzType="plus" nzTheme="outline"></span>
+              保存
             </button>
-          </div>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-control>
-          <product-config [configList]="saveEntity.configList"></product-config>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label>产品图片</nz-form-label>
-        <nz-form-control>
-          <ng-container></ng-container>
-          <nz-upload 
-            nzAction="/api/content/upload" 
-            [(nzFileList)]="contentList" nzListType="picture-card"  
-            [nzShowButton]="contentList.length < 8"
-            [nzShowUploadList]="{showRemoveIcon: true}"
-            (nzChange)="uploadChange($event)"
-          >
-            <div>
-              <span nz-icon nzType="plus"></span>
-              <div style="margin-top: 8px">上传图片</div>
-            </div>
-          </nz-upload>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-control>
-          <nz-tabset>
-            <nz-tab nzTitle="产品介绍">
-              <textarea
-                [id]="dynamicId"
-                type="text/plain"
-                style="width: 100%; height: 300px"
-              ></textarea>
-            </nz-tab>
-            <nz-tab nzTitle="技术参数">Content of Tab Pane 2</nz-tab>
-            <nz-tab nzTitle="产品说明书">Content of Tab Pane 3</nz-tab>
-          </nz-tabset>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-control class="flex-column-end">
-          <button nz-button nzType="primary" class="mr-10" (click)="save()">
-            保存
-          </button>
-          <button nz-button>取消</button>
-        </nz-form-control>
-      </nz-form-item>
-    </form>
-  </div>
-</nz-spin>
+            <button nz-button>取消</button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </div>
+  </nz-spin>
 </div>
+<!-- 产品型号模态框 -->
 <nz-modal
+  nzWrapClassName="edit-modal"
   [(nzVisible)]="isVisible"
   nzTitle="编辑型号"
   [nzFooter]="modalFooter"
@@ -204,3 +224,11 @@
     <button nz-button nzType="primary" (click)="modalSave()">保存</button>
   </ng-template>
 </nz-modal>
+<!-- 确认框 -->
+<common-confirm
+  content="确定是否保存？"
+  [isVisible]="isConfirmVisible"
+  title="保存确认框"
+  [isLoading]="isSafeLoading"
+  (onConfirm)="modalConfirm($event)"
+></common-confirm>

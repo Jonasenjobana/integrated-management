@@ -1,4 +1,5 @@
 import { Type } from "@angular/core";
+import { Product } from "src/app/module/product/components/product.model";
 
 export interface Tab {
     uuid?: string,
@@ -13,6 +14,8 @@ export interface Tab {
  */
 export interface DynamicParams {
     id?: string
-    type?: 'Manual'|'Product'
+    product?: Product
+    type: 'Manual'|'Product'|string
+
 }
 export type TabType = 'add'|'change'|'refresh'|'remove'

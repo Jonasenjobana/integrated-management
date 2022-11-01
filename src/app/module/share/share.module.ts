@@ -12,7 +12,6 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { FormsModule } from '@angular/forms';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
-import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
@@ -26,11 +25,16 @@ import { PathPipe } from './pipe/path.pipe';
 import { SafeHtmlPipe } from './pipe/safe-html.pipe';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CommonConfirmComponent } from './components/common-confirm/common-confirm.component';
+import { NzMessageModule } from 'ng-zorro-antd/message';
 @NgModule({
   declarations: [
     PathPipe,
     SafeHtmlPipe,
+    CommonConfirmComponent,
+    
   ],
   imports: [
     NzIconModule.forRoot([PlusOutline]),
@@ -38,9 +42,13 @@ import { ReactiveFormsModule } from '@angular/forms';
     NzTabsModule,
     NzTableModule,
     NzButtonModule,
+    NzModalModule,
   ],
   exports: [
+    NzMessageModule,
+    CommonConfirmComponent,
     ReactiveFormsModule,
+    NzModalModule,
     NzFormModule,
     SwiperModule,
     NzCardModule,

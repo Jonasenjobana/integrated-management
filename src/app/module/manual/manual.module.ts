@@ -8,24 +8,24 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { ManualCreateComponent } from './components/manual-create/manual-create.component';
 import { ManualDetailComponent } from './components/manual-detail/manual-detail.component';
-import { ManualModalComponent } from './components/manual-modal/manual-modal.component';
-import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { ProductConfigComponent } from './components/product-config/product-config.component';
 import { CommonIntroductionComponent } from './components/common-introduction/common-introduction.component';
+import { TechParametersComponent } from './components/tech-parameters/tech-parameters.component';
+import { ProductStatementComponent } from './components/product-statement/product-statement.component';
 @NgModule({
   declarations: [
     ManualListComponent,
     ManualCreateComponent,
     ManualDetailComponent,
-    ManualModalComponent,
     ProductConfigComponent,
     CommonIntroductionComponent,
+    TechParametersComponent,
+    ProductStatementComponent,
   ],
   imports: [
     NzUploadModule,
     CommonModule,
-    NzModalModule,
     ShareModule,
     NzTreeModule,
     NzDividerModule,

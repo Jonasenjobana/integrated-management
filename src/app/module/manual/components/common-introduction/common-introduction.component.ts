@@ -10,7 +10,7 @@ export class CommonIntroductionComponent implements OnInit {
   @Input('introduction')
   introduction: string = ''
   @Input('catalogTech')
-  catalogTech: CatalogTech[] = [{id:'1',techName:'杀杀杀',techValue:'123213'},{id:'1',techName:'杀杀杀',techValue:'123213'},{id:'1',techName:'杀杀杀',techValue:'123213'},{id:'1',techName:'杀杀杀',techValue:'123213'}]
+  catalogTech: CatalogTech[] = [{id:'1',techName:'电压',techValue:'220v'}]
   constructor() { }
   ngOnInit(): void {
   }

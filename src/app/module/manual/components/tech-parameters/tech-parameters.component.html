@@ -1,0 +1,31 @@
+<div class="tech-parameters">
+    <div class="table-head">
+        <span>技术参数</span>
+        <button nz-button nzType="default" (click)="addTech()">
+            <span nz-icon nzType="plus" nzTheme="outline"></span>
+            添加
+          </button>
+    </div>
+    <nz-table [nzData]="[{}]" nzShowPagination="false">
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>参数名称</th>
+            <th>参数内容</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- <tr *ngFor="let data of basicTable.data; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ data.age }}</td>
+            <td>{{ data.address }}</td>
+            <td>
+              <a>Action 一 {{ data.name }}</a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a>Delete</a>
+            </td>
+          </tr> -->
+        </tbody>
+      </nz-table>
+</div>

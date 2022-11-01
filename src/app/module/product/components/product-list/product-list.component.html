@@ -1,6 +1,6 @@
 <div class="product-list">
   <div class="flex-row-end mr-10 mb-10">
-    <button nz-button nzType="primary" nzShape="round">
+    <button nz-button nzType="primary" nzShape="round" (click)="jumpToCreate()">
       <span nz-icon nzType="plus" nzTheme="outline"></span>
       新增</button>
   </div>
@@ -104,18 +104,17 @@
         <th [nzAlign]="'center'">生产日期</th>
       </tr>
     </thead>
-  
     <tbody>
       <tr *ngFor="let item of productList;let idx = index">
         <td [nzAlign]="'center'" [nzChecked]="item.isSelected"></td>
         <td [nzAlign]="'center'">{{idx + 1}}</td>
         <td [nzAlign]="'center'">
-          <a (click)="jumpToManualEdit()">
+          <a (click)="jumpToEdit('Product', item)">
             {{item.serialNumber}}
           </a>
         </td>
         <td [nzAlign]="'center'">
-          <a (click)="jumpToProductEdit()">
+          <a (click)="jumpToEdit('Manual', item)">
             {{item.name}}
           </a>
         </td>

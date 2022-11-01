@@ -1,0 +1,32 @@
+<div class="product-statement">
+    <div class="table-head">
+        <span>产品说明书</span>
+        <button nz-button nzType="default" (click)="addStatement()">
+            <span nz-icon nzType="plus" nzTheme="outline"></span>
+            添加
+        </button>
+    </div>
+    <nz-table [nzData]="[{}]" nzShowPagination="false">
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>文件名称</th>
+            <th>版本</th>
+            <th>适用区域</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- <tr *ngFor="let data of basicTable.data; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ data.age }}</td>
+            <td>{{ data.address }}</td>
+            <td>
+              <a>Action 一 {{ data.name }}</a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a>Delete</a>
+            </td>
+          </tr> -->
+        </tbody>
+      </nz-table>
+</div>

@@ -1,3 +1,4 @@
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { Result } from '../model/result.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -8,7 +9,7 @@ import { debounceTime } from 'rxjs';
 })
 export class HttpClientService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private message: NzMessageService) { }
 
   get<T>(url: string): Promise<T> {
     return new Promise((resolve, reject) => {
@@ -17,12 +18,14 @@ export class HttpClientService {
           if (res.rlt === 0) {
             setTimeout(() => {
               resolve(res.datas)
-            },1000);
+            },200);
           } else {
-            reject(res.info || '响应接口错误')
+            this.message.error(res.info || '响应接口错误')
+            reject()
           }
         },
         error: (err) => {
+          this.message.error('错误')
           console.log(err)
         }
       })
@@ -36,9 +39,10 @@ export class HttpClientService {
           if (res.rlt === 0) {
             setTimeout(() => {
               resolve(res.datas)
-            },1000);
+            },200);
           } else {
-            reject(res.info || '响应接口错误')
+            this.message.error(res.info || '响应接口错误')
+            reject()
           }
         }
       )

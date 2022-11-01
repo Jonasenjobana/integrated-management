@@ -52,7 +52,7 @@ export class DynamicServeService {
    * 点击其他按钮新增、跳转详情
    * @param key 
    */
-  public addTab(key: string, data: DynamicParams, isMenuJump: boolean = false): void {
+  public addTab(key: string, data: DynamicParams = { type: ''}, isMenuJump: boolean = false): void {
     const reuse = this.getComponentByName(key)
     const index = this.getIndex(key)
     // 未在tab数组内
@@ -108,5 +108,8 @@ export class DynamicServeService {
   }
   deleteAll() {
  
+  }
+  getCurrentIndex() {
+    return this._currentTabList.findIndex(el => el.uuid === this._currentTab.uuid)
   }
 }

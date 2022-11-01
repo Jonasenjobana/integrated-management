@@ -1,3 +1,4 @@
+import { DynamicServeService } from 'src/app/module/layout/dynamic-serve.service';
 import { CommonTagService } from './../../../share/serve/common-tag.service';
 import { Product, SelectType } from './../product.model';
 import { ManualHttpService } from './../../../manual/manual-http.service';
@@ -30,7 +31,8 @@ export class ProductListComponent implements OnInit {
     private manualHttpService: ManualHttpService,
     private dictionaryDetailService: DictionaryDetailService,
     private companyHttpService: CompanyHttpService,
-    private commonTagService:CommonTagService
+    private commonTagService: CommonTagService,
+    private dynamicServe: DynamicServeService
   ) {
     this.searchEntity = {
       currentPage: 1,
@@ -222,10 +224,10 @@ export class ProductListComponent implements OnInit {
     this.getProductList(this.searchEntity)
   }
 
-  jumpToManualEdit() {
-    console.log('---manual---')
+  jumpToEdit(type: 'Manual'|'Product', product: Product) {
+    this.dynamicServe.addTab('manual-detail', {id: product.manualId, type, product})
   }
-  jumpToProductEdit() {
-    console.log('---product---')
+  jumpToCreate() {
+    this.dynamicServe.addTab('instock-edit', {type: 'Product'})
   }
 }

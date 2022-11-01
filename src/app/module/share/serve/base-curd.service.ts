@@ -1,5 +1,5 @@
 import { Inject, Injectable, InjectionToken } from '@angular/core';
-import { Page } from '../model/result.model';
+import { Page, Result } from '../model/result.model';
 import { HttpClientService } from './http-client.service';
 
 @Injectable({

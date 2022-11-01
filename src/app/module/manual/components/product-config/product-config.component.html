@@ -6,13 +6,18 @@
   </button>
 </div>
 <!-- ['20%','60%','5%','10%','5%'] -->
-<nz-table [nzData]="[{}]" [nzShowPagination]="false" [nzSize]="'small'" [nzWidthConfig]="['15%','70%','7.5%','7.5%']">
+<nz-table
+  [nzData]="[{}]"
+  [nzShowPagination]="false"
+  [nzSize]="'small'"
+  [nzWidthConfig]="['20%', '50%', '5%', '20%', '5%']"
+>
   <thead>
     <tr>
       <th>配置名称</th>
       <th>配置参数</th>
       <th>多选</th>
-      <!-- <th>默认值</th> -->
+      <th>默认值</th>
       <th>操作</th>
     </tr>
   </thead>
@@ -25,7 +30,7 @@
         >
           <nz-input-group
             [nzSuffix]="delete"
-            style="width: fit-content; margin-right: 10px"
+            style="width: 80px; margin-right: 10px"
           >
             <input
               type="text"
@@ -55,8 +60,22 @@
       <td>
         <label nz-checkbox [(ngModel)]="config.isMulti"></label>
       </td>
-      <!-- <td>默认值</td> -->
-      <td><button nz-button nzType="primary" (click)="deleteConfig(configIndex)">删除</button></td>
+      <td>
+        <nz-select [(ngModel)]="config.serialNumber">
+          <ng-container *ngFor="let item of config.configvalueList">
+            <nz-option
+              *ngIf="item.value.trim() !== ''"
+              [nzValue]="item.serialNumber"
+              [nzLabel]="item.value"
+            ></nz-option>
+          </ng-container>
+        </nz-select>
+      </td>
+      <td>
+        <button nz-button nzType="primary" (click)="deleteConfig(configIndex)">
+          删除
+        </button>
+      </td>
     </tr>
   </tbody>
 </nz-table>

@@ -4,10 +4,12 @@ import { CommonModule } from '@angular/common';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { ProductCreateComponent } from './components/product-create/product-create.component';
 
 @NgModule({
   declarations: [
-    ProductListComponent
+    ProductListComponent,
+    ProductCreateComponent
   ],
   imports: [
     CommonModule,
