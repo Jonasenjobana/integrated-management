@@ -1,3 +1,4 @@
+import { Manual } from 'src/app/module/manual/manual.model';
 import { Type } from "@angular/core";
 import { Product } from "src/app/module/product/components/product.model";
 
@@ -16,6 +17,6 @@ export interface DynamicParams {
     id?: string
     product?: Product
     type: 'Manual'|'Product'|string
-
+    titleName?: string
 }
 export type TabType = 'add'|'change'|'refresh'|'remove'

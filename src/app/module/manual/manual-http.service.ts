@@ -18,4 +18,7 @@ export class ManualHttpService extends BaseCurdService<ParamsData, Manual>{
   getName() {
     return this.baseHttp.get<Product[]>(`${this.baseUrl}/getName`)
   }
+  getAllList() {
+    return this.baseHttp.post<ParamsData, Manual[]>(`${this.baseUrl}/getList`, {})
+  }
 }

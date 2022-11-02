@@ -18,7 +18,7 @@ export class BaseCurdService<S, T> {
   getList(data: S) {
     return this.baseHttp.post<S, Page<T[]>>(`${this.baseUrl}/getList`, data)
   }
-
+  
   save(data: S) {
     return this.baseHttp.post<S, string>(`${this.baseUrl}/save`, data)
   }

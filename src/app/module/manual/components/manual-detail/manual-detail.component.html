@@ -2,9 +2,15 @@
   <div class="manual-detail">
     <div nz-row nzJustify="end">
       <div nz-col>
-        <button nz-button nzType="primary" nzShape="round"  (click)="jumpToEdit()">
+        <button
+          nz-button
+          nzType="primary"
+          nzShape="round"
+          (click)="jumpToEdit()"
+        >
           <span nz-icon nzType="edit" nzTheme="outline"></span>
-          编辑</button>
+          编辑
+        </button>
       </div>
     </div>
     <div class="content" *ngIf="detailEntity">
@@ -40,51 +46,100 @@
           </div>
         </div>
         <div class="ml-50 flex-1">
-          <h2>{{ detailEntity.manualSerie }}{{ detailEntity.manualName }}</h2>
-          <!-- 如果是产品详情不一样 -->
-          <ul class="detail-head">
-            <li>
-              <span>手册编号: </span>
-              {{ detailEntity.pproductCode }}{{ detailEntity.productCode}}
-            </li>
-            <li>
-              <span>产品分类: </span>
-              {{ detailEntity.pproductName }}>{{ detailEntity.productName }}
-            </li>
-            <li>
-              <span>产品品牌: </span>
-              {{ detailEntity.companyName }}
-            </li>
-          </ul>
+          <ng-container *ngIf="dynamicParams.type === 'Manual'">
+            <h2>{{ detailEntity.manualSerie }}{{ detailEntity.manualName }}</h2>
+            <ul class="detail-head">
+              <li>
+                <span>手册编号: </span>
+                {{ detailEntity.pproductCode }}{{ detailEntity.productCode }}
+              </li>
+              <li>
+                <span>产品分类: </span>
+                {{ detailEntity.pproductName }}>{{ detailEntity.productName }}
+              </li>
+              <li>
+                <span>产品品牌: </span>
+                {{ detailEntity.companyName }}
+              </li>
+            </ul>
+          </ng-container>
+          <!-- 产品列表详情 -->
+          <ng-container *ngIf="dynamicParams.type !== 'Manual'">
+            <h2>{{ product?.serialNumber }}</h2>
+            <ul class="detail-head">
+              <li>
+                <span>产品名称: </span>
+                <a (click)="jumpToDetail()"
+                  >{{ detailEntity.manualSerie }}&nbsp;{{
+                    detailEntity.manualName
+                  }}</a
+                >
+              </li>
+              <li>
+                <span>产品分类: </span>
+                {{ detailEntity.pproductName }}>{{ detailEntity.productName }}
+              </li>
+              <li>
+                <span>产品品牌: </span>
+                {{ detailEntity.companyName }}
+              </li>
+              <li>
+                <span>生产日期: </span>
+                {{ product?.productDate }}
+              </li>
+            </ul>
+          </ng-container>
           <nz-divider></nz-divider>
           <ul class="detail-config">
             <li>
               <span>产品型号</span>
               <nz-button-group *ngFor="let item of detailEntity.modelList">
-                <button nz-button nzType="default" [class.btn-click]="item.id === currentSelectedId" (click)="currentSelectedId = item.id">{{item.modelName}}</button>
+                <button
+                  nz-button
+                  nzType="default"
+                  [class.btn-click]="item.id === currentSelectedId"
+                  (click)="currentSelectedId = item.id"
+                >
+                  {{ item.modelName }}
+                </button>
               </nz-button-group>
             </li>
-            <!-- 通用参数 -->
+            <!-- 通用配置 -->
             <li *ngFor="let item of detailEntity.configList">
               <span>{{ item.name }}</span>
               <nz-button-group *ngFor="let item of item.configvalueList">
-                <button nz-button nzType="default" class="btn-click">{{item.value}}</button>
+                <button nz-button nzType="default" class="btn-click">
+                  {{ item.value }}
+                </button>
               </nz-button-group>
             </li>
-            <!-- 特定参数 -->
-            <li *ngFor="let selfConfig of selfConfiguration">
-              <span>{{selfConfig.name}}</span>
-              <nz-button-group *ngFor="let configValue of selfConfig.configvalueList">
-                <button nz-button nzType="default" 
-                  [class]="isDisabled(configValue)"
-                >{{configValue.value}}</button>
+            <!-- 特定配置 -->
+            <li *ngFor="let selfConfig of detailEntity._selfConfiguration">
+              <span>{{ selfConfig.name }}</span>
+              <nz-button-group
+                *ngFor="let configValue of selfConfig.configvalueList"
+              >
+                <button
+                  nz-button
+                  [nzType]="isDisabled(configValue) ? 'dashed' : 'default'"
+                  [disabled]="isDisabled(configValue)"
+                  [class]="{
+                    'btn-click': !isDisabled(configValue)
+                  }"
+                >
+                  {{ configValue.value }}
+                </button>
               </nz-button-group>
             </li>
           </ul>
         </div>
       </div>
       <div class="mt-10">
-        <common-introduction [introduction]="detailEntity.introduction ? detailEntity.introduction: '' "></common-introduction>
+        <common-introduction
+          [introduction]="
+            detailEntity.introduction ? detailEntity.introduction : ''
+          "
+        ></common-introduction>
       </div>
     </div>
   </div>

@@ -38,6 +38,7 @@ export class ManualCreateComponent implements OnInit, AfterViewInit, OnDestroy {
   contentList: NzUploadFile[] = []
   isConfirmVisible: boolean = false
   isSafeLoading: boolean = false
+  isEdit: boolean = false
   constructor(
     private dictionaryDetailService: DictionaryDetailService,
     private companyHttpService: CompanyHttpService,
@@ -58,6 +59,7 @@ export class ManualCreateComponent implements OnInit, AfterViewInit, OnDestroy {
       this.companySelect = res
     })
     if (this.dynamicParams !== undefined && this.dynamicParams.id !== undefined) {
+      this.isEdit = true
       // 由于创建和编辑手册使用一个组件，textarea的id需要唯一，才能让ueeditor创建2个实例
       this.dynamicId += 'edit-'
       this.isLoadingInfo = true
@@ -77,6 +79,12 @@ export class ManualCreateComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isLoadingInfo = false
       })
     }
+  }
+  handleCancle() {
+    if (this.isEdit) {
+      //删除
+    }
+    this.dynamicServeService.closeTab(this.dynamicServeService.getCurrentIndex())
   }
   modalConfirm($event: boolean) {
     if ($event) {

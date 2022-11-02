@@ -164,7 +164,10 @@
             >
               保存
             </button>
-            <button nz-button>取消</button>
+            <button nz-button (click)="handleCancle()">
+              <span *ngIf="!isEdit">取消</span>
+              <span *ngIf="isEdit">删除</span>
+            </button>
           </nz-form-control>
         </nz-form-item>
       </form>

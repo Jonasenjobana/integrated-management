@@ -27,6 +27,11 @@ const DYNAMIC_COMPONENTS_LIST: Tab[] = [
         component: ManualDetailComponent,
     },
     {
+        title: '产品详情',
+        key: 'product-detail',
+        component: ManualDetailComponent,
+    },
+    {
         title: '新增手册',
         key: 'manual-create',
         component: ManualCreateComponent
@@ -55,9 +60,9 @@ const INIT_TABS:Tab[] = [
     //     disclosable: true
     // },
     {
-        title: '产品列表',
-        key: 'product-list',
-        component: ProductListComponent,
-    },
+        title: '入库编辑',
+        key: 'instock-edit',
+        component: ProductCreateComponent
+    }
 ]
 export {DYNAMIC_COMPONENTS_LIST,INIT_TABS}

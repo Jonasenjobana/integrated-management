@@ -1,1 +1,166 @@
-<p>product-create works!</p>
+<div>
+  <h1>入库编辑</h1>
+</div>
+<div class="product-create">
+<nz-spin [nzTip]="'加载中...'" [nzSpinning]="isLoadingEdit">
+  <form nz-form>
+    <nz-form-item>
+      <nz-form-label nzRequired>产品分类</nz-form-label>
+      <nz-form-control>
+        <nz-select
+          nzPlaceHolder="选择产品分类"
+          style="width: 300px"
+          [(ngModel)]="selectedCode"
+          (ngModelChange)="selectChange()"
+          name="code"
+          #typeSelectRef
+        >
+          <nz-option-group
+            *ngFor="let parent of productTypeSelect"
+            [nzLabel]="parent.title"
+          >
+            <nz-option
+              *ngFor="let child of parent.children"
+              [nzValue]="child.key"
+              [nzLabel]="child.title"
+            ></nz-option>
+          </nz-option-group>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequired>产品名称</nz-form-label>
+      <nz-select
+        style="width: 300px"
+        nzShowSearch
+        nzAllowClear
+        nzPlaceHolder="请选择产品名称"
+        [(ngModel)]="saveEntity.manualId"
+        (ngModelChange)="changeName($event)"
+        name="id"
+      >
+        <nz-option
+          *ngFor="let item of nameList"
+          [nzLabel]="item.manualSerie + ' ' + item.manualName"
+          [nzValue]="item.id"
+        ></nz-option>
+      </nz-select>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequired>产品序列号</nz-form-label>
+      <nz-form-control>
+        <input
+          type="text"
+          placeholder="请输入产品序列号"
+          nz-input
+          [(ngModel)]="saveEntity.serialNumber"
+          name="serial"
+          style="width: 300px"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequired>生产日期</nz-form-label>
+      <nz-form-control>
+        <nz-date-picker
+          nzFormat="yyyy/MM/dd"
+          [(ngModel)]="saveEntity.productDate"
+          name="date"
+        ></nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+    <!-- 条件 -->
+    <ng-container *ngIf="manualProduct !== undefined">
+    <div class="config-list">
+      <nz-form-item nzRequired>
+        <nz-form-label nzRequired>生产型号</nz-form-label>
+        <nz-form-control>
+          <nz-button-group *ngFor="let item of manualProduct.modelList">
+            <button
+              nz-button
+              nzType="default"
+              (click)="changeModel(item.id)"
+              [class]="{
+                'btn-click': this.saveEntity.modelId === item.id
+              }"
+            >
+              <span
+                nz-icon
+                nzType="check"
+                nzTheme="outline"
+                *ngIf="item.id === saveEntity.modelId"
+              ></span>
+              {{ item.modelName }}
+            </button>
+          </nz-button-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item class="common-config" *ngFor="let config of manualProduct.configList">
+        <nz-form-label>{{ config.name }}</nz-form-label>
+        <nz-form-control>
+          <nz-button-group *ngFor="let item of config.configvalueList">
+            <button
+              nz-button
+              nzType="default"
+              [class]="{
+                'btn-click': isValueSelected(item.id)
+              }"
+              (click)="addValue(config, item)"
+            >
+              <span
+                nz-icon
+                nzType="check"
+                nzTheme="outline"
+                *ngIf="isValueSelected(item.id)"
+              ></span>
+              {{ item.value }}
+            </button>
+          </nz-button-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item class="self-config" *ngFor="let selfConfig of manualProduct._selfConfiguration">
+        <nz-form-label>{{ selfConfig.name }}</nz-form-label>
+        <nz-form-control>
+          <nz-button-group
+            *ngFor="let configValue of selfConfig.configvalueList"
+          >
+            <button
+              nz-button
+              nzType="default"
+              [class]="{
+                'btn-click': isValueSelected(configValue.id)
+              }"
+              [nzType]="isDisabled(configValue) ? 'dashed' : 'default'"
+              [disabled]="isDisabled(configValue)"
+              (click)="addValue(selfConfig, configValue)"
+            >
+              <span
+                nz-icon
+                nzType="check"
+                nzTheme="outline"
+                *ngIf="isValueSelected(configValue.id)"
+              ></span>
+              {{ configValue.value }}
+            </button>
+          </nz-button-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    </ng-container>
+    <nz-form-item>
+      <nz-form-control class="flex-column-end">
+        <button nz-button nzType="primary" class="mr-10" (click)="isConfirmVisible = true">保存</button>
+        <button nz-button (click)="cancle()">取消</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  </nz-spin>
+</div>
+<!-- 确认框 -->
+<common-confirm
+  content="确定是否保存？"
+  [isVisible]="isConfirmVisible"
+  title="保存确认框"
+  [isLoading]="isSafeLoading"
+  (onConfirm)="modalConfirm($event)"
+></common-confirm>

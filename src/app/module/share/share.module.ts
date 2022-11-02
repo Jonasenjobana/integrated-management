@@ -34,7 +34,6 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
     PathPipe,
     SafeHtmlPipe,
     CommonConfirmComponent,
-    
   ],
   imports: [
     NzIconModule.forRoot([PlusOutline]),

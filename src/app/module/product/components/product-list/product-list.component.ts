@@ -60,7 +60,7 @@ export class ProductListComponent implements OnInit {
     this.isProductListLoading = true
     this.productHttpService.getList(paramsData).then(res => {
       this.productList = res.result.map(el => {
-        el.isSelected = false
+        el._isSelected = false
         return el
       })
       this.isProductListLoading = false
@@ -71,7 +71,7 @@ export class ProductListComponent implements OnInit {
    * @param allChecked 
    */
   onAllChecked(allChecked: boolean) {
-    this.productList.forEach(el => el.isSelected = allChecked)
+    this.productList.forEach(el => el._isSelected = allChecked)
   }
   /**
    * 改变条件通用函数
@@ -225,9 +225,9 @@ export class ProductListComponent implements OnInit {
   }
 
   jumpToEdit(type: 'Manual'|'Product', product: Product) {
-    this.dynamicServe.addTab('manual-detail', {id: product.manualId, type, product})
+    this.dynamicServe.addTab('product-detail', {id: product.manualId, type, product})
   }
   jumpToCreate() {
-    this.dynamicServe.addTab('instock-edit', {type: 'Product'})
+    this.dynamicServe.addTab('instock-edit', {type: 'Create'})
   }
 }

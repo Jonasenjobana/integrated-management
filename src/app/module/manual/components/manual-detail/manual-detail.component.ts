@@ -19,35 +19,38 @@ export class ManualDetailComponent implements OnInit {
   @Input()
   dynamicParams!:DynamicParams
   thumbsSwiper?: Swiper
-  detailEntity!: Manual
-  selfConfiguration: Config[] = []
+  detailEntity: Manual
   isLoadingDetail: boolean = true
   currentSelectedId: string = ''
-  constructor(private manualHttpService:ManualHttpService, private dynamicServeService:DynamicServeService) { }
+  constructor(private manualHttpService:ManualHttpService, private dynamicServeService:DynamicServeService) { 
+    this.detailEntity = new Manual()
+  }
   ngOnInit(): void {
     this.manualHttpService.getInfo(this.dynamicParams.id!).then((res: Manual) => {
-      this.detailEntity = res
+      this.detailEntity = new Manual(res)
       // 产品详情
       if (this.dynamicParams.type === 'Product') {
         this.handleProductType()
-      } else {
-        this.initSelfConfiguration()
       }
+      this.currentSelectedId = this.detailEntity.modelList[0].id
     }).finally(() => {
       this.isLoadingDetail = false
     })
   }
-
+  get product() {
+    return this.dynamicParams.product
+  }
   handleProductType() {
     const product: Product = this.dynamicParams.product!
     const valueId: string[] = product.valueIds.split(';')
     // 只保留展示产品的配置信息
     this.detailEntity.modelList = this.detailEntity.modelList.filter(model => model.id === this.dynamicParams.product!.modelId)
-    this.initSelfConfiguration()
+    this.detailEntity.initSelfConfiguration()
     // 过滤通用配置
     this.detailEntity.configList = this.filterProductValue(this.detailEntity.configList, valueId)
     // 过滤私有配置
-    this.detailEntity.modelList[0].configList = this.filterProductValue(this.detailEntity.modelList[0].configList, valueId)
+    // this.detailEntity.modelList[0].configList = this.filterProductValue(this.detailEntity.modelList[0].configList, valueId)    
+    this.detailEntity._selfConfiguration =  this.filterProductValue(this.detailEntity.modelList[0].configList, valueId)   
   }
   filterProductValue(configList: Config[], valueId: string[]) {
     return configList.map(config => {
@@ -59,56 +62,18 @@ export class ManualDetailComponent implements OnInit {
     }).filter(config => config.configvalueList.length)
   }
   isDisabled(configValue: ConfigValue) {   
-    return configValue._hostGroup?.findIndex(id => id === this.currentSelectedId) === -1 ? "disabled" : "btn-click"
-  }
-  // 去重参数名和参数值
-  initSelfConfiguration() {
-    this.currentSelectedId = this.detailEntity.modelList[0].id
-    this.detailEntity.modelList.forEach((model: TypeModel )=> {
-      this.deDuplicateConfig(model)
-    })
-  }
-  /**
-   * 产品型号参数名去重
-   * @param model 产品型号
-   */
-  deDuplicateConfig(model: TypeModel) {
-    model.configList.forEach(config => {
-      const SelfIndex = this.selfConfiguration.findIndex(self => self.name === config.name)
-      if (SelfIndex === -1) {
-        // 初始化_hostGroup数组
-        config.configvalueList.forEach(value => value._hostGroup = [value.hostId])
-        this.selfConfiguration.push(config)
-      } else {
-        const selfConfig = this.selfConfiguration[SelfIndex]
-        this.deDuplicateConfigValue(selfConfig.configvalueList, config.configvalueList)
-      }
-    })    
-  }
-  /**
-   * 产品型号相同参数名的参数值去重
-   * @param selfConfigValues 特定参数值
-   * @param configValues 产品类型值
-   */
-  deDuplicateConfigValue(selfConfigValues: ConfigValue[], configValues: ConfigValue[]) {
-    configValues.forEach(configValue => {
-      const ValueIndex = selfConfigValues.findIndex(selfValue => selfValue.value === configValue.value)
-      if (ValueIndex === -1) {
-        configValue._hostGroup = [configValue.hostId]
-        selfConfigValues.push(configValue)
-      } else {
-        const selfConfigValue = selfConfigValues[ValueIndex]
-        selfConfigValue._hostGroup!.push(configValue.hostId)
-      }
-    })
+    return configValue._hostGroup!.findIndex(id => id === this.currentSelectedId) === -1
   }
 
   jumpToEdit() {
     const type = this.dynamicParams.type
     if (type === 'Manual') {
-      this.dynamicServeService.addTab('manual-edit',{id: this.dynamicParams.id, type: 'Manual'})
-    } else if (type === 'Product'){
-      this.dynamicServeService.addTab('product-instock',{type: 'Product'})
+      this.dynamicServeService.addTab('manual-edit',{id: this.dynamicParams.id, type})
+    } else if (type === 'Product') {
+      this.dynamicServeService.addTab('product-instock',{type, product: this.dynamicParams.product})
     }
+  }
+  jumpToDetail() {
+    this.dynamicServeService.addTab('manual-detail',{id: this.detailEntity.id, type: 'Manual'})
   }
 }

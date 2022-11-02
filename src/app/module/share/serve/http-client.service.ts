@@ -25,7 +25,7 @@ export class HttpClientService {
           }
         },
         error: (err) => {
-          this.message.error('错误')
+          this.message.error('网络请求错误')
           console.log(err)
         }
       })
@@ -34,8 +34,8 @@ export class HttpClientService {
 
   post<S, T>(url: string, data: S): Promise<T> {
     return new Promise((resolve, reject) => {
-      this.http.post<Result<T>>(url, data).subscribe(
-        (res: Result<T>) => {
+      this.http.post<Result<T>>(url, data).subscribe({
+        next: (res: Result<T>) => {
           if (res.rlt === 0) {
             setTimeout(() => {
               resolve(res.datas)
@@ -44,8 +44,12 @@ export class HttpClientService {
             this.message.error(res.info || '响应接口错误')
             reject()
           }
+        },
+        error: (err) => {
+          this.message.error('网络请求错误')
+          console.log(err)
         }
-      )
+      })
     })
   }
 }

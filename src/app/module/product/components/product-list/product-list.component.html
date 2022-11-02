@@ -106,7 +106,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let item of productList;let idx = index">
-        <td [nzAlign]="'center'" [nzChecked]="item.isSelected"></td>
+        <td [nzAlign]="'center'" [nzChecked]="item._isSelected!"></td>
         <td [nzAlign]="'center'">{{idx + 1}}</td>
         <td [nzAlign]="'center'">
           <a (click)="jumpToEdit('Product', item)">
