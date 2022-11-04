@@ -106,9 +106,6 @@ export class DynamicServeService {
     this._currentTab.uuid = uuid()
     this._currentTabList.splice(index, 1,this._currentTab)
   }
-  deleteAll() {
- 
-  }
   getCurrentIndex() {
     return this._currentTabList.findIndex(el => el.uuid === this._currentTab.uuid)
   }

@@ -60,9 +60,10 @@ const INIT_TABS:Tab[] = [
     //     disclosable: true
     // },
     {
-        title: '入库编辑',
-        key: 'instock-edit',
-        component: ProductCreateComponent
-    }
+        title: '手册管理',
+        key: 'manual-list',
+        component: ManualListComponent,
+        disclosable: true
+    },
 ]
 export {DYNAMIC_COMPONENTS_LIST,INIT_TABS}

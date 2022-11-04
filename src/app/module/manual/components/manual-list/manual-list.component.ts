@@ -66,7 +66,7 @@ export class ManualListComponent implements OnInit {
     this.isManualListLoading = true;
     this.manualHttpService
       .getList(params)
-      .then(({ pageRecord, pageCount, currentPage, recordCount, result }: Page<Manual[]>) => {
+      .then(({ pageCount, recordCount, result }: Page<Manual[]>) => {
         this.searchEntity.pageCount = pageCount
         this.searchEntity.recordCount = recordCount
         this.manualList = result.map(el => {
@@ -160,16 +160,16 @@ export class ManualListComponent implements OnInit {
 
 
 
-  // TODO: 新增页面
   /**
    * 跳转到详情
    * @param id 产品索引
    */
-  jumpToDetail(id: string) {
-    this.dynamicServeService.addTab('manual-detail', {id, type: 'Manual'})
+  jumpToDetail(manualId: string) {
+    this.dynamicServeService.addTab('manual-detail', {manualId, type: 'Manual'})
   }
   jumpToCreate() {
     this.dynamicServeService.addTab('manual-create', {type: 'Manual'})
   }
-  // TODO:差防抖操作去申请接口以及错误消息提示
+  // TODO:差防抖操作去申请接口
+
 }

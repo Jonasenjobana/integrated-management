@@ -13,7 +13,7 @@
         </button>
       </div>
     </div>
-    <div class="content" *ngIf="detailEntity">
+    <div class="content" *ngIf="manual">
       <div class="flex">
         <div>
           <div>
@@ -24,7 +24,7 @@
             >
               <ng-template
                 swiperSlide
-                *ngFor="let item of detailEntity.contentList"
+                *ngFor="let item of manual.contentList"
                 ><img [src]="item | srcPath"
               /></ng-template>
             </swiper>
@@ -39,7 +39,7 @@
             >
               <ng-template
                 swiperSlide
-                *ngFor="let item of detailEntity.contentList"
+                *ngFor="let item of manual.contentList"
                 ><img [src]="item | srcPath" />
               </ng-template>
             </swiper>
@@ -47,19 +47,19 @@
         </div>
         <div class="ml-50 flex-1">
           <ng-container *ngIf="dynamicParams.type === 'Manual'">
-            <h2>{{ detailEntity.manualSerie }}{{ detailEntity.manualName }}</h2>
+            <h2>{{ manual.manualSerie }}{{ manual.manualName }}</h2>
             <ul class="detail-head">
               <li>
                 <span>手册编号: </span>
-                {{ detailEntity.pproductCode }}{{ detailEntity.productCode }}
+                {{ manual.pproductCode }}{{ manual.productCode }}
               </li>
               <li>
                 <span>产品分类: </span>
-                {{ detailEntity.pproductName }}>{{ detailEntity.productName }}
+                {{ manual.pproductName }}>{{ manual.productName }}
               </li>
               <li>
                 <span>产品品牌: </span>
-                {{ detailEntity.companyName }}
+                {{ manual.companyName }}
               </li>
             </ul>
           </ng-container>
@@ -70,18 +70,18 @@
               <li>
                 <span>产品名称: </span>
                 <a (click)="jumpToDetail()"
-                  >{{ detailEntity.manualSerie }}&nbsp;{{
-                    detailEntity.manualName
+                  >{{ manual.manualSerie }}&nbsp;{{
+                    manual.manualName
                   }}</a
                 >
               </li>
               <li>
                 <span>产品分类: </span>
-                {{ detailEntity.pproductName }}>{{ detailEntity.productName }}
+                {{ manual.pproductName }}>{{ manual.productName }}
               </li>
               <li>
                 <span>产品品牌: </span>
-                {{ detailEntity.companyName }}
+                {{ manual.companyName }}
               </li>
               <li>
                 <span>生产日期: </span>
@@ -93,7 +93,7 @@
           <ul class="detail-config">
             <li>
               <span>产品型号</span>
-              <nz-button-group *ngFor="let item of detailEntity.modelList">
+              <nz-button-group *ngFor="let item of manual.modelList">
                 <button
                   nz-button
                   nzType="default"
@@ -105,7 +105,7 @@
               </nz-button-group>
             </li>
             <!-- 通用配置 -->
-            <li *ngFor="let item of detailEntity.configList">
+            <li *ngFor="let item of manual.configList">
               <span>{{ item.name }}</span>
               <nz-button-group *ngFor="let item of item.configvalueList">
                 <button nz-button nzType="default" class="btn-click">
@@ -114,7 +114,7 @@
               </nz-button-group>
             </li>
             <!-- 特定配置 -->
-            <li *ngFor="let selfConfig of detailEntity._selfConfiguration">
+            <li *ngFor="let selfConfig of manual._selfConfiguration">
               <span>{{ selfConfig.name }}</span>
               <nz-button-group
                 *ngFor="let configValue of selfConfig.configvalueList"
@@ -137,7 +137,7 @@
       <div class="mt-10">
         <common-introduction
           [introduction]="
-            detailEntity.introduction ? detailEntity.introduction : ''
+            manual.introduction ? manual.introduction : ''
           "
         ></common-introduction>
       </div>

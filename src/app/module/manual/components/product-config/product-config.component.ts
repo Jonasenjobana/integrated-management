@@ -6,7 +6,7 @@ import { Component, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./product-config.component.less']
 })
 export class ProductConfigComponent implements OnInit {
-  @Input('configList')
+  @Input()
   configList: Config[]
   constructor() { 
     this.configList =  [new Config()]

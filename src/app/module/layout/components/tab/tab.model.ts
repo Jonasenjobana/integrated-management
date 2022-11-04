@@ -14,8 +14,8 @@ export interface Tab {
  * 动态组件外部传参
  */
 export interface DynamicParams {
-    id?: string
-    product?: Product
+    manualId?: string
+    productId?: string
     type: 'Manual'|'Product'|string
     titleName?: string
 }

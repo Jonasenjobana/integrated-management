@@ -40,21 +40,28 @@ export class ProductCreateComponent implements OnInit {
     this.saveEntity = new Product();
   }
   ngOnInit(): void {
+    const dynamicParams = this.dynamicParams
     this.manualService.getAllList().then((res) => {
       this.manualList = res;
-    });
+    })
     this.dictionaryDetailService.getManualTreeNodes().then((res) => {
       this.productTypeSelect = res;
-    });
-    if (this.dynamicParams !== undefined && this.dynamicParams.type !== 'Create') {
+    })
+    // 产品型号id不为空说明是编辑
+    if (dynamicParams.productId !== undefined) {
       this.isLoadingEdit = true
-      const product = this.dynamicParams.product!
-      this.saveEntity = new Product(product)
-      this.getManualInfo(product.manualId)
+      this.productHttp.getInfo(dynamicParams.productId!).then(res => {
+        this.saveEntity = res
+      })
+      this.getManualInfo(this.dynamicParams.manualId!)
     }
   }
+  /**
+   * 改变产品类型，重新初始化数据
+   */
   selectChange() {
     this.selectedId = '';
+    this.saveEntity.manualId = ''
     this.nameList = [];
     this.manualProduct = undefined;
     this.nameList = this.manualList.filter(
@@ -103,12 +110,22 @@ export class ProductCreateComponent implements OnInit {
     valueList.push(id)
     return valueList.join(';')
   }
+  /**
+   * 去除掉单选的多选
+   * @param config 
+   * @returns 返回新的valueIds字符串
+   */
   filterValue(config: Config) {
     const values = this.saveEntity.valueIds.split(';');
     return values.filter(id => {
       return config.configvalueList.findIndex(value => value.id === id) === -1
     }).join(';')
   }
+  /**
+   * 检查有无已经选中
+   * @param value 配置参数
+   * @returns 
+   */
   isCancleValueClick(value: ConfigValue) {
     let values = this.saveEntity.valueIds.split(';');
     const Index = values.findIndex((id) => id === value.id);
@@ -119,6 +136,11 @@ export class ProductCreateComponent implements OnInit {
     }
     return false;
   }
+  /**
+   * 禁用样式
+   * @param configValue 
+   * @returns 
+   */
   isDisabled(configValue: ConfigValue) {
     return (
       configValue._hostGroup!.findIndex(
@@ -126,30 +148,34 @@ export class ProductCreateComponent implements OnInit {
       ) === -1
     );
   }
-  /**
-   * 保存
-   */
+ 
   save() {
     if (this.saveEntity.manualId === '') {
       this.message.error('产品名称不能为空！')
     } else if (this.saveEntity.serialNumber === undefined) {
       this.message.error('产品序列号不能为空')
-    } else if (this.saveEntity.productDate === '') {
+    } else if (this.saveEntity.productDate === '' || this.saveEntity.productDate === null) {
       this.message.error('生产日期不能为空')
     } else if (this.saveEntity.modelId === '') {
       this.message.error('生产型号不能为空')
     } else {
-      this.productHttp.save(this.saveEntity).then(id => {
-        this.message.create('success', '入库成功！')
-        this.dynamicServeService.closeTab(this.dynamicServeService.getCurrentIndex())
-        this.dynamicServeService.addTab('product-detail', {id: this.saveEntity.manualId, type: 'Product', product: this.saveEntity})
-      }).finally(() => {
-        this.isSafeLoading = false
-        this.isConfirmVisible = false
-      })
-      console.log(this.saveEntity);
-      
+      this.saveRequest()
+      return
     }
+    this.isConfirmVisible = false
+  }
+  /**
+   * 保存请求
+   */
+  saveRequest() {
+    this.productHttp.save(this.saveEntity).then(id => {
+      this.message.success('入库成功！')
+      this.dynamicServeService.closeTab(this.dynamicServeService.getCurrentIndex())
+      this.dynamicServeService.addTab('product-detail', {manualId: this.saveEntity.manualId, type: 'Product', productId: this.saveEntity.id })
+    }).finally(() => {
+      this.isSafeLoading = false
+      this.isConfirmVisible = false
+    })
   }
   modalConfirm($event: boolean) {
     if ($event) {

@@ -49,46 +49,69 @@ export class ManualCreateComponent implements OnInit, AfterViewInit, OnDestroy {
     this.saveEntity = new Manual()
     this.editProductType = new TypeModel()
     this.isLoadingInfo = false
-    this.dynamicId = 'UeEditor'
+    // 由于创建和编辑手册使用一个组件，textarea的id需要唯一
+    this.dynamicId = uuid()
   }
   ngOnInit(): void {
-    this.dictionaryDetailService.getManualTreeNodes().then((res) => {
-      this.productTypeSelect = res
-    })
+    // 初始化产品类型
+    this.getProductType()
+    // 初始化产品品牌
+    this.getCompanyName()
+    // 编辑状态，默认初始值
+    if (this.dynamicParams.manualId !== undefined) {
+      console.log('-----')
+      this.getManualInfo(this.dynamicParams.manualId)
+    }
+  }
+  /**
+   * 请求品牌
+   */
+  getCompanyName() {
     this.companyHttpService.getCompanyList().then((res) => {
       this.companySelect = res
     })
-    if (this.dynamicParams !== undefined && this.dynamicParams.id !== undefined) {
-      this.isEdit = true
-      // 由于创建和编辑手册使用一个组件，textarea的id需要唯一，才能让ueeditor创建2个实例
-      this.dynamicId += 'edit-'
-      this.isLoadingInfo = true
-      this.manualHttpService.getInfo(this.dynamicParams.id).then(res => {
-        this.saveEntity = res
-        this.contentList = res.contentList.map(image => {
-          return {
-            uid: uuid(),
-            name: image.storeName,
-            url: image.filePath + '/' + image.storeName,
-          } as NzUploadFile
-        })
-        this.saveEntity._mixinProductCode = res.pproductCode + '-' + res.productCode
-      }).finally(() => {
-        // 获取到introduction数据后，需要通知ueeditor对内容赋值
-        this._editorSub$.next(true)
-        this.isLoadingInfo = false
+  }
+  /**
+   * 请求产品类型
+   */
+  getProductType() {
+    this.dictionaryDetailService.getManualTreeNodes().then((res) => {
+      this.productTypeSelect = res
+    })
+  }
+  /**
+   * 请求手册信息
+   * @param manualId 
+   */
+  getManualInfo(manualId: string) {
+    this.isEdit = true
+    this.isLoadingInfo = true
+    this.manualHttpService.getInfo(manualId).then(res => {
+      this.saveEntity = res
+      // 构造图片数据结构
+      this.contentList = res.contentList.map(image => {
+        return {
+          uid: uuid(),
+          name: image.storeName,
+          url: image.filePath + '/' + image.storeName,
+        } as NzUploadFile
       })
-    }
+      this.saveEntity._mixinProductCode = res.pproductCode + '-' + res.productCode
+    }).finally(() => {
+      // 获取到introduction数据后，需要通知ueeditor对内容赋值
+      this._editorSub$.next(true)
+      this.isLoadingInfo = false
+    })
   }
   handleCancle() {
     if (this.isEdit) {
-      //删除
+      // TODO删除
     }
     this.dynamicServeService.closeTab(this.dynamicServeService.getCurrentIndex())
   }
   modalConfirm($event: boolean) {
     if ($event) {
-      this.save()
+      this.save() 
     } else {
       this.isConfirmVisible = false
     }
@@ -99,8 +122,10 @@ export class ManualCreateComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.ueEidtor = UE.getEditor(this.dynamicId)
     this.ueEidtor.addListener('ready', () => {
+      // 如果是编辑需要请求编辑数据后再赋值
       this._editorSub$.asObservable().subscribe(res => {
         if (res) {
+          console.log('yesyese',this.saveEntity.introduction)
           this.ueEidtor.setContent(this.saveEntity.introduction)
         }
       })
@@ -129,7 +154,6 @@ export class ManualCreateComponent implements OnInit, AfterViewInit, OnDestroy {
   save() {
     const entity = this.saveEntity
     this.isSafeLoading = true
-    // TODO 校验
     if (this.isInValid()) {
       this.isSafeLoading = false
       this.isConfirmVisible = false
@@ -143,7 +167,7 @@ export class ManualCreateComponent implements OnInit, AfterViewInit, OnDestroy {
     this.manualHttpService.save(entity).then(id => {
         this.message.create('success', '保存成功！')
         this.dynamicServeService.closeTab(this.dynamicServeService.getCurrentIndex())
-        this.dynamicServeService.addTab('manual-detail', {id, type: 'Manual'})
+        this.dynamicServeService.addTab('manual-detail', {manualId: id, type: 'Manual'})
 
     }).finally(() => {
       this.isSafeLoading = false
@@ -152,10 +176,8 @@ export class ManualCreateComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   /**
    * 模态框保存
-   * TODO: 还差校验
    */
   modalSave(): void {
-    // TODO 校验
     if (this.editProductType.modelName.trim() === '') {
       this.message.create('error', '产品型号名不能为空')
     } else {
@@ -168,7 +190,10 @@ export class ManualCreateComponent implements OnInit, AfterViewInit, OnDestroy {
       this.isVisible = false
     }
   }
-
+  /**
+   * 校验保存数据合法
+   * @returns 
+   */
   isInValid(): boolean {
     const entity = this.saveEntity
     if (entity._mixinProductCode === '' || entity._mixinProductCode === undefined) {
@@ -182,14 +207,22 @@ export class ManualCreateComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     return true
   }
-
+  /**
+   * 过滤掉不合法配置信息
+   * @param modelList 
+   * @returns 
+   */
   setModelListValid(modelList: TypeModel[]) {
     return modelList.filter(model => {
       model.configList = this.setConfigListValid(model.configList)
       return model.modelName !== ''
     })
   }
-  
+  /**
+   * 过滤掉不合法配置信息
+   * @param configList 
+   * @returns 
+   */
   setConfigListValid(configList: Config[]) {
     return configList.filter(config => {
       if (config.name.trim() !== '') {

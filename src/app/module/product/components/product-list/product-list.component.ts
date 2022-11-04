@@ -53,6 +53,7 @@ export class ProductListComponent implements OnInit {
       this.companySelect = res
     });
   }
+  /** */
   pageChange() {
     this.getProductList(this.searchEntity)
   }
@@ -224,10 +225,17 @@ export class ProductListComponent implements OnInit {
     this.getProductList(this.searchEntity)
   }
 
-  jumpToEdit(type: 'Manual'|'Product', product: Product) {
-    this.dynamicServe.addTab('product-detail', {id: product.manualId, type, product})
+  jumpToDetail(type: 'Manual'|'Product', product: Product) {
+    switch(type) {
+      case 'Manual':
+        this.dynamicServe.addTab('manual-detail', {manualId: product.manualId, type})
+        break
+      case 'Product': 
+      this.dynamicServe.addTab('product-detail', {productId: product.id, manualId: product.manualId, type})
+        break
+    }
   }
   jumpToCreate() {
-    this.dynamicServe.addTab('instock-edit', {type: 'Create'})
+    this.dynamicServe.addTab('instock-edit', {type: ''})
   }
 }

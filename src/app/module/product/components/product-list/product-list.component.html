@@ -109,12 +109,12 @@
         <td [nzAlign]="'center'" [nzChecked]="item._isSelected!"></td>
         <td [nzAlign]="'center'">{{idx + 1}}</td>
         <td [nzAlign]="'center'">
-          <a (click)="jumpToEdit('Product', item)">
+          <a (click)="jumpToDetail('Product', item)">
             {{item.serialNumber}}
           </a>
         </td>
         <td [nzAlign]="'center'">
-          <a (click)="jumpToEdit('Manual', item)">
+          <a (click)="jumpToDetail('Manual', item)">
             {{item.name}}
           </a>
         </td>
