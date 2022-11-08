@@ -1,14 +1,14 @@
-import { DynamicParams } from 'src/app/module/layout/components/tab/Tab.model';
-import { DynamicServeService } from 'src/app/module/layout/dynamic-serve.service';
-import { Product } from 'src/app/module/product/components/product.model';
-import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
-import { Component, Input, OnInit } from '@angular/core';
-import { ManualHttpService } from 'src/app/module/manual/manual-http.service';
-import { Manual } from 'src/app/module/manual/manual.model';
-import { DictionaryDetailService } from 'src/app/module/share/serve/dictionary-detail.service';
-import { Config, ConfigValue } from 'src/app/module/share/model/result.model';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { ProductHttpService } from '../../product-http.service';
+import { DynamicParams } from 'src/app/module/layout/components/tab/Tab.model'
+import { DynamicServeService } from 'src/app/module/layout/dynamic-serve.service'
+import { Product } from 'src/app/module/product/components/product.model'
+import { NzTreeNodeOptions } from 'ng-zorro-antd/tree'
+import { Component, Input, OnInit } from '@angular/core'
+import { ManualHttpService } from 'src/app/module/manual/manual-http.service'
+import { Manual } from 'src/app/module/manual/manual.model'
+import { DictionaryDetailService } from 'src/app/module/share/serve/dictionary-detail.service'
+import { Config, ConfigValue } from 'src/app/module/share/model/result.model'
+import { NzMessageService } from 'ng-zorro-antd/message'
+import { ProductHttpService } from '../../product-http.service'
 
 @Component({
   selector: 'app-product-create',
@@ -18,15 +18,15 @@ import { ProductHttpService } from '../../product-http.service';
 export class ProductCreateComponent implements OnInit {
   @Input()
   dynamicParams!: DynamicParams
-  manualList: Manual[] = [];
-  productTypeSelect: NzTreeNodeOptions[] = [];
-  saveEntity: Product;
-  selectedCode: string = '';
-  selectedId: string = '';
-  productDate: string = '';
-  serialNumber?: number;
-  nameList: Manual[] = [];
-  manualProduct?: Manual;
+  manualList: Manual[] = []
+  productTypeSelect: NzTreeNodeOptions[] = []
+  saveEntity: Product
+  selectedCode: string = ''
+  selectedId: string = ''
+  productDate: string = ''
+  serialNumber?: number
+  nameList: Manual[] = []
+  manualProduct?: Manual
   isLoadingEdit: boolean = false
   isConfirmVisible: boolean = false
   isSafeLoading: boolean = false
@@ -37,15 +37,15 @@ export class ProductCreateComponent implements OnInit {
     private dynamicServeService: DynamicServeService,
     private productHttp: ProductHttpService
   ) {
-    this.saveEntity = new Product();
+    this.saveEntity = new Product() 
   }
   ngOnInit(): void {
     const dynamicParams = this.dynamicParams
     this.manualService.getAllList().then((res) => {
-      this.manualList = res;
+      this.manualList = res
     })
     this.dictionaryDetailService.getManualTreeNodes().then((res) => {
-      this.productTypeSelect = res;
+      this.productTypeSelect = res
     })
     // 产品型号id不为空说明是编辑
     if (dynamicParams.productId !== undefined) {
@@ -60,17 +60,17 @@ export class ProductCreateComponent implements OnInit {
    * 改变产品类型，重新初始化数据
    */
   selectChange() {
-    this.selectedId = '';
+    this.selectedId = ''
     this.saveEntity.manualId = ''
-    this.nameList = [];
-    this.manualProduct = undefined;
+    this.nameList = []
+    this.manualProduct = undefined
     this.nameList = this.manualList.filter(
       (manual) => manual.productCode === this.selectedCode
-    );
+    )
   }
   getManualInfo(id: string) {
     this.manualService.getInfo(id).then((res) => {
-      this.manualProduct = new Manual(res);
+      this.manualProduct = new Manual(res)
       this.selectedCode = res.productCode
       this.nameList = this.manualList.filter(
         (manual) => manual.productCode === this.selectedCode
@@ -80,15 +80,16 @@ export class ProductCreateComponent implements OnInit {
     })
   }
   changeName($event: string) {
-    this.getManualInfo($event);
+    this.saveEntity.modelId = ''
+    this.getManualInfo($event)
   }
   changeModel(id: string) {
-    this.saveEntity.modelId = id;
+    this.saveEntity.modelId = id
     this.saveEntity.valueIds = ''
   }
   isValueSelected(id: string) {
-    const values = this.saveEntity.valueIds.split(';');
-    return values.findIndex((item) => item === id) !== -1;
+    const values = this.saveEntity.valueIds.split('')
+    return values.findIndex((item) => item === id) !== -1
   }
   /**
    * 判断values有无在字符串里，如果在就取消选中
@@ -100,15 +101,15 @@ export class ProductCreateComponent implements OnInit {
   addValue(config: Config, value: ConfigValue) {
     if (!this.isCancleValueClick(value)) {
       if (!config.isMulti) {
-        this.saveEntity.valueIds = this.filterValue(config);
+        this.saveEntity.valueIds = this.filterValue(config)
       }
       this.saveEntity.valueIds = this.setValueId(value.id)
     }
   }
   setValueId(id: string) {
-    const valueList = this.saveEntity.valueIds.split(';')
+    const valueList = this.saveEntity.valueIds.split('')
     valueList.push(id)
-    return valueList.join(';')
+    return valueList.join('')
   }
   /**
    * 去除掉单选的多选
@@ -116,10 +117,10 @@ export class ProductCreateComponent implements OnInit {
    * @returns 返回新的valueIds字符串
    */
   filterValue(config: Config) {
-    const values = this.saveEntity.valueIds.split(';');
+    const values = this.saveEntity.valueIds.split('')
     return values.filter(id => {
       return config.configvalueList.findIndex(value => value.id === id) === -1
-    }).join(';')
+    }).join('')
   }
   /**
    * 检查有无已经选中
@@ -127,14 +128,14 @@ export class ProductCreateComponent implements OnInit {
    * @returns 
    */
   isCancleValueClick(value: ConfigValue) {
-    let values = this.saveEntity.valueIds.split(';');
-    const Index = values.findIndex((id) => id === value.id);
+    let values = this.saveEntity.valueIds.split('')
+    const Index = values.findIndex((id) => id === value.id)
     if (Index !== -1) {
-      values.splice(Index, 1);
-      this.saveEntity.valueIds = values.join(';');
-      return true;
+      values.splice(Index, 1)
+      this.saveEntity.valueIds = values.join('')
+      return true
     }
-    return false;
+    return false
   }
   /**
    * 禁用样式
@@ -146,7 +147,7 @@ export class ProductCreateComponent implements OnInit {
       configValue._hostGroup!.findIndex(
         (id) => id === this.saveEntity.modelId
       ) === -1
-    );
+    )
   }
  
   save() {

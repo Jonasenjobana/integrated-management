@@ -30,7 +30,8 @@
     </nz-form-item>
     <nz-form-item>
       <nz-form-label nzRequired>产品名称</nz-form-label>
-      <nz-select
+      <nz-form-control>
+        <nz-select
         style="width: 300px"
         nzShowSearch
         nzAllowClear
@@ -45,10 +46,11 @@
           [nzValue]="item.id"
         ></nz-option>
       </nz-select>
+      </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label nzRequired>产品序列号</nz-form-label>
-      <nz-form-control>
+      <nz-form-control class="ml-0">
         <input
           type="text"
           placeholder="请输入产品序列号"

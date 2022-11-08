@@ -15,7 +15,7 @@ export class Manual {
   configList: Config[]
   contentIds: string
   contentList: Content[]
-  introduction: string
+  introduction?: string
   manualNumber?: number
   modelIds: string
   modelList: TypeModel[]
@@ -36,7 +36,7 @@ export class Manual {
     this.configList = manual?.configList || []
     this.contentIds = manual?.contentIds || ''
     this.contentList = manual?.contentList || []
-    this.introduction = manual?.introduction || ''
+    this.introduction = manual?.introduction || undefined
     this.manualNumber = manual?.manualNumber || 0
     this.modelIds = manual?.modelIds || ''
     this.modelList = manual?.modelList || []
