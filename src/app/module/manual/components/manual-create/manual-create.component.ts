@@ -11,7 +11,6 @@ import { TypeModel } from 'src/app/module/share/model/result.model'
 import { NzMessageService } from 'ng-zorro-antd/message';
 import _ from 'lodash'
 import { ManualHttpService } from '../../manual-http.service';
-import { Subject } from 'rxjs';
 import { uuid } from 'src/app/module/share/utils/common.utils';
 import { DynamicServeService } from 'src/app/module/layout/dynamic-serve.service';
 declare var UE: any
@@ -23,7 +22,6 @@ declare var UE: any
 export class ManualCreateComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input()
   dynamicParams!: DynamicParams
-  private _editorSub$: Subject<boolean> = new Subject();
   isLoadingInfo: boolean
   ueEidtor: any
   dynamicId: string
@@ -59,7 +57,6 @@ export class ManualCreateComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getCompanyName()
     // 编辑状态，默认初始值
     if (this.dynamicParams.manualId !== undefined) {
-      console.log('-----')
       this.getManualInfo(this.dynamicParams.manualId)
     }
   }
@@ -98,8 +95,10 @@ export class ManualCreateComponent implements OnInit, AfterViewInit, OnDestroy {
       })
       this.saveEntity._mixinProductCode = res.pproductCode + '-' + res.productCode
     }).finally(() => {
-      // 获取到introduction数据后，需要通知ueeditor对内容赋值
-      this._editorSub$.next(true)
+      this.ueEidtor.ready(() => {
+        // 如果是编辑需要请求编辑数据后再赋值
+        this.ueEidtor.setContent(this.saveEntity.introduction)
+      })
       this.isLoadingInfo = false
     })
   }
@@ -121,15 +120,6 @@ export class ManualCreateComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   ngAfterViewInit(): void {
     this.ueEidtor = UE.getEditor(this.dynamicId)
-    this.ueEidtor.addListener('ready', () => {
-      // 如果是编辑需要请求编辑数据后再赋值
-      this._editorSub$.asObservable().subscribe(res => {
-        if (res) {
-          console.log('yesyese',this.saveEntity.introduction)
-          this.ueEidtor.setContent(this.saveEntity.introduction)
-        }
-      })
-    })
   }
   /**
    * 销毁ue实例
