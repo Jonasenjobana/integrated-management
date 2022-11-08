@@ -7,7 +7,6 @@ import { DictionaryDetailService } from 'src/app/module/share/serve/dictionary-d
 import {
   AfterViewInit,
   Component,
-  EventEmitter,
   Input,
   OnInit,
   OnDestroy,
@@ -18,7 +17,10 @@ import { TypeModel } from 'src/app/module/share/model/result.model';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import _ from 'lodash';
 import { ManualHttpService } from '../../manual-http.service';
+<<<<<<< HEAD
 import { Subject, Observable } from 'rxjs';
+=======
+>>>>>>> origin/fix-ueeditor
 import { uuid } from 'src/app/module/share/utils/common.utils';
 import { DynamicServeService } from 'src/app/module/layout/dynamic-serve.service';
 declare var UE: any;
@@ -29,23 +31,22 @@ declare var UE: any;
 })
 export class ManualCreateComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input()
-  dynamicParams!: DynamicParams;
-  private _editorSub$: Observable<boolean>
-  isLoadingInfo: boolean;
-  ueEidtor: any;
-  dynamicId: string;
-  isVisible = false;
-  productTypeSelect: NzTreeNodeOptions[] = [];
-  companySelect: CompanyName[] = [];
-  productTypeList: TypeModel[] = [];
-  editProductType: TypeModel;
-  isNewModel: boolean = false;
-  modelIndex: number = -1;
-  saveEntity: Manual;
-  contentList: NzUploadFile[] = [];
-  isConfirmVisible: boolean = false;
-  isSafeLoading: boolean = false;
-  isEdit: boolean = false;
+  dynamicParams!: DynamicParams
+  isLoadingInfo: boolean
+  ueEidtor: any
+  dynamicId: string
+  isVisible = false
+  productTypeSelect: NzTreeNodeOptions[] = []
+  companySelect: CompanyName[] = []
+  productTypeList: TypeModel[] = []
+  editProductType: TypeModel
+  isNewModel: boolean = false
+  modelIndex: number = -1
+  saveEntity: Manual
+  contentList: NzUploadFile[] = []
+  isConfirmVisible: boolean = false
+  isSafeLoading: boolean = false
+  isEdit: boolean = false
   constructor(
     private dictionaryDetailService: DictionaryDetailService,
     private companyHttpService: CompanyHttpService,
@@ -57,12 +58,7 @@ export class ManualCreateComponent implements OnInit, AfterViewInit, OnDestroy {
     this.editProductType = new TypeModel();
     this.isLoadingInfo = false;
     // 由于创建和编辑手册使用一个组件，textarea的id需要唯一
-    this.dynamicId = uuid();
-    this.ueEidtor = undefined;
-    // 默认没加载好
-    this._editorSub$ = new Observable((subscriber) => {
-      subscriber.next(false)
-    });
+    this.dynamicId = uuid()
   }
   ngOnInit(): void {
     // 初始化产品类型
@@ -72,7 +68,7 @@ export class ManualCreateComponent implements OnInit, AfterViewInit, OnDestroy {
     // 编辑状态，默认初始值
     
     if (this.dynamicParams.manualId !== undefined) {
-      this.getManualInfo(this.dynamicParams.manualId);
+      this.getManualInfo(this.dynamicParams.manualId)
     }
   }
   /**
@@ -80,20 +76,20 @@ export class ManualCreateComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   getCompanyName() {
     this.companyHttpService.getCompanyList().then((res) => {
-      this.companySelect = res;
-    });
+      this.companySelect = res
+    })
   }
   /**
    * 请求产品类型
    */
   getProductType() {
     this.dictionaryDetailService.getManualTreeNodes().then((res) => {
-      this.productTypeSelect = res;
-    });
+      this.productTypeSelect = res
+    })
   }
   /**
    * 请求手册信息
-   * @param manualId
+   * @param manualId 
    */
   getManualInfo(manualId: string) {
     this.isEdit = true;
@@ -108,65 +104,41 @@ export class ManualCreateComponent implements OnInit, AfterViewInit, OnDestroy {
             uid: uuid(),
             name: image.storeName,
             url: image.filePath + '/' + image.storeName,
-          } as NzUploadFile;
-        });
-        this.saveEntity._mixinProductCode =
-          res.pproductCode + '-' + res.productCode;
+        } as NzUploadFile
       })
-      .finally(() => {
-        // 获取到introduction数据后，需要通知ueeditor对内容赋值
-        console.log('introduciton数据获取完成后的finally阶段');
-        this._editorSub$.subscribe((res) => {
-          if (res) {
-            console.log('设置introduction');
-            this.ueEidtor.setContent(this.saveEntity.introduction);
-          }
-        });
-        this.isLoadingInfo = false;
-      });
-  }
-  /**
-   * 初始化和赋值ueEditor
-   */
-  ngAfterViewInit(): void {
-    this.ueEidtor = UE.getEditor(this.dynamicId);
-    this.ueEidtor.addListener('ready', () => {
-      if (this.saveEntity.introduction === undefined) {
-        console.log('introduction还没获取到，等待异步获取')
+      this.saveEntity._mixinProductCode = res.pproductCode + '-' + res.productCode
+    }).finally(() => {
+      this.ueEidtor.ready(() => {
         // 如果是编辑需要请求编辑数据后再赋值
-        this._editorSub$ = new Observable((sub) => {
-          sub.next(true)
-        })
-      } else {
-        console.log('已有introducion，直接赋值')
-        this.ueEidtor.setContent(this.saveEntity.introduction);
-      }
-    });
+        this.ueEidtor.setContent(this.saveEntity.introduction)
+      })
+      this.isLoadingInfo = false
+    })
   }
   handleCancle() {
     if (this.isEdit) {
       // TODO删除
     }
-    this.dynamicServeService.closeTab(
-      this.dynamicServeService.getCurrentIndex()
-    );
+    this.dynamicServeService.closeTab(this.dynamicServeService.getCurrentIndex())
   }
   modalConfirm($event: boolean) {
     if ($event) {
-      this.save();
+      this.save() 
     } else {
-      this.isConfirmVisible = false;
+      this.isConfirmVisible = false
     }
+  }
+  /**
+   * 初始化和赋值ueEditor
+   */
+  ngAfterViewInit(): void {
+    this.ueEidtor = UE.getEditor(this.dynamicId)
   }
   /**
    * 销毁ue实例
    */
   ngOnDestroy(): void {
-    console.log('destory');
-    this.ueEidtor.destroy();
-    this._editorSub$ = new Observable(sub => {
-      sub.unsubscribe()
-    });
+    this.ueEidtor.destroy()
   }
 
   get modelList() {
