@@ -17,10 +17,6 @@ import { TypeModel } from 'src/app/module/share/model/result.model';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import _ from 'lodash';
 import { ManualHttpService } from '../../manual-http.service';
-<<<<<<< HEAD
-import { Subject, Observable } from 'rxjs';
-=======
->>>>>>> origin/fix-ueeditor
 import { uuid } from 'src/app/module/share/utils/common.utils';
 import { DynamicServeService } from 'src/app/module/layout/dynamic-serve.service';
 declare var UE: any;
@@ -165,6 +161,10 @@ export class ManualCreateComponent implements OnInit, AfterViewInit, OnDestroy {
     if (entity.contentList.length) {
       entity.img = this.contentList[0].url!;
     }
+    this.saveEntity.contentList.forEach((content, index) => {
+      content.serialNumber = index
+      content.contentType = "0"
+    })
     entity.configList = this.setConfigListValid(entity.configList);
     entity.introduction = this.ueEidtor.getContent();
     this.manualHttpService

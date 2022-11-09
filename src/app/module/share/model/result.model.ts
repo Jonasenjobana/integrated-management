@@ -51,7 +51,7 @@ export interface Content {
     fileSize?: string;
     hostId?: string;
     id?: string;
-    serialNumber: number;
+    serialNumber?: number;
 }
 // 产品内部类型
 export class TypeModel {
