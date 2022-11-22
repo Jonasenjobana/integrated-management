@@ -1,4 +1,6 @@
+import { DynamicServeService } from 'src/app/module/layout/dynamic-serve.service';
 import { Component, OnInit } from '@angular/core';
+import { ZqSpinService } from '../share/module/zq-spin/zq-spin.service';
 
 @Component({
   selector: 'app-layout',
@@ -6,9 +8,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./layout.component.less']
 })
 export class LayoutComponent implements OnInit {
-
-  constructor() { }
-
+  constructor() {
+   }
   ngOnInit(): void {
   }
 

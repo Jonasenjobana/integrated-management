@@ -1,0 +1,26 @@
+@primary-color: #1890ff;
+@danger-color: #ff4d4f;
+@gray: #d9d9d9;
+@white: #fff;
+.zq-button {
+    border-radius: 10px;
+    &.actived{
+        border-color: @primary-color;
+        color: @primary-color;
+    }
+    &:hover {
+        cursor: pointer;
+    }
+}
+.zq-button-primary {
+    background-color: @white;
+    border: 1px solid @gray;
+}
+.zq-button-md {
+    width: 50px;
+    height: 25px;
+}
+.zq-button-lg {
+    width: 70px;
+    height: 35px;
+}

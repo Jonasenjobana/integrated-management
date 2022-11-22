@@ -1,3 +1,4 @@
+import { TtComponent } from './tt/tt/tt.component';
 import { ProductCreateComponent } from './product/components/product-create/product-create.component';
 import { ManualCreateComponent } from './manual/components/manual-create/manual-create.component';
 import { Tab } from './layout/components/tab/Tab.model';
@@ -50,6 +51,11 @@ const DYNAMIC_COMPONENTS_LIST: Tab[] = [
         title: '入库编辑',
         key: 'instock-edit',
         component: ProductCreateComponent
+    },
+    {
+        title: 'ttt',
+        key: 'ttt',
+        component: TtComponent
     }
 ]
 const INIT_TABS:Tab[] = [
@@ -60,9 +66,9 @@ const INIT_TABS:Tab[] = [
     //     disclosable: true
     // },
     {
-        title: '手册管理',
-        key: 'manual-list',
-        component: ManualListComponent,
+        title: 'ttt',
+        key: 'ttt',
+        component: TtComponent,
         disclosable: true
     },
 ]

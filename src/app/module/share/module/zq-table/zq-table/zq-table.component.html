@@ -1,0 +1,47 @@
+<ng-content></ng-content>
+<!-- 固定列左侧 -->
+
+<!-- 主体 -->
+<div class="zq-table-wrap">
+    <!-- 固定列头部 -->
+    <div class="zq-table-header">
+        <table class="zq-table" [border]="1">
+            <colgroup>
+                <col *ngFor="let item of column" [attr.width]="item.width">
+            </colgroup>
+            <thead>
+                <tr>
+                    <td *ngFor="let item of column">{{item.columnName}}</td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="zq-table-body" [style.height.px]="maxHeight" style="margin-top: -1px">
+        <table class="zq-table" [border]="1">
+            <!-- 定列宽 -->
+            <colgroup>
+                <col *ngFor="let item of column" [attr.width]="item.width">
+            </colgroup>
+            <tbody>
+                <tr *ngFor="let item of page">
+                    <ng-container *ngFor="let col of column">
+                        <ng-container *ngIf="col.option.isLink;else elseTemplate">
+                           <td>
+                            <a href="#" (click)="col.option.clickJump!(item)">
+                                {{item[col.propertyName]}}
+                            </a>
+                           </td>
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                       <td>
+                        <span>
+                            {{item[col.propertyName]}}
+                        </span>
+                       </td>
+                        </ng-template>
+                    </ng-container>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

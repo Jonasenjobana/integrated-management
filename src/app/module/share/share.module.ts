@@ -29,6 +29,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonConfirmComponent } from './components/common-confirm/common-confirm.component';
 import { NzMessageModule } from 'ng-zorro-antd/message';
+import { ZqTableModule } from './module/zq-table/zq-table.module';
 @NgModule({
   declarations: [
     PathPipe,
@@ -75,6 +76,7 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
     PathPipe,
     SafeHtmlPipe,
     NzTimelineModule,
+    ZqTableModule,
   ],
 })
 export class ShareModule { }

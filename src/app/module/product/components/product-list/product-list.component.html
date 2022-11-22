@@ -92,7 +92,7 @@
       </tr>
     </tbody>
   </nz-table>
-  <nz-table #nzTable [nzData]="[{}]" nzShowSizeChanger [(nzPageSize)]="searchEntity.pageRecord" [(nzPageIndex)]="searchEntity.currentPage" (nzPageIndexChange)="pageChange()" (nzPageSizeChange)="pageChange()"  [nzLoading]="isProductListLoading" class="mt-10">
+  <!-- <nz-table #nzTable [nzData]="[{}]" nzShowSizeChanger [(nzPageSize)]="searchEntity.pageRecord" [(nzPageIndex)]="searchEntity.currentPage" (nzPageIndexChange)="pageChange()" (nzPageSizeChange)="pageChange()"  [nzLoading]="isProductListLoading" class="mt-10">
     <thead>
       <tr>
         <th  [(nzChecked)]="checkAll"  (nzCheckedChange)="onAllChecked($event)"></th>
@@ -123,5 +123,8 @@
         <td [nzAlign]="'center'">{{item.productDate}}</td>
       </tr>
     </tbody>
-  </nz-table>
+  </nz-table> -->
+
+
+  <zq-table  [column]="column" [page]="page" [maxHeight]="500"></zq-table>
 </div>

@@ -1,6 +1,6 @@
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { ShareModule } from './../share/share.module';
-import { NgModule } from '@angular/core';
+import { NgModule, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LayoutComponent } from './layout.component';
 import { SideBarComponent } from './components/sidebar/sidebar.component';
@@ -13,6 +13,7 @@ import { ManualModule } from '../manual/manual.module';
 import { ProductModule } from '../product/product.module';
 import { UnorderedListOutline,AppstoreOutline, ReloadOutline, PoweroffOutline, PlusOutline, DownloadOutline } from '@ant-design/icons-angular/icons';
 import { FooterComponent } from './components/footer/footer.component';
+import { TtModule } from '../tt/tt.module';
 
 @NgModule({
   declarations: [
@@ -25,11 +26,13 @@ import { FooterComponent } from './components/footer/footer.component';
     DynamicDirDirective,
     FooterComponent,
   ],
+
   imports: [
     CommonModule,
     ManualModule,
     ProductModule,
     ShareModule,
+    TtModule,
     NzIconModule.forRoot([UnorderedListOutline, AppstoreOutline, ReloadOutline, PoweroffOutline, PlusOutline, DownloadOutline]),
   ],
   exports: [LayoutComponent]

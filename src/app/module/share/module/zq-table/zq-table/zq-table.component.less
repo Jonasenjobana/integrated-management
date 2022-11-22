@@ -1,0 +1,61 @@
+.zq-table-wrap {
+    width: 100%;
+
+    .zq-table {
+        width: 100%;
+        border-color: #C0D8FE;
+        & tr {
+            height: 40px;
+        }
+        & td {
+            text-align: center;
+        }
+    }
+    .zq-table-header {
+        margin-right: 10px;
+        background-color: #E4EFFF;
+        position: relative;
+        .filter-button {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
+        .zq-column-condition-list {
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            right: 0;
+            border: 1px solid black;
+        }
+    }
+    .zq-table-body {
+        overflow: hidden;
+        overflow-y: scroll;
+    }
+    
+}
+
+/*定义滚动条高宽及背景
+  高宽分别对应横竖滚动条的尺寸*/
+  ::-webkit-scrollbar
+  {
+      width:10px;
+      height:10px;
+      background-color:rgba(0,0,0,0.1);
+  }
+  /*定义滚动条轨道
+   内阴影+圆角*/
+  ::-webkit-scrollbar-track
+  {
+      /* -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.1); */
+      border-radius:5px;
+      background-color:rgba(0,0,0,0);
+  }
+  /*定义滑块
+   内阴影+圆角*/
+  ::-webkit-scrollbar-thumb
+  {
+      border-radius:5px;
+      /* -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,.1); */
+      background-color:rgba(0,0,0,0.1);
+  }

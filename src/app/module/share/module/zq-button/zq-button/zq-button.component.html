@@ -1,0 +1,10 @@
+<button
+  class="zq-button zq-button-lg"
+  [class]="{
+        'actived': actived,
+        'zq-button-primary': zqType === 'primary'
+    }"
+  (click)="buttonClick($event)"
+>
+  <ng-content></ng-content>
+</button>

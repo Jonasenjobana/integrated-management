@@ -10,6 +10,7 @@ export class Product {
     companyName: string;
     productDate: string;
     _isSelected?: boolean;
+    _productName?: string;
     constructor(product?: Product) {
         this.id = product?.id || ''
         this.valueIds = product?.valueIds || ''

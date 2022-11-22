@@ -1,3 +1,5 @@
+import { Manual } from 'src/app/module/manual/manual.model';
+import { Column, ColumnOption } from './../../../share/module/zq-table/model/zq-table-model';
 import { DynamicServeService } from 'src/app/module/layout/dynamic-serve.service';
 import { CommonTagService } from './../../../share/serve/common-tag.service';
 import { Product, SelectType } from './../product.model';
@@ -10,6 +12,7 @@ import { ProductHttpService } from './../../product-http.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NzSelectComponent } from 'ng-zorro-antd/select';
 import dayjs from 'dayjs';
+import {  } from 'src/app/module/share/module/zq-table/model/zq-table-model';
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
@@ -57,6 +60,61 @@ export class ProductListComponent implements OnInit {
   pageChange() {
     this.getProductList(this.searchEntity)
   }
+  page: Array<any> = []
+  column: Column[] = [
+    {
+      columnName: '序号',
+      width: 50,
+      type: '',
+      propertyName: 'index',
+      option: new ColumnOption()
+    },
+    {
+      columnName: '产品序列号',
+      width: 100,
+      type: '',
+      propertyName: 'serialNumber',
+      option: Object.assign(new ColumnOption(), {
+        isLink: true,
+        clickJump: (product: Product) => {
+          this.jumpToDetail('Product', product)
+        }
+      })
+    },
+    {
+      columnName: '产品名称',
+      width: 100,
+      type: '',
+      propertyName: 'name',
+      option: Object.assign(new ColumnOption(), {
+        isLink: true,
+        clickJump: (product: Product) => {
+          this.jumpToDetail('Manual', product)
+        }
+      })
+    },
+    {
+      columnName: '产品分类',
+      width: 100,
+      type: '',
+      propertyName: '_productName',
+      option: new ColumnOption()
+    },
+    {
+      columnName: '产品品牌',
+      width: 100,
+      type: '',
+      propertyName: 'companyName',
+      option: new ColumnOption()
+    },
+    {
+      columnName: '生产日期',
+      width: 100,
+      type: '',
+      propertyName: 'productDate',
+      option: new ColumnOption()
+    },
+  ]
   getProductList(paramsData: ParamsData) {
     this.isProductListLoading = true
     this.productHttpService.getList(paramsData).then(res => {
@@ -64,8 +122,16 @@ export class ProductListComponent implements OnInit {
         el._isSelected = false
         return el
       })
+      this.page = res.result.map((el: Product, index: number) => {
+        return {
+          index: index + 1,
+          _productName: el.pproductName + '>' + el.productName,
+          ...el
+        } 
+      })
       this.isProductListLoading = false
     })
+    console.log(this.page)
   }
   /**
    * 全选
