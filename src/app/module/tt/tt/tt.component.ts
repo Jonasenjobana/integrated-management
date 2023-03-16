@@ -50,7 +50,7 @@ export class TtComponent implements OnInit, AfterViewInit {
         option: new ColumnOption()
       }
     ]
-  autoHeight: number = 0
+  autoHeightTest: number = 0
   constructor() { }
   ngOnInit(): void {
   }
@@ -63,12 +63,14 @@ export class TtComponent implements OnInit, AfterViewInit {
       this.timer = undefined
       this.timer = setTimeout(() => {
         const height = this.wrapRef.nativeElement.clientHeight
-        this.autoHeight = height > 500 ? height : 500  
+        if (height > 500) {
+          this.autoHeightTest = height
+        }
       }, 200)
   }
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.autoHeight = this.wrapRef.nativeElement.clientHeight 
+      this.autoHeightTest = this.wrapRef.nativeElement.clientHeight 
     }); 
   }
 } 
