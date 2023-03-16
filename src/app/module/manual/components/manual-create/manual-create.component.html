@@ -75,7 +75,8 @@
               <ng-container
                 *ngFor="let item of saveEntity.modelList; let i = index"
               >
-                <nz-input-group
+              <zq-trapezoid-button [buttonType]="'edit'" [iconType]="'edit'" [buttonText]="item.modelName" (onTextChange)="valueChange(item, $event)" (onClick)="showModal(i)"></zq-trapezoid-button>
+                <!-- <nz-input-group
                   [nzSuffix]="edit"
                   style="width: 120px; margin-right: 10px"
                 >
@@ -94,20 +95,10 @@
                     class="hover"
                     (click)="showModal(i)"
                   ></span>
-                </ng-template>
+                </ng-template> -->
               </ng-container>
-              <button
-                nz-button
-                nzType="dashed"
-                style="
-                  width: 100px;
-                  border: 2px dashed #ddd;
-                  border-radius: 10px;
-                "
-                (click)="showModal(-1)"
-              >
-                <span nz-icon nzType="plus" nzTheme="outline"></span>
-              </button>
+              <zq-trapezoid-button [buttonType]="'add'" (onClick)="showModal(-1)"></zq-trapezoid-button>
+
             </div>
           </nz-form-control>
         </nz-form-item>

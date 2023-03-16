@@ -1,11 +1,10 @@
 <ng-content></ng-content>
 <!-- 固定列左侧 -->
-
 <!-- 主体 -->
 <div class="zq-table-wrap">
     <!-- 固定列头部 -->
     <div class="zq-table-header">
-        <table class="zq-table" [border]="1">
+        <table class="zq-table">
             <colgroup>
                 <col *ngFor="let item of column" [attr.width]="item.width">
             </colgroup>
@@ -15,9 +14,14 @@
                 </tr>
             </thead>
         </table>
+        <ng-container *ngIf="isNeedFilter">
+            <div class="zq-table-filter iconfont icon-filter" style="cursor: pointer" (click)="true">
+                <ng-content></ng-content>
+            </div>
+        </ng-container>
     </div>
     <div class="zq-table-body" [style.height.px]="maxHeight" style="margin-top: -1px">
-        <table class="zq-table" [border]="1">
+        <table class="zq-table">
             <!-- 定列宽 -->
             <colgroup>
                 <col *ngFor="let item of column" [attr.width]="item.width">
@@ -44,4 +48,14 @@
             </tbody>
         </table>
     </div>
+</div>
+<!-- 分页 -->
+<div class="pagination">
+    <span>共{{pagenation.pageCount}}页，{{pagenation.itemTotal}}条</span>
+    <zq-select></zq-select>
+    <div class="prev">&lt;</div>
+    <ng-container *ngFor="let item of [1,2,3,4,5]">
+        <div>{{item}}</div>
+    </ng-container>
+    <div class="next">&gt;</div>
 </div>

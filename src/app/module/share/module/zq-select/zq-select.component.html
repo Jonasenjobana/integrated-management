@@ -1,0 +1,19 @@
+<!-- <select class="page-size-select" name="pageSize" [(ngModel)]="pageRecord">
+    <option [value]="item.value" *ngFor="let item of selectList" class="zq-option">{{item.value}}</option>
+</select> -->
+
+<!-- 模拟 -->
+<div class="zq-select-wrap" #selectRef>
+    <div class="zq-select" (click)="isSelected = !isSelected">
+        <span>
+            {{currentSelect?.value || ''}}
+        </span>
+    </div>
+    <ng-container *ngIf="isSelected">
+        <ul class="zq-option-wrap  zq-option-wrap_top">
+            <li *ngFor="let item of selectList" (click)="changeSelect(item)" class="zq-option">
+                {{item.value}}
+            </li>
+        </ul>
+    </ng-container>
+</div>

@@ -92,39 +92,5 @@
       </tr>
     </tbody>
   </nz-table>
-  <!-- <nz-table #nzTable [nzData]="[{}]" nzShowSizeChanger [(nzPageSize)]="searchEntity.pageRecord" [(nzPageIndex)]="searchEntity.currentPage" (nzPageIndexChange)="pageChange()" (nzPageSizeChange)="pageChange()"  [nzLoading]="isProductListLoading" class="mt-10">
-    <thead>
-      <tr>
-        <th  [(nzChecked)]="checkAll"  (nzCheckedChange)="onAllChecked($event)"></th>
-        <th [nzAlign]="'center'">序号</th>
-        <th [nzAlign]="'center'">产品序列号</th>
-        <th [nzAlign]="'center'">产品名称</th>
-        <th [nzAlign]="'center'">产品分类</th>
-        <th [nzAlign]="'center'">产品品牌</th>
-        <th [nzAlign]="'center'">生产日期</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of productList;let idx = index">
-        <td [nzAlign]="'center'" [nzChecked]="item._isSelected!"></td>
-        <td [nzAlign]="'center'">{{idx + 1}}</td>
-        <td [nzAlign]="'center'">
-          <a (click)="jumpToDetail('Product', item)">
-            {{item.serialNumber}}
-          </a>
-        </td>
-        <td [nzAlign]="'center'">
-          <a (click)="jumpToDetail('Manual', item)">
-            {{item.name}}
-          </a>
-        </td>
-        <td [nzAlign]="'center'">{{item.pproductName}}>{{item.productName}}</td>
-        <td [nzAlign]="'center'">{{item.companyName}}</td>
-        <td [nzAlign]="'center'">{{item.productDate}}</td>
-      </tr>
-    </tbody>
-  </nz-table> -->
-
-
   <zq-table  [column]="column" [page]="page" [maxHeight]="500"></zq-table>
 </div>

@@ -1,3 +1,46 @@
-.tt-wrap {
-    height: calc(100vh - 200px);
+#map {
+    height: calc(100vh - 120px);
+    width: 100%;
+}
+
+:host {
+    position: relative;
+    width: 100%;
+    display: block;
+}
+
+.legend {
+    line-height: 18px;
+    color: #555;
+}
+
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+
+.select-icon {
+    margin-top: 10px !important;
+}
+
+.leaflet-main ::ng-deep {
+    .leaflet-popup-content-wrapper {
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+
+    .leaflet-popup-tip {
+        background: rgba(255, 255, 255, 0);
+        box-shadow: unset;
+    }
+}
+
+.box {
+    cursor: move;
+    width: 100px;
+    height: 100px;
+    background-color: pink;
 }

@@ -6,6 +6,8 @@ import { HomeComponent } from "./layout/components/home/home.component";
 import { ManualListComponent } from './manual/components/manual-list/manual-list.component';
 import { ProductListComponent } from './product/components/product-list/product-list.component';
 import { ManualDetailComponent } from './manual/components/manual-detail/manual-detail.component';
+import { ThreeComponent } from './three/three/three.component';
+import { DemoComponent } from './demo/demo.component';
 const DYNAMIC_COMPONENTS_LIST: Tab[] = [
     {
         title: '首页',
@@ -53,9 +55,19 @@ const DYNAMIC_COMPONENTS_LIST: Tab[] = [
         component: ProductCreateComponent
     },
     {
-        title: 'ttt',
-        key: 'ttt',
+        title: 'leaf-let地图',
+        key: 'leaflet',
         component: TtComponent
+    },
+    {
+        title: 'three demo',
+        key: 'three',
+        component: ThreeComponent,
+    },
+    {
+        title: 'demo',
+        key: 'demo',
+        component: DemoComponent,
     }
 ]
 const INIT_TABS:Tab[] = [
@@ -66,10 +78,17 @@ const INIT_TABS:Tab[] = [
     //     disclosable: true
     // },
     {
-        title: 'ttt',
-        key: 'ttt',
-        component: TtComponent,
+        title: 'three demo',
+        key: 'three',
+        component: ThreeComponent,
         disclosable: true
     },
+    // {
+    //     title: 'demo',
+    //     key: 'demo',
+    //     component: DemoComponent,
+    //     disclosable: true
+    // },
+  
 ]
 export {DYNAMIC_COMPONENTS_LIST,INIT_TABS}

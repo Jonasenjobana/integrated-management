@@ -26,9 +26,21 @@ const MenuList: Menu[] = [
       ]
     },
     {
-      title: 'ttt',
+      title: 'leaflet 地图',
       icon: '',
-      key: 'ttt',
+      key: 'leaflet',
+      childMenu: []
+    },
+    {
+      title: 'three demo',
+      icon: '',
+      key: 'three',
+      childMenu: []
+    },
+    {
+      title: 'demo',
+      icon: '',
+      key: 'demo',
       childMenu: []
     }
   ]

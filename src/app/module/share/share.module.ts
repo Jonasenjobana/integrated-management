@@ -30,11 +30,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonConfirmComponent } from './components/common-confirm/common-confirm.component';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { ZqTableModule } from './module/zq-table/zq-table.module';
+import { ZqButtonModule } from './module/zq-button/zq-button.module';
+import { ZqDateComponent } from './module/zq-date/zq-date.component';
 @NgModule({
   declarations: [
     PathPipe,
     SafeHtmlPipe,
     CommonConfirmComponent,
+    ZqDateComponent,
   ],
   imports: [
     NzIconModule.forRoot([PlusOutline]),
@@ -45,7 +48,9 @@ import { ZqTableModule } from './module/zq-table/zq-table.module';
     NzModalModule,
   ],
   exports: [
+    ZqDateComponent,
     NzMessageModule,
+    ZqButtonModule,
     CommonConfirmComponent,
     ReactiveFormsModule,
     NzModalModule,

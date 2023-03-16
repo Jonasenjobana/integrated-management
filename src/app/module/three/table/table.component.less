@@ -1,0 +1,45 @@
+.zq-table {
+    width: 400px;
+    overflow: hidden;
+    position: relative;
+    .zq-table__fixed {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 10;
+        height: calc(100% - 4px);
+        -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.12);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.12);
+        background-color: #fff;
+        table {
+            tr {
+                border-bottom: none;
+            }
+        }
+    }
+    .zq-table__content {
+        overflow: auto;
+        width: 100%;
+        height: 100%;
+        &::-webkit-scrollbar {
+            height: 4px;
+        }
+        &::-webkit-scrollbar-thumb {
+            border-radius: 5px;
+            background-color: rgb(171, 171, 171);
+        }
+        &::-webkit-scrollbar-track {
+            border-radius: 0;
+            background-color: #fff;
+        }
+        & > table {
+            table-layout: fixed;
+            width: 100%;
+        }
+    }
+}
+tr, td {
+    border: 1px solid black;
+    border-bottom: 1px solid black;
+}

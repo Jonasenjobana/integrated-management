@@ -1,0 +1,18 @@
+<div class="popup-container" *ngIf="isShow">
+    <div class="pic"></div>
+    <div class="info">
+        <ng-container *ngIf="nav === 1">
+            <app-info-card></app-info-card>
+        </ng-container>
+        <ng-container *ngIf="nav === 2">
+            <app-radius (play)="playTrack($event)" [id]="id"></app-radius>
+        </ng-container>
+    </div>
+    <div>
+        <button (click)="nav = 1">信息</button>
+        <button (click)="nav = 2">围栏</button>
+    </div>
+</div>
+<ng-template cdkPortal>
+    <app-time-progress></app-time-progress>
+</ng-template>

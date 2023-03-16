@@ -67,6 +67,9 @@ export class ManualCreateComponent implements OnInit, AfterViewInit, OnDestroy {
       this.getManualInfo(this.dynamicParams.manualId)
     }
   }
+  valueChange(item: TypeModel, $event: string) {
+    item.modelName = $event
+  }
   /**
    * 请求品牌
    */

@@ -1,0 +1,50 @@
+<div id="box" style="width: 100%; height: 600px; position: relative;">
+  <!-- 固定列 -->
+  <div class="zq-table">
+    <div class="zq-table__fixed">
+      <table [style.width.px]="fixedWidth">
+        <thead>
+          <td *ngFor="let item of fixedItems" [style.width.px]="item.width">
+            {{ item.name }}
+          </td>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of tableData">
+            <ng-container *ngFor="let col of fixedItems">
+              <td>{{ item[col.property] }}</td>
+            </ng-container>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- 主体 -->
+    <div class="zq-table__content">
+      <table>
+        <thead>
+          <td
+            [style.width.px]="item.width"
+            *ngFor="let item of columnItems"
+            [ngStyle]="item.columnStyle"
+          >
+            {{ item.name }}
+          </td>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of tableData">
+            <ng-container *ngFor="let col of columnItems">
+              <td>{{ item[col.property] }}</td>
+            </ng-container>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div id="paint" style="width: 50px; height: 50px; background-color: red; position:absolute; left: 0; top: 200px;z-index: 11; user-select: none;cursor: pointer;">
+    123
+  </div>
+  <ng-template *ngIf="true">
+    <div id="paint" style="width: 50px; height: 50px; background-color: red; position:absolute; left: 0; top: 200px;z-index: 11; user-select: none;cursor: pointer;">
+      123
+    </div>
+  </ng-template>
+</div>

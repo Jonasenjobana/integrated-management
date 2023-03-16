@@ -12,6 +12,7 @@ import {
 } from 'ng-zorro-antd/tree';
 import { CompanyHttpService } from 'src/app/module/share/serve/company-http.service';
 import { DictionaryDetailService } from 'src/app/module/share/serve/dictionary-detail.service';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-manual-list',
@@ -120,11 +121,15 @@ export class ManualListComponent implements OnInit {
     this.getManualList({...params, ...pagination})
   }
 
-
-
-  selectMenu($event: NzFormatEmitEvent) {    
+  debounce = _.debounce(($event) => {
     const node = $event.node!
     this.commonSelect('Menu', node.key, node.title, {productCode: node.key})
+  }, 1000)
+
+  selectMenu($event: NzFormatEmitEvent) { 
+    const node = $event.node!
+    this.commonSelect('Menu', node.key, node.title, {productCode: node.key})
+    // this.debounce($event)
   }
   selectBrand(companyId: string) {
     this.commonSelect('Brand', companyId, this.companyList.find(el => el.id === companyId)!.companyName, {companyId})

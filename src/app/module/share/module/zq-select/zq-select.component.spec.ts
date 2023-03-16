@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TtComponent } from './tt.component';
+import { ZqSelectComponent } from './zq-select.component';
 
-describe('TtComponent', () => {
-  let component: TtComponent;
-  let fixture: ComponentFixture<TtComponent>;
+describe('ZqSelectComponent', () => {
+  let component: ZqSelectComponent;
+  let fixture: ComponentFixture<ZqSelectComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TtComponent ]
+      declarations: [ ZqSelectComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TtComponent);
+    fixture = TestBed.createComponent(ZqSelectComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
