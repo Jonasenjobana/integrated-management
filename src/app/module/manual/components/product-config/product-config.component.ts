@@ -16,8 +16,11 @@ export class ProductConfigComponent implements OnInit {
   addConfig() {
     this.configList.push(new Config())
   }
-
+  valueChange(item: ConfigValue, $event: string) {
+    item.value = $event
+  }
   addConfigValue(configIndex: number) {
+    console.log(this.configList)
     const valueList = this.configList[configIndex].configvalueList
     this.configList[configIndex].configvalueList.push(new ConfigValue(valueList.length)) 
   }

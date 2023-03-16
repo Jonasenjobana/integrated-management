@@ -24,12 +24,18 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "less",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.less"],
+            "styles": [
+              "src/custom-theme.scss",
+              "src/styles.less"
+            ],
             "scripts": [
               "src/assets/utf8-jsp/ueditor.config.js",
               "src/assets/utf8-jsp/ueditor.all.js",
+              "./node_modules/leaflet/dist/leaflet-src.js",
+              "src/assets/js/my-leaflet.js",
               "src/assets/utf8-jsp/lang/zh-cn/zh-cn.js"
-            ]
+            ],
+            "webWorkerTsConfig": "tsconfig.worker.json"
           },
           "configurations": {
             "production": {
@@ -94,7 +100,8 @@
             "inlineStyleLanguage": "less",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.less"],
-            "scripts": []
+            "scripts": [],
+            "webWorkerTsConfig": "tsconfig.worker.json"
           }
         }
       }

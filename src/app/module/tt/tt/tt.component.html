@@ -1,5 +1,6 @@
-<div class="tt-wrap" #wrapRef>
-    <zq-table [column]="column" [page]="tableData" [maxHeight]="autoHeight">
-        <!-- <zq-filter filterText="="></zq-filter> -->
-    </zq-table>
+<div class="leaflet-main">
+  <div id="map" map-ship></div>
 </div>
+<operate-layer [map]="map"></operate-layer>
+<app-test2 [map]="map"></app-test2>
+<app-test1 [hidden]="!showPopup" [popup]="popup" [map]="map" [id]="id"></app-test1>

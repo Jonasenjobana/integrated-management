@@ -28,34 +28,9 @@
         <ng-container
           *ngFor="let item of config.configvalueList; let valueIndex = index"
         >
-          <nz-input-group
-            [nzSuffix]="delete"
-            style="width: 80px; margin-right: 10px"
-          >
-            <input
-              type="text"
-              nz-input
-              [(ngModel)]="item.value"
-              [ngModelOptions]="{ standalone: true }"
-            />
-          </nz-input-group>
-          <ng-template #delete>
-            <span
-              nz-icon
-              nzType="close"
-              class="hover"
-              (click)="deleteConfigValue(configIndex, valueIndex)"
-            ></span>
-          </ng-template>
+        <zq-trapezoid-button style="margin-right: 3px;" [buttonText]="item.value" (onTextChange)="valueChange(item, $event)" [buttonType]="'edit'" [iconType]="'close'" [buttonText]="item.value"  (onClick)="deleteConfigValue(configIndex, valueIndex)"></zq-trapezoid-button>
         </ng-container>
-        <button
-          nz-button
-          nzType="dashed"
-          style="width: 100px; border: 2px dashed #ddd; border-radius: 10px"
-          (click)="addConfigValue(configIndex)"
-        >
-          <span nz-icon nzType="plus" nzTheme="outline"></span>
-        </button>
+        <zq-trapezoid-button [buttonType]="'add'" (onClick)="addConfigValue(configIndex)"></zq-trapezoid-button>
       </td>
       <td>
         <label nz-checkbox [(ngModel)]="config.isMulti"></label>

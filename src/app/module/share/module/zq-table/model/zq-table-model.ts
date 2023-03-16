@@ -14,3 +14,9 @@ export interface Column {
   width: number;
   option: ColumnOption;
 }
+export interface Pagenation {
+  pageCount: number,
+  itemTotal: number,
+  currentPage: number,
+  pageRecord: number,
+}

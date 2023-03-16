@@ -1,0 +1,9 @@
+<span class="sl-radio">
+    <input #inputElement type="radio" class="sl-radio-input" [attr.name]="name" [value]>
+    <i class="sl-radio-inner app-icon" [class.radio-blank]="!isSelected" [class.radio-selected]="isSelected"
+      [class.radio-selected-disabled]="isDisabled&&isSelected" [class.radio-disabled]="isDisabled&&!isSelected"></i>
+  </span>
+  <span class="sl-radio-content">
+    <ng-content></ng-content>
+  </span>
+  

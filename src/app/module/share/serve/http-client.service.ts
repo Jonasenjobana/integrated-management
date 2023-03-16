@@ -2,7 +2,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Result } from '../model/result.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { debounceTime } from 'rxjs';
+import { debounce, debounceTime } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class HttpClientService {
 
   get<T>(url: string): Promise<T> {
     return new Promise((resolve, reject) => {
-      this.http.get<Result<T>>(url).subscribe({
+      this.http.get<Result<T>>(url).pipe(debounceTime(1000)).subscribe({
         next: (res: Result<T>) => {
           if (res.rlt === 0) {
             setTimeout(() => {

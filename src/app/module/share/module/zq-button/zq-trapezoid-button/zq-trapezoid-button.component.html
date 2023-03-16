@@ -1,0 +1,18 @@
+<div class="button {{buttonType}}" (click)="buttonType === 'add' && handler()">
+    <ng-container [ngSwitch]="buttonType">
+        <ng-container *ngSwitchCase="'edit'">
+            <ng-container *ngIf="readonly;else inputBox">
+                <span>{{buttonText}}</span>
+            </ng-container>
+            <ng-template #inputBox>
+                <input [(ngModel)]="buttonText" (ngModelChange)="change()" type="text"/>
+            </ng-template>
+            <div class="trapezoid">
+                <i class="icon {{iconType}} iconfont icon-{{iconType}}" (click)="handler()"></i>
+            </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="'add'">
+            <i class="iconfont icon-plus"></i>
+        </ng-container>
+    </ng-container>
+</div>
