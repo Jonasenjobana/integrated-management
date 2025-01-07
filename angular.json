@@ -42,8 +42,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "4mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -79,7 +79,7 @@
             "development": {
               "browserTarget": "integrated-management:build:development",
               "proxyConfig": "proxy.conf.json",
-              "port": 4300
+              "port": 4301
             }
           },
           "defaultConfiguration": "development"

@@ -6,9 +6,11 @@ import {
   Mesh,
   MeshBasicMaterial,
   PerspectiveCamera,
+  PointLight,
   Scene,
   WebGLRenderer,
 } from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 @Component({
   selector: 'app-three',
   templateUrl: './three.component.html',
@@ -22,7 +24,8 @@ export class ThreeComponent implements OnInit {
   canvasElement!: HTMLCanvasElement;
   geometry!: BoxGeometry;
   material!: MeshBasicMaterial;
-  light!: DirectionalLight;
+  light!: DirectionalLight|PointLight;
+  controls!: OrbitControls
   constructor(private el: ElementRef,private zone: NgZone) {
     console.log(zone);
     
@@ -40,6 +43,7 @@ export class ThreeComponent implements OnInit {
     this.renderer = new THREE.WebGLRenderer({
       antialias: true,
       canvas: this.canvasElement,
+      alpha: true
     });
     // 场景
     this.scene = new THREE.Scene();
@@ -47,23 +51,25 @@ export class ThreeComponent implements OnInit {
     this.camera = new THREE.PerspectiveCamera(
       75,
       this.canvasElement.clientWidth / this.canvasElement.clientHeight,
-      0.1,
-      5
+      0.1
     );
+    this.controls = new OrbitControls( this.camera, this.renderer.domElement );
+    this.controls.update()
+    const axesHelper = new THREE.AxesHelper(150);
     // 相机后移2
-    this.camera.position.z = 2;
+    this.camera.position.z = 5;
     // 几何形状 长宽高 正方体
-    this.geometry = new THREE.BoxGeometry(1, 1, 1);
+    this.geometry = new THREE.BoxGeometry(2, 2, 2);
     // 材质
     this.material = new THREE.MeshPhongMaterial({ color: 0x44aa88 });
     // Mesh集合构成几何体
     this.cubes = [
       this.makeInstance(0x44aa88, 0),
-      this.makeInstance(0x8844aa, -2),
-      this.makeInstance(0xaa8844, 2),
+      this.makeInstance(0x8844aa, -4),
+      this.makeInstance(0xaa8844, 4),
     ];
     // 添加场景
-    this.scene.add(...this.cubes);
+    this.scene.add(...this.cubes, axesHelper);
     this.scene.add(this.addLight());
     // 渲染
     this.renderer.render(this.scene, this.camera);
@@ -86,6 +92,7 @@ export class ThreeComponent implements OnInit {
       cube.rotation.y = rot;
     });
     this.renderer.render(this.scene, this.camera);
+    this.controls.update()
     requestAnimationFrame((time) => {
       this.render(time);
     });
@@ -94,12 +101,12 @@ export class ThreeComponent implements OnInit {
     const color = 0xffffff;
     const intensity = 1;
     this.light = new THREE.DirectionalLight(color, intensity);
-    this.light.position.set(-1, 2, 4);
+    this.light.position.set(-1, -1, 4);
     return this.light;
   }
   makeInstance(color: number, x: number) {
     const material = new THREE.MeshPhongMaterial({ color });
-
+    
     const cube = new THREE.Mesh(this.geometry, material);
     this.scene.add(cube);
 

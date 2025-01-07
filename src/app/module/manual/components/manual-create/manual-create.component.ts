@@ -273,6 +273,8 @@ export class ManualCreateComponent implements OnInit, AfterViewInit, OnDestroy {
   uploadChange($event: NzUploadChangeParam) {
     if ($event.type === 'success') {
       this.saveEntity.contentList.push($event.file.response.datas);
+      console.log(this.saveEntity.contentList);
+      
     }
   }
 }
