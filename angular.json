@@ -10,7 +10,7 @@
           "style": "less"
         }
       },
-      "root": "./",
+      "root": "/integrated-management/",
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
