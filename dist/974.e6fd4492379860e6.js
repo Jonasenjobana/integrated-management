@@ -1,0 +1,1 @@
+(()=>{"use strict";let e=[];addEventListener("message",({})=>{setInterval(()=>{(function a(){return new Promise((t,s)=>{setTimeout(()=>{t(Math.random())},10)})})().then(s=>{100===e.length&&(postMessage(e),e=[]),e.push(s)})},100)})})();
